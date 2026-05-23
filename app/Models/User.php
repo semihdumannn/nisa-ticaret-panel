@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Models;
+
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable implements FilamentUser
+{
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
+
+    protected $fillable = [
+        'firebase_uid',
+        'phone',
+        'name',
+        'email',
+        'role',
+        'is_active',
+        'email_verified_at',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password'          => 'hashed',
+            'is_active'         => 'boolean',
+        ];
+    }
+
+    // ── Filament Access ─────────────────────────────────────────────────────────
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role === 'admin' && $this->is_active;
+    }
+
+    // ── Relationships ─────────────────────────────────────────────────────────
+
+    public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function addresses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    // ── Scopes ────────────────────────────────────────────────────────────────
+
+    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    public function scopeByRole(\Illuminate\Database\Eloquent\Builder $query, string $role): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('role', $role);
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+}
