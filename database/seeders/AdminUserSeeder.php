@@ -22,6 +22,14 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        $this->command->info("Admin user: {$admin->email} | Password: password");
+        // Ensure profile exists
+        $admin->profile()->firstOrCreate(['user_id' => $admin->id]);
+
+        // Assign admin role (Spatie)
+        if (! $admin->hasRole('admin')) {
+            $admin->assignRole('admin');
+        }
+
+        $this->command->info("✅ Admin user: {$admin->email} | Password: password");
     }
 }

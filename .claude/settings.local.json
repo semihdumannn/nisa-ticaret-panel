@@ -1,8 +1,8 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(composer --version)",
-      "Bash(php --version)"
-    ]
-  }
+    "permissions": {
+        "allow": ["Bash(composer --version)", "Bash(php --version)"]
+    },
+    "enabledPlugins": {
+        "superpowers@claude-plugins-official": true
+    }
 }
