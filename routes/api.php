@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\HealthController;
 use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
+use App\Modules\Analytics\Presentation\API\Controllers\AnalyticsController;
+use App\Modules\Analytics\Presentation\API\Controllers\AppConfigController;
 use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
@@ -32,6 +34,9 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase-login');
     });
+
+    // App Config (public — mobile app config)
+    Route::get('/config', [AppConfigController::class, 'index'])->name('api.config');
 
     // Campaigns (public read — active campaigns visible to all)
     Route::prefix('campaigns')->name('api.campaigns.')->group(function () {
@@ -139,6 +144,15 @@ Route::prefix('v1')->group(function () {
         Route::prefix('devices')->name('api.devices.')->group(function () {
             Route::post('/', [DeviceController::class, 'register'])->name('register');
             Route::delete('/', [DeviceController::class, 'unregister'])->name('unregister');
+        });
+
+        // Analytics — admin-only
+        Route::middleware('role:admin')->prefix('admin/analytics')->name('api.admin.analytics.')->group(function () {
+            Route::get('/dashboard',      [AnalyticsController::class, 'dashboard'])->name('dashboard');
+            Route::get('/revenue',        [AnalyticsController::class, 'revenue'])->name('revenue');
+            Route::get('/top-products',   [AnalyticsController::class, 'topProducts'])->name('top-products');
+            Route::get('/top-customers',  [AnalyticsController::class, 'topCustomers'])->name('top-customers');
+            Route::get('/order-statuses', [AnalyticsController::class, 'orderStatuses'])->name('order-statuses');
         });
 
         // Orders — admin management
