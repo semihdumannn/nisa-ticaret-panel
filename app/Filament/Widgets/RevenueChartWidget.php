@@ -4,20 +4,15 @@ namespace App\Filament\Widgets;
 
 use App\Modules\Analytics\Application\DTOs\DateRangeDTO;
 use App\Modules\Analytics\Application\UseCases\GetRevenueReportUseCase;
-use Filament\Widgets\ChartWidget;
+use Filament\Widgets\LineChartWidget;
 
-class RevenueChartWidget extends ChartWidget
+class RevenueChartWidget extends LineChartWidget
 {
     protected static ?int $sort = 1;
 
     protected ?string $heading = 'Revenue — Last 30 Days';
 
-    protected int | string | array $columnSpan = 'full';
-
-    protected function getType(): string
-    {
-        return 'line';
-    }
+    protected int|string|array $columnSpan = 2;
 
     protected function getData(): array
     {
@@ -36,6 +31,8 @@ class RevenueChartWidget extends ChartWidget
                     'backgroundColor' => 'rgba(231,58,153,0.08)',
                     'fill'            => true,
                     'tension'         => 0.4,
+                    'pointRadius'     => 3,
+                    'pointHoverRadius'=> 6,
                 ],
             ],
             'labels' => $labels,
@@ -47,10 +44,16 @@ class RevenueChartWidget extends ChartWidget
         return [
             'plugins' => [
                 'legend' => ['display' => false],
+                'tooltip' => [
+                    'callbacks' => [
+                        'label' => "function(ctx) { return ' ₺' + ctx.raw.toLocaleString('tr-TR', {minimumFractionDigits: 2}); }",
+                    ],
+                ],
             ],
             'scales' => [
                 'y' => [
                     'beginAtZero' => true,
+                    'ticks'       => ['callback' => "function(v) { return '₺' + v.toLocaleString('tr-TR'); }"],
                 ],
             ],
         ];

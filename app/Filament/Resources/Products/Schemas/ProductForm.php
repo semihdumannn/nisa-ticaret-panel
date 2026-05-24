@@ -18,143 +18,210 @@ class ProductForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components([
+        return $schema
+            ->columns(3)
+            ->components([
 
-            // ── Core Info ─────────────────────────────────────────────────────
-            Section::make('Product Information')->columns(2)->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(200)
-                    ->columnSpanFull(),
+                // ── Left column (2/3 width) ───────────────────────────────────
+                Section::make('Product Information')
+                    ->description('Name, description, and identifiers.')
+                    ->icon('heroicon-o-cube')
+                    ->columnSpan(2)
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Product Name')
+                            ->required()
+                            ->maxLength(200)
+                            ->columnSpanFull(),
 
-                TextInput::make('sku')
-                    ->label('SKU')
-                    ->maxLength(50)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Auto-generated'),
+                        TextInput::make('sku')
+                            ->label('SKU')
+                            ->maxLength(50)
+                            ->unique(ignoreRecord: true)
+                            ->placeholder('Auto-generated if left blank'),
 
-                TextInput::make('barcode')
-                    ->maxLength(50),
+                        TextInput::make('barcode')
+                            ->label('Barcode')
+                            ->maxLength(50)
+                            ->placeholder('EAN / QR code'),
 
-                TextInput::make('slug')
-                    ->maxLength(200)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Auto-generated'),
+                        TextInput::make('slug')
+                            ->label('URL Slug')
+                            ->maxLength(200)
+                            ->unique(ignoreRecord: true)
+                            ->placeholder('auto-generated-from-name'),
 
-                Select::make('unit')
-                    ->options(ProductUnit::options())
-                    ->default('piece')
-                    ->required(),
+                        Select::make('unit')
+                            ->label('Unit of Measure')
+                            ->options(ProductUnit::options())
+                            ->default('piece')
+                            ->native(false)
+                            ->required(),
 
-                Textarea::make('description')
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->columnSpanFull()
+                            ->rows(4)
+                            ->placeholder('Detailed product description…'),
+                    ]),
+
+                // ── Right column (1/3 width) ──────────────────────────────────
+                Section::make('Visibility')
+                    ->description('Control how the product appears.')
+                    ->icon('heroicon-o-eye')
+                    ->columnSpan(1)
+                    ->schema([
+                        Toggle::make('is_active')
+                            ->label('Active (visible in app)')
+                            ->default(true)
+                            ->onColor('success')
+                            ->helperText('Inactive products are hidden from customers.'),
+
+                        Toggle::make('is_featured')
+                            ->label('Featured Product')
+                            ->onColor('warning')
+                            ->helperText('Shown in featured sections on home screen.'),
+                    ]),
+
+                // ── Classification ────────────────────────────────────────────
+                Section::make('Classification')
+                    ->description('Assign brand and categories.')
+                    ->icon('heroicon-o-tag')
                     ->columnSpanFull()
-                    ->rows(4),
-            ]),
+                    ->columns(2)
+                    ->schema([
+                        Select::make('brand_id')
+                            ->label('Brand')
+                            ->options(Brand::active()->ordered()->pluck('name', 'id'))
+                            ->nullable()
+                            ->native(false)
+                            ->searchable()
+                            ->placeholder('No brand'),
 
-            // ── Brand & Categories ────────────────────────────────────────────
-            Section::make('Classification')->columns(2)->schema([
-                Select::make('brand_id')
-                    ->label('Brand')
-                    ->options(Brand::active()->ordered()->pluck('name', 'id'))
-                    ->nullable()
-                    ->searchable(),
+                        Select::make('categories')
+                            ->label('Categories')
+                            ->relationship('categories', 'name')
+                            ->options(Category::active()->ordered()->pluck('name', 'id'))
+                            ->multiple()
+                            ->native(false)
+                            ->searchable()
+                            ->placeholder('Select categories…'),
+                    ]),
 
-                Select::make('categories')
-                    ->label('Categories')
-                    ->relationship('categories', 'name')
-                    ->options(Category::active()->ordered()->pluck('name', 'id'))
-                    ->multiple()
-                    ->searchable(),
-            ]),
-
-            // ── Pricing ───────────────────────────────────────────────────────
-            Section::make('Pricing')->columns(3)->schema([
-                TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('₺')
-                    ->minValue(0),
-
-                TextInput::make('cost_price')
-                    ->label('Cost Price')
-                    ->numeric()
-                    ->prefix('₺')
-                    ->nullable(),
-
-                TextInput::make('tax_rate')
-                    ->label('Tax Rate (%)')
-                    ->numeric()
-                    ->default(20)
-                    ->suffix('%'),
-
-                TextInput::make('min_order_qty')
-                    ->label('Min Order Qty')
-                    ->numeric()
-                    ->default(1)
-                    ->minValue(1),
-
-                TextInput::make('max_order_qty')
-                    ->label('Max Order Qty')
-                    ->numeric()
-                    ->nullable(),
-            ]),
-
-            // ── Images ────────────────────────────────────────────────────────
-            Section::make('Product Images')->schema([
-                FileUpload::make('product_images_upload')
-                    ->label('Images')
-                    ->image()
-                    ->multiple()
-                    ->directory('products')
-                    ->disk('public')
-                    ->reorderable()
-                    ->hint('First image will be set as primary.'),
-            ]),
-
-            // ── Variants ──────────────────────────────────────────────────────
-            Section::make('Variants (optional)')->schema([
-                Repeater::make('variants')
-                    ->relationship('variants')
+                // ── Pricing ───────────────────────────────────────────────────
+                Section::make('Pricing')
+                    ->description('Set prices, tax rate, and order limits.')
+                    ->icon('heroicon-o-banknotes')
+                    ->columnSpanFull()
                     ->columns(3)
                     ->schema([
-                        TextInput::make('sku')
-                            ->label('Variant SKU')
+                        TextInput::make('price')
+                            ->label('Selling Price')
                             ->required()
-                            ->maxLength(50),
-
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(100)
-                            ->placeholder('e.g. 500ml Plastic'),
-
-                        TextInput::make('price_adjustment')
-                            ->label('Price +/-')
                             ->numeric()
-                            ->default(0)
-                            ->prefix('₺'),
+                            ->prefix('₺')
+                            ->minValue(0)
+                            ->step(0.01)
+                            ->placeholder('0.00'),
 
-                        TextInput::make('stock')
+                        TextInput::make('cost_price')
+                            ->label('Cost Price')
                             ->numeric()
-                            ->default(0),
+                            ->prefix('₺')
+                            ->step(0.01)
+                            ->nullable()
+                            ->placeholder('0.00')
+                            ->helperText('Not visible to customers.'),
 
-                        Toggle::make('is_active')
-                            ->default(true),
-                    ])
+                        TextInput::make('tax_rate')
+                            ->label('Tax Rate')
+                            ->numeric()
+                            ->default(20)
+                            ->suffix('%')
+                            ->minValue(0)
+                            ->maxValue(100)
+                            ->step(1),
+
+                        TextInput::make('min_order_qty')
+                            ->label('Min Order Qty')
+                            ->numeric()
+                            ->integer()
+                            ->default(1)
+                            ->minValue(1),
+
+                        TextInput::make('max_order_qty')
+                            ->label('Max Order Qty')
+                            ->numeric()
+                            ->integer()
+                            ->nullable()
+                            ->placeholder('Unlimited'),
+                    ]),
+
+                // ── Product Images ────────────────────────────────────────────
+                Section::make('Product Images')
+                    ->description('Upload up to 10 images. First image becomes primary.')
+                    ->icon('heroicon-o-photo')
+                    ->columnSpanFull()
+                    ->schema([
+                        FileUpload::make('product_images_upload')
+                            ->label('Images')
+                            ->image()
+                            ->multiple()
+                            ->maxFiles(10)
+                            ->directory('products')
+                            ->disk('public')
+                            ->reorderable()
+                            ->hint('Drag to reorder — first image is the primary thumbnail.'),
+                    ]),
+
+                // ── Variants ──────────────────────────────────────────────────
+                Section::make('Product Variants')
+                    ->description('Optional — add sizes, colors, volumes, etc.')
+                    ->icon('heroicon-o-squares-2x2')
                     ->collapsed()
-                    ->itemLabel(fn (array $state) => $state['name'] ?? 'New Variant'),
-            ]),
+                    ->columnSpanFull()
+                    ->schema([
+                        Repeater::make('variants')
+                            ->relationship('variants')
+                            ->label('')
+                            ->columns(5)
+                            ->schema([
+                                TextInput::make('sku')
+                                    ->label('Variant SKU')
+                                    ->required()
+                                    ->maxLength(50),
 
-            // ── Settings ──────────────────────────────────────────────────────
-            Section::make('Visibility')->columns(2)->schema([
-                Toggle::make('is_featured')
-                    ->label('Featured Product')
-                    ->onColor('warning'),
+                                TextInput::make('name')
+                                    ->label('Variant Name')
+                                    ->required()
+                                    ->maxLength(100)
+                                    ->placeholder('e.g. 500ml Bottle'),
 
-                Toggle::make('is_active')
-                    ->label('Active')
-                    ->default(true)
-                    ->onColor('success'),
-            ]),
-        ]);
+                                TextInput::make('price_adjustment')
+                                    ->label('Price Δ')
+                                    ->numeric()
+                                    ->step(0.01)
+                                    ->default(0)
+                                    ->prefix('₺')
+                                    ->helperText('Added to base price.'),
+
+                                TextInput::make('stock')
+                                    ->label('Stock')
+                                    ->numeric()
+                                    ->integer()
+                                    ->default(0)
+                                    ->minValue(0),
+
+                                Toggle::make('is_active')
+                                    ->label('Active')
+                                    ->default(true)
+                                    ->inline(false),
+                            ])
+                            ->collapsed()
+                            ->itemLabel(fn (array $state) => $state['name'] ?? 'New Variant')
+                            ->addActionLabel('Add Variant'),
+                    ]),
+            ]);
     }
 }

@@ -4,9 +4,12 @@ namespace App\Filament\Resources\Orders;
 
 use App\Filament\Resources\Orders\Pages\EditOrder;
 use App\Filament\Resources\Orders\Pages\ListOrders;
+use App\Filament\Resources\Orders\Pages\ViewOrder;
 use App\Filament\Resources\Orders\Schemas\OrderForm;
+use App\Filament\Resources\Orders\Schemas\OrderInfolist;
 use App\Filament\Resources\Orders\Tables\OrdersTable;
 use App\Models\Order;
+use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -30,9 +33,25 @@ class OrderResource extends Resource
         return 'Orders';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        $count = Order::where('status', OrderStatus::PENDING->value)->count();
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return OrderForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return OrderInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -48,14 +67,16 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListOrders::route('/'),
-            'edit'  => EditOrder::route('/{record}/edit'),
+            'index'  => ListOrders::route('/'),
+            'view'   => ViewOrder::route('/{record}'),
+            'edit'   => EditOrder::route('/{record}/edit'),
         ];
     }
 
     public static function getRecordRouteBindingEloquentQuery(): Builder
     {
         return parent::getRecordRouteBindingEloquentQuery()
-            ->withoutGlobalScopes([SoftDeletingScope::class]);
+            ->withoutGlobalScopes([SoftDeletingScope::class])
+            ->with(['customer', 'address', 'items.product', 'items.variant', 'statusHistory.createdBy', 'assignedTo']);
     }
 }

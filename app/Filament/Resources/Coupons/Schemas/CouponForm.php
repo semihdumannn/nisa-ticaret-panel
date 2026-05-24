@@ -14,76 +14,110 @@ class CouponForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components([
+        return $schema
+            ->columns(3)
+            ->components([
 
-            Section::make('Coupon Details')
-                ->columns(2)
-                ->schema([
-                    TextInput::make('code')
-                        ->required()
-                        ->maxLength(50)
-                        ->alphaDash()
-                        ->dehydrateStateUsing(fn (string $state) => strtoupper($state))
-                        ->placeholder('e.g. SUMMER20'),
+                // ── Coupon Code & Discount (2/3) ──────────────────────────────
+                Section::make('Coupon Details')
+                    ->description('The code customers enter at checkout.')
+                    ->icon('heroicon-o-ticket')
+                    ->columnSpan(2)
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('code')
+                            ->label('Coupon Code')
+                            ->required()
+                            ->maxLength(50)
+                            ->alphaDash()
+                            ->dehydrateStateUsing(fn (string $state) => strtoupper($state))
+                            ->placeholder('e.g. SUMMER20')
+                            ->helperText('Letters, numbers, and dashes only. Automatically uppercased.')
+                            ->columnSpanFull(),
 
-                    Select::make('type')
-                        ->label('Discount Type')
-                        ->required()
-                        ->options(collect(CouponType::cases())->mapWithKeys(
-                            fn (CouponType $t) => [$t->value => $t->label()]
-                        ))
-                        ->native(false),
+                        Select::make('type')
+                            ->label('Discount Type')
+                            ->required()
+                            ->native(false)
+                            ->options(collect(CouponType::cases())->mapWithKeys(
+                                fn (CouponType $t) => [$t->value => $t->label()]
+                            ))
+                            ->live(),
 
-                    TextInput::make('value')
-                        ->label('Discount Value')
-                        ->required()
-                        ->numeric()
-                        ->minValue(0)
-                        ->step(0.01),
+                        TextInput::make('value')
+                            ->label('Discount Value')
+                            ->required()
+                            ->numeric()
+                            ->minValue(0)
+                            ->step(0.01)
+                            ->prefix(fn ($get) => $get('type') === 'fixed' ? '₺' : null)
+                            ->suffix(fn ($get) => $get('type') === 'percentage' ? '%' : null)
+                            ->placeholder('0.00'),
 
-                    TextInput::make('min_purchase_amount')
-                        ->label('Min Purchase Amount')
-                        ->numeric()
-                        ->minValue(0)
-                        ->step(0.01)
-                        ->placeholder('No minimum'),
+                        TextInput::make('min_purchase_amount')
+                            ->label('Min Purchase Amount')
+                            ->numeric()
+                            ->minValue(0)
+                            ->step(0.01)
+                            ->prefix('₺')
+                            ->nullable()
+                            ->placeholder('No minimum'),
 
-                    TextInput::make('max_discount_amount')
-                        ->label('Max Discount Amount')
-                        ->numeric()
-                        ->minValue(0)
-                        ->step(0.01)
-                        ->placeholder('No cap'),
+                        TextInput::make('max_discount_amount')
+                            ->label('Max Discount Cap')
+                            ->numeric()
+                            ->minValue(0)
+                            ->step(0.01)
+                            ->prefix('₺')
+                            ->nullable()
+                            ->placeholder('No cap'),
+                    ]),
 
-                    TextInput::make('usage_limit')
-                        ->label('Usage Limit')
-                        ->numeric()
-                        ->integer()
-                        ->minValue(1)
-                        ->placeholder('Unlimited'),
-                ]),
+                // ── Settings (1/3) ────────────────────────────────────────────
+                Section::make('Settings')
+                    ->description('Usage rules and activation.')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->columnSpan(1)
+                    ->schema([
+                        Toggle::make('is_active')
+                            ->label('Active')
+                            ->default(true)
+                            ->onColor('success'),
 
-            Section::make('Schedule & Settings')
-                ->columns(2)
-                ->schema([
-                    DateTimePicker::make('start_date')
-                        ->required()
-                        ->native(false),
+                        Toggle::make('user_specific')
+                            ->label('Single-use per user')
+                            ->default(false)
+                            ->helperText('Prevents the same user from using this coupon more than once.'),
 
-                    DateTimePicker::make('end_date')
-                        ->required()
-                        ->native(false),
+                        TextInput::make('usage_limit')
+                            ->label('Total Usage Limit')
+                            ->numeric()
+                            ->integer()
+                            ->minValue(1)
+                            ->nullable()
+                            ->placeholder('Unlimited'),
+                    ]),
 
-                    Toggle::make('user_specific')
-                        ->label('Single-use per user')
-                        ->helperText('Prevent the same user from using this coupon twice.')
-                        ->default(false),
+                // ── Schedule ──────────────────────────────────────────────────
+                Section::make('Validity Period')
+                    ->description('Coupon will only be accepted within this date range.')
+                    ->icon('heroicon-o-calendar-days')
+                    ->columnSpanFull()
+                    ->columns(2)
+                    ->schema([
+                        DateTimePicker::make('start_date')
+                            ->label('Valid From')
+                            ->required()
+                            ->native(false)
+                            ->seconds(false),
 
-                    Toggle::make('is_active')
-                        ->label('Active')
-                        ->default(true),
-                ]),
-
-        ]);
+                        DateTimePicker::make('end_date')
+                            ->label('Valid Until')
+                            ->required()
+                            ->native(false)
+                            ->seconds(false)
+                            ->after('start_date'),
+                    ]),
+            ]);
     }
 }

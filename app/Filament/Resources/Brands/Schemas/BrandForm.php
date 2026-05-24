@@ -13,38 +13,60 @@ class BrandForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components([
-            Section::make('Brand Details')->columns(2)->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(100),
+        return $schema
+            ->columns(3)
+            ->components([
+                // ── Brand Info (2/3) ──────────────────────────────────────────
+                Section::make('Brand Details')
+                    ->description('Name, slug, and description.')
+                    ->icon('heroicon-o-tag')
+                    ->columnSpan(2)
+                    ->columns(2)
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Brand Name')
+                            ->required()
+                            ->maxLength(100)
+                            ->placeholder('e.g. Coca-Cola'),
 
-                TextInput::make('slug')
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Auto-generated from name'),
+                        TextInput::make('slug')
+                            ->label('URL Slug')
+                            ->maxLength(100)
+                            ->unique(ignoreRecord: true)
+                            ->placeholder('auto-generated-from-name'),
 
-                Textarea::make('description')
-                    ->columnSpanFull()
-                    ->rows(3),
-            ]),
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->columnSpanFull()
+                            ->rows(3)
+                            ->placeholder('Brief brand description for the app…'),
+                    ]),
 
-            Section::make('Logo & Settings')->columns(2)->schema([
-                FileUpload::make('logo_url')
-                    ->label('Logo')
-                    ->image()
-                    ->directory('brands')
-                    ->disk('public')
-                    ->columnSpanFull(),
+                // ── Logo & Settings (1/3) ─────────────────────────────────────
+                Section::make('Logo & Ordering')
+                    ->description('Visual identity and display order.')
+                    ->icon('heroicon-o-photo')
+                    ->columnSpan(1)
+                    ->schema([
+                        FileUpload::make('logo_url')
+                            ->label('Logo')
+                            ->image()
+                            ->directory('brands')
+                            ->disk('public')
+                            ->hint('PNG or SVG recommended.'),
 
-                TextInput::make('sort_order')
-                    ->numeric()
-                    ->default(0),
+                        TextInput::make('sort_order')
+                            ->label('Sort Order')
+                            ->numeric()
+                            ->integer()
+                            ->default(0)
+                            ->helperText('Lower numbers appear first.'),
 
-                Toggle::make('is_active')
-                    ->default(true)
-                    ->onColor('success'),
-            ]),
-        ]);
+                        Toggle::make('is_active')
+                            ->label('Active')
+                            ->default(true)
+                            ->onColor('success'),
+                    ]),
+            ]);
     }
 }

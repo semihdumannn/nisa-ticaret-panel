@@ -15,40 +15,55 @@ class UserForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
+            ->columns(3)
             ->components([
-                Section::make('Account Information')
+                // ── Personal Info ─────────────────────────────────────────────
+                Section::make('Personal Information')
+                    ->description('Basic user contact details.')
+                    ->icon('heroicon-o-user')
+                    ->columnSpan(2)
                     ->columns(2)
                     ->schema([
                         TextInput::make('name')
+                            ->label('Full Name')
                             ->required()
                             ->maxLength(100)
-                            ->placeholder('Full name'),
+                            ->placeholder('e.g. Ayşe Kaya'),
+
+                        TextInput::make('phone')
+                            ->label('Phone Number')
+                            ->tel()
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(20)
+                            ->mask('+90 (999) 999 99 99')
+                            ->placeholder('+90 (5XX) XXX XX XX'),
 
                         TextInput::make('email')
                             ->label('Email Address')
                             ->email()
                             ->unique(ignoreRecord: true)
+                            ->maxLength(255)
                             ->placeholder('user@example.com'),
-
-                        TextInput::make('phone')
-                            ->tel()
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(20)
-                            ->placeholder('+905XXXXXXXXX'),
 
                         TextInput::make('firebase_uid')
                             ->label('Firebase UID')
                             ->disabled()
                             ->dehydrated(false)
-                            ->placeholder('(managed by Firebase)'),
+                            ->placeholder('(managed by Firebase)')
+                            ->helperText('Set automatically on first login.'),
                     ]),
 
-                Section::make('Roles & Status')
-                    ->columns(2)
+                // ── Access Control ────────────────────────────────────────────
+                Section::make('Access & Status')
+                    ->description('Role assignment and account status.')
+                    ->icon('heroicon-o-shield-check')
+                    ->columnSpan(1)
                     ->schema([
                         Select::make('role')
+                            ->label('Role')
                             ->required()
+                            ->native(false)
                             ->options(collect(UserRole::cases())->mapWithKeys(
                                 fn (UserRole $r) => [$r->value => $r->label()],
                             ))
@@ -56,21 +71,34 @@ class UserForm
 
                         Toggle::make('is_active')
                             ->label('Account Active')
+                            ->helperText('Inactive users cannot log in.')
                             ->default(true)
                             ->onColor('success')
                             ->offColor('danger'),
 
                         DateTimePicker::make('email_verified_at')
                             ->label('Email Verified At')
-                            ->nullable(),
+                            ->native(false)
+                            ->nullable()
+                            ->placeholder('Not verified'),
+                    ]),
 
+                // ── Password ──────────────────────────────────────────────────
+                Section::make('Password')
+                    ->description('Leave blank to keep the current password.')
+                    ->icon('heroicon-o-lock-closed')
+                    ->collapsed()
+                    ->columnSpanFull()
+                    ->schema([
                         TextInput::make('password')
+                            ->label('New Password')
                             ->password()
+                            ->revealable()
+                            ->minLength(8)
                             ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
                             ->dehydrated(fn ($state) => filled($state))
                             ->nullable()
-                            ->revealable()
-                            ->placeholder('Leave blank to keep current'),
+                            ->placeholder('Minimum 8 characters'),
                     ]),
             ]);
     }
