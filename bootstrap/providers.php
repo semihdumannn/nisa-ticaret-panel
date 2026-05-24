@@ -6,4 +6,5 @@ return [
     App\Providers\UserModuleServiceProvider::class,
     App\Providers\ProductModuleServiceProvider::class,
     App\Providers\InventoryModuleServiceProvider::class,
+    App\Providers\OrderModuleServiceProvider::class,
 ];

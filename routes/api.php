@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\HealthController;
 use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
+use App\Modules\Order\Presentation\API\Controllers\CartController;
+use App\Modules\Order\Presentation\API\Controllers\OrderController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
 use App\Modules\Product\Presentation\API\Controllers\CategoryController;
 use App\Modules\Product\Presentation\API\Controllers\ProductController;
@@ -92,6 +94,29 @@ Route::prefix('v1')->group(function () {
                 Route::post('/adjust', [InventoryController::class, 'adjust'])->name('adjust');
                 Route::post('/transfer', [InventoryController::class, 'transfer'])->name('transfer');
             });
+        });
+
+        // Cart
+        Route::prefix('cart')->name('api.cart.')->group(function () {
+            Route::get('/', [CartController::class, 'show'])->name('show');
+            Route::post('/items', [CartController::class, 'addItem'])->name('items.add');
+            Route::put('/items/{item}', [CartController::class, 'updateItem'])->name('items.update');
+            Route::delete('/items/{item}', [CartController::class, 'removeItem'])->name('items.remove');
+            Route::delete('/', [CartController::class, 'clear'])->name('clear');
+        });
+
+        // Orders — customer
+        Route::prefix('orders')->name('api.orders.')->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('index');
+            Route::post('/', [OrderController::class, 'store'])->name('store');
+            Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+            Route::post('/{order}/cancel', [OrderController::class, 'cancel'])->name('cancel');
+        });
+
+        // Orders — admin management
+        Route::middleware('role:admin')->prefix('admin/orders')->name('api.admin.orders.')->group(function () {
+            Route::get('/', [OrderController::class, 'adminIndex'])->name('index');
+            Route::put('/{order}/status', [OrderController::class, 'updateStatus'])->name('status');
         });
 
     });
