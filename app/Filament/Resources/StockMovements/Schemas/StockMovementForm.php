@@ -4,7 +4,7 @@ namespace App\Filament\Resources\StockMovements\Schemas;
 
 use App\Modules\Inventory\Domain\ValueObjects\MovementType;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 

@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Categories\Schemas;
 
 use App\Models\Category;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;

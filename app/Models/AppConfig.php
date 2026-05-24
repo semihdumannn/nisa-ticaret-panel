@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class AppConfig extends Model
 {
@@ -20,6 +21,10 @@ class AppConfig extends Model
         'type',
         'description',
     ];
+
+    /** Cache TTL for allTyped() — 1 hour. */
+    private const CACHE_KEY = 'app_config:all';
+    private const CACHE_TTL = 3600;
 
     // ── Typed value accessor ──────────────────────────────────────────────────
 
@@ -48,20 +53,32 @@ class AppConfig extends Model
     }
 
     /**
-     * Set a config value (creates or updates).
+     * Set a config value (updates existing) and invalidates cache.
      */
     public static function set(string $key, mixed $value): void
     {
         static::where('key', $key)->update(['value' => (string) $value]);
+        Cache::forget(self::CACHE_KEY);
     }
 
     /**
      * Return all configs as a keyed array with typed values.
+     * Result is cached for 1 hour; invalidated by set().
      */
     public static function allTyped(): array
     {
-        return static::all()->mapWithKeys(
-            fn (AppConfig $c) => [$c->key => $c->typedValue()]
-        )->all();
+        return Cache::remember(self::CACHE_KEY, self::CACHE_TTL, function () {
+            return static::all()
+                ->mapWithKeys(fn (AppConfig $c) => [$c->key => $c->typedValue()])
+                ->all();
+        });
+    }
+
+    /**
+     * Manually flush the config cache (e.g. after bulk updates).
+     */
+    public static function flushCache(): void
+    {
+        Cache::forget(self::CACHE_KEY);
     }
 }

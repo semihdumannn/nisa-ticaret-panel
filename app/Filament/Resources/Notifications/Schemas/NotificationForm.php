@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Notifications\Schemas;
 
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class NotificationForm

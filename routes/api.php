@@ -30,9 +30,11 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/health', [HealthController::class, 'check'])->name('api.health');
 
-    // Auth (public)
+    // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
-        Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase-login');
+        Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])
+            ->middleware('throttle:api-login')
+            ->name('firebase-login');
     });
 
     // App Config (public — mobile app config)
@@ -146,8 +148,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('/', [DeviceController::class, 'unregister'])->name('unregister');
         });
 
-        // Analytics — admin-only
-        Route::middleware('role:admin')->prefix('admin/analytics')->name('api.admin.analytics.')->group(function () {
+        // Analytics — admin-only (higher rate limit for dashboards)
+        Route::middleware(['role:admin', 'throttle:api-admin'])->prefix('admin/analytics')->name('api.admin.analytics.')->group(function () {
             Route::get('/dashboard',      [AnalyticsController::class, 'dashboard'])->name('dashboard');
             Route::get('/revenue',        [AnalyticsController::class, 'revenue'])->name('revenue');
             Route::get('/top-products',   [AnalyticsController::class, 'topProducts'])->name('top-products');

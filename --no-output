@@ -1,0 +1,38 @@
+[00:00:00.009270417 / 00:00:00.009270417] [9784360 bytes] Test Runner Configured
+[00:00:00.016936125 / 00:00:00.007665708] [12187600 bytes] PHPUnit Started (PHPUnit 12.5.24 using PHP 8.4.20 (cli) on Darwin)
+[00:00:00.017609875 / 00:00:00.000673750] [12238144 bytes] Test Runner Configured
+[00:00:00.017742417 / 00:00:00.000132542] [12284984 bytes] Bootstrap Finished (/Users/semihduman/Herd/nisa-backend/vendor/autoload.php)
+[00:00:00.019818584 / 00:00:00.002076167] [12706152 bytes] Event Facade Sealed
+[00:00:00.023690667 / 00:00:00.003872083] [14122400 bytes] Test Suite Loaded (1 test)
+[00:00:00.024049292 / 00:00:00.000358625] [14253960 bytes] Test Runner Started
+[00:00:00.024291042 / 00:00:00.000241750] [14311064 bytes] Test Suite Sorted
+[00:00:00.024434250 / 00:00:00.000143208] [14353240 bytes] Test Runner Execution Started (1 test)
+[00:00:00.024518792 / 00:00:00.000084542] [14369424 bytes] Test Suite Started (P\Tests\Feature\HealthDebugTest, 1 test)
+[00:00:00.024884500 / 00:00:00.000365708] [14420304 bytes] Before First Test Method Called (P\Tests\Feature\HealthDebugTest::setUpBeforeClass)
+[00:00:00.024908292 / 00:00:00.000023792] [14420304 bytes] Before First Test Method Finished:
+                                                           - P\Tests\Feature\HealthDebugTest::setUpBeforeClass
+[00:00:00.025266625 / 00:00:00.000358333] [14530080 bytes] Test Preparation Started (P\Tests\Feature\HealthDebugTest::__pest_evaluable_debug_health)
+[00:00:00.149202042 / 00:00:00.123935417] [53885496 bytes] Before Test Method Called (P\Tests\Feature\HealthDebugTest::setUp)
+[00:00:00.149340875 / 00:00:00.000138833] [53885496 bytes] Before Test Method Finished:
+                                                           - P\Tests\Feature\HealthDebugTest::setUp
+[00:00:00.149602042 / 00:00:00.000261167] [53839920 bytes] Test Prepared (P\Tests\Feature\HealthDebugTest::__pest_evaluable_debug_health)
+[00:00:00.165436334 / 00:00:00.015834292] [57659352 bytes] Post Condition Method Called (P\Tests\Feature\HealthDebugTest::__MarkTestIncompleteIfSnapshotHaveChanged)
+[00:00:00.165514667 / 00:00:00.000078333] [57659352 bytes] Post Condition Method Finished:
+                                                           - P\Tests\Feature\HealthDebugTest::__MarkTestIncompleteIfSnapshotHaveChanged
+[00:00:00.169732584 / 00:00:00.004217917] [58713000 bytes] After Test Method Called (P\Tests\Feature\HealthDebugTest::tearDown)
+[00:00:00.169804834 / 00:00:00.000072250] [58713000 bytes] After Test Method Finished:
+                                                           - P\Tests\Feature\HealthDebugTest::tearDown
+[00:00:00.169843292 / 00:00:00.000038458] [58713000 bytes] Test Passed (P\Tests\Feature\HealthDebugTest::__pest_evaluable_debug_health)
+[00:00:00.170794959 / 00:00:00.000951667] [58713000 bytes] Test Printed Unexpected Output
+                                                           
+                                                           Status: 503
+                                                           Body: {"status":"degraded","app":"Nisa Ticaret","version":"13.11.2","environment":"testing","timestamp":"2026-05-24T22:04:31+00:00","checks":{"database":{"status":"error","driver":"sqlite","error":"SQLSTATE[HY000]: General error: 1 no such function: version (Connection: sqlite, Database: :memory:, SQL: SELECT version())"},"cache":{"status":"ok","driver":"array"},"queue":{"status":"ok","driver":"sync","queue_size":0},"storage":{"status":"ok","disk":"local"}}}
+                                                           
+[00:00:00.170845459 / 00:00:00.000050500] [58713000 bytes] Test Finished (P\Tests\Feature\HealthDebugTest::__pest_evaluable_debug_health)
+[00:00:00.170948334 / 00:00:00.000102875] [58713000 bytes] After Last Test Method Called (P\Tests\Feature\HealthDebugTest::tearDownAfterClass)
+[00:00:00.170974750 / 00:00:00.000026416] [58713000 bytes] After Last Test Method Finished:
+                                                           - P\Tests\Feature\HealthDebugTest::tearDownAfterClass
+[00:00:00.170998292 / 00:00:00.000023542] [58713000 bytes] Test Suite Finished (P\Tests\Feature\HealthDebugTest, 1 test)
+[00:00:00.171175792 / 00:00:00.000177500] [58713000 bytes] Test Runner Execution Finished
+[00:00:00.171202959 / 00:00:00.000027167] [58713000 bytes] Test Runner Finished
+[00:00:00.171683792 / 00:00:00.000480833] [58772848 bytes] PHPUnit Finished (Shell Exit Code: 0)
