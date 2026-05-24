@@ -70,6 +70,9 @@ class AdminPanelProvider extends PanelProvider
                 RecentOrdersWidget::class,
             ])
 
+            // ── Dark Mode ────────────────────────────────────────────────────
+            ->darkMode()
+
             // ── Database Notifications ───────────────────────────────────────
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')

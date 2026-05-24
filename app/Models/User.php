@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasRoles, LogsActivity, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRoles, LogsActivity, MassPrunable, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'firebase_uid',
@@ -102,5 +103,17 @@ class User extends Authenticatable implements FilamentUser
     public function isCustomer(): bool
     {
         return $this->role === 'customer';
+    }
+
+    // ── Pruning ───────────────────────────────────────────────────────────────
+
+    /**
+     * Hard-delete soft-deleted non-admin users older than 1 year.
+     */
+    public function prunable(): \Illuminate\Database\Eloquent\Builder
+    {
+        return static::onlyTrashed()
+            ->where('role', '!=', 'admin')
+            ->where('deleted_at', '<=', now()->subYear());
     }
 }

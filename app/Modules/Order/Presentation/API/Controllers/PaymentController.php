@@ -37,6 +37,11 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Order is already paid.'], 422);
         }
 
+        // Cannot pay for cancelled or delivered orders
+        if (in_array($order->status, [OrderStatus::CANCELLED->value, OrderStatus::DELIVERED->value], strict: true)) {
+            return response()->json(['message' => 'Payment is not available for this order.'], 422);
+        }
+
         $callbackUrl = route('api.payment.callback');
 
         $result = $this->iyzico->initializeCheckout(
@@ -46,7 +51,7 @@ class PaymentController extends Controller
         );
 
         if (! $result['success']) {
-            return response()->json(['message' => $result['message']], 503);
+            return response()->json(['message' => $result['message'] ?? 'Payment initialization failed.'], 503);
         }
 
         return response()->json([
@@ -58,8 +63,9 @@ class PaymentController extends Controller
     /**
      * POST /api/v1/payment/callback
      *
-     * iyzico redirects here after the checkout form is completed.
+     * iyzico posts here after the checkout form is completed.
      * Verify payment and update order accordingly.
+     * NOTE: This endpoint has no auth middleware (iyzico server calls it).
      */
     public function callback(Request $request): JsonResponse
     {
@@ -69,7 +75,7 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Missing payment token.'], 422);
         }
 
-        // Verify token first — iyzico returns conversationId (= order->id we set earlier)
+        // Verify token with iyzico — conversation_id = order->id we set during init
         $result = $this->iyzico->retrieveCheckoutForm($token);
 
         $orderId = $result['conversation_id'] ?? null;
@@ -79,22 +85,32 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Order not found.'], 404);
         }
 
+        // ── Idempotency guard ─────────────────────────────────────────────────
+        // If already paid, return success without double-processing.
+        if ($order->payment_status === PaymentStatus::PAID->value) {
+            return response()->json([
+                'message'    => 'Payment already recorded.',
+                'payment_id' => $order->payment_reference,
+            ]);
+        }
+
         if ($result['success']) {
             $order->update([
-                'payment_status' => PaymentStatus::PAID->value,
-                'payment_method' => 'iyzico',
+                'payment_status'    => PaymentStatus::PAID->value,
+                'payment_method'    => 'iyzico',
+                'payment_reference' => $result['payment_id'],
             ]);
 
-            // Auto-confirm paid orders
+            // Auto-confirm paid orders that are still pending
             if ($order->status === OrderStatus::PENDING->value) {
                 try {
                     $this->updateStatus->execute(
-                        order:     $order,
+                        order:     $order->fresh(),
                         newStatus: OrderStatus::CONFIRMED,
                         note:      'Auto-confirmed after successful iyzico payment. Payment ID: ' . $result['payment_id'],
                     );
                 } catch (\Throwable) {
-                    // Non-fatal — order is paid, status update can be done manually
+                    // Non-fatal — order is paid, status can be updated manually
                 }
             }
 
@@ -104,12 +120,12 @@ class PaymentController extends Controller
             ]);
         }
 
-        // Payment failed
+        // Payment failed — record it but don't overwrite a previous PAID status
         $order->update(['payment_status' => PaymentStatus::FAILED->value]);
 
         return response()->json([
             'message'    => $result['error_message'] ?? 'Payment failed.',
-            'error_code' => $result['error_code'],
+            'error_code' => $result['error_code'] ?? null,
         ], 402);
     }
 }

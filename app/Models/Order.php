@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Support\LogOptions;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -16,7 +17,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class Order extends Model
 {
     /** @use HasFactory<OrderFactory> */
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory, LogsActivity, MassPrunable, SoftDeletes;
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -40,6 +41,7 @@ class Order extends Model
         'total',
         'payment_method',
         'payment_status',
+        'payment_reference',
         'notes',
         'internal_notes',
         'assigned_to',
@@ -143,5 +145,16 @@ class Order extends Model
             OrderStatus::DELIVERED->value,
             OrderStatus::CANCELLED->value,
         ]);
+    }
+
+    // ── Pruning ───────────────────────────────────────────────────────────────
+
+    /**
+     * Hard-delete soft-deleted orders older than 2 years.
+     * Run via: php artisan model:prune
+     */
+    public function prunable(): \Illuminate\Database\Eloquent\Builder
+    {
+        return static::onlyTrashed()->where('deleted_at', '<=', now()->subYears(2));
     }
 }

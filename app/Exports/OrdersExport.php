@@ -5,15 +5,15 @@ namespace App\Exports;
 use App\Models\Order;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use App\Modules\Order\Domain\ValueObjects\PaymentStatus;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class OrdersExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMapping, WithStyles
+class OrdersExport implements FromQuery, ShouldAutoSize, WithChunkReading, WithHeadings, WithMapping, WithStyles
 {
     public function __construct(
         private readonly ?string $status = null,
@@ -84,5 +84,10 @@ class OrdersExport implements FromQuery, ShouldAutoSize, WithHeadings, WithMappi
         return [
             1 => ['font' => ['bold' => true]],
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 500;
     }
 }

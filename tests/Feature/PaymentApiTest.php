@@ -1,0 +1,196 @@
+<?php
+
+use App\Models\Order;
+use App\Models\User;
+use App\Modules\Order\Domain\ValueObjects\OrderStatus;
+use App\Modules\Order\Domain\ValueObjects\PaymentStatus;
+use App\Modules\Order\Infrastructure\External\IyzicoPaymentService;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function makeCustomer(): User
+{
+    return User::factory()->create(['role' => 'customer', 'is_active' => true]);
+}
+
+function makePendingOrder(User $customer): Order
+{
+    return Order::factory()->create([
+        'customer_id'    => $customer->id,
+        'status'         => OrderStatus::PENDING->value,
+        'payment_status' => PaymentStatus::PENDING->value,
+        'total'          => 250.00,
+    ]);
+}
+
+// ── initiate ──────────────────────────────────────────────────────────────────
+
+test('customer can initiate iyzico payment for their own pending order', function () {
+    $customer = makeCustomer();
+    $order    = makePendingOrder($customer);
+
+    $this->mock(IyzicoPaymentService::class)
+        ->shouldReceive('initializeCheckout')
+        ->once()
+        ->andReturn([
+            'success'           => true,
+            'checkout_form_url' => 'https://sandbox-api.iyzipay.com/checkout/form/abc123',
+            'token'             => 'abc123',
+        ]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertOk()
+        ->assertJsonStructure(['checkout_url', 'token']);
+});
+
+test('customer cannot pay for another customers order', function () {
+    $customer = makeCustomer();
+    $other    = makeCustomer();
+    $order    = makePendingOrder($other);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertForbidden();
+});
+
+test('cannot initiate payment for already paid order', function () {
+    $customer = makeCustomer();
+    $order    = Order::factory()->create([
+        'customer_id'    => $customer->id,
+        'status'         => OrderStatus::CONFIRMED->value,
+        'payment_status' => PaymentStatus::PAID->value,
+    ]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertUnprocessable()
+        ->assertJsonFragment(['message' => 'Order is already paid.']);
+});
+
+test('cannot initiate payment for cancelled order', function () {
+    $customer = makeCustomer();
+    $order    = Order::factory()->create([
+        'customer_id'    => $customer->id,
+        'status'         => OrderStatus::CANCELLED->value,
+        'payment_status' => PaymentStatus::PENDING->value,
+    ]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertUnprocessable()
+        ->assertJsonFragment(['message' => 'Payment is not available for this order.']);
+});
+
+test('returns 503 when iyzico service fails', function () {
+    $customer = makeCustomer();
+    $order    = makePendingOrder($customer);
+
+    $this->mock(IyzicoPaymentService::class)
+        ->shouldReceive('initializeCheckout')
+        ->once()
+        ->andReturn([
+            'success'  => false,
+            'message'  => 'iyzico connection error.',
+        ]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertStatus(503);
+});
+
+// ── callback ─────────────────────────────────────────────────────────────────
+
+test('callback marks order as paid and confirms it on success', function () {
+    $customer = makeCustomer();
+    $order    = makePendingOrder($customer);
+
+    $this->mock(IyzicoPaymentService::class)
+        ->shouldReceive('retrieveCheckoutForm')
+        ->once()
+        ->with('tok_success')
+        ->andReturn([
+            'success'         => true,
+            'payment_id'      => 'pay_12345',
+            'conversation_id' => (string) $order->id,
+            'fraud_status'    => 1,
+            'error_code'      => null,
+            'error_message'   => null,
+        ]);
+
+    $this->postJson('/api/v1/payment/callback', ['token' => 'tok_success'])
+        ->assertOk()
+        ->assertJsonFragment(['message' => 'Payment successful.', 'payment_id' => 'pay_12345']);
+
+    $this->assertDatabaseHas('orders', [
+        'id'                => $order->id,
+        'payment_status'    => PaymentStatus::PAID->value,
+        'payment_method'    => 'iyzico',
+        'payment_reference' => 'pay_12345',
+        'status'            => OrderStatus::CONFIRMED->value,
+    ]);
+});
+
+test('callback returns 422 when token is missing', function () {
+    $this->postJson('/api/v1/payment/callback', [])
+        ->assertUnprocessable()
+        ->assertJsonFragment(['message' => 'Missing payment token.']);
+});
+
+test('callback marks order as failed when iyzico returns failure', function () {
+    $customer = makeCustomer();
+    $order    = makePendingOrder($customer);
+
+    $this->mock(IyzicoPaymentService::class)
+        ->shouldReceive('retrieveCheckoutForm')
+        ->once()
+        ->andReturn([
+            'success'         => false,
+            'payment_id'      => null,
+            'conversation_id' => (string) $order->id,
+            'error_code'      => '10051',
+            'error_message'   => 'Insufficient funds.',
+        ]);
+
+    $this->postJson('/api/v1/payment/callback', ['token' => 'tok_fail'])
+        ->assertStatus(402)
+        ->assertJsonFragment(['error_code' => '10051']);
+
+    $this->assertDatabaseHas('orders', [
+        'id'             => $order->id,
+        'payment_status' => PaymentStatus::FAILED->value,
+    ]);
+});
+
+test('callback is idempotent for already paid order', function () {
+    $customer = makeCustomer();
+    $order    = Order::factory()->create([
+        'customer_id'       => $customer->id,
+        'status'            => OrderStatus::CONFIRMED->value,
+        'payment_status'    => PaymentStatus::PAID->value,
+        'payment_reference' => 'pay_existing',
+    ]);
+
+    $this->mock(IyzicoPaymentService::class)
+        ->shouldReceive('retrieveCheckoutForm')
+        ->once()
+        ->andReturn([
+            'success'         => true,
+            'payment_id'      => 'pay_duplicate',
+            'conversation_id' => (string) $order->id,
+        ]);
+
+    $this->postJson('/api/v1/payment/callback', ['token' => 'tok_dup'])
+        ->assertOk()
+        ->assertJsonFragment(['message' => 'Payment already recorded.']);
+
+    // Status should NOT have changed
+    $this->assertDatabaseHas('orders', [
+        'id'             => $order->id,
+        'payment_status' => PaymentStatus::PAID->value,
+    ]);
+});

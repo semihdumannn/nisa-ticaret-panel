@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
@@ -17,7 +18,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
-    use HasFactory, LogsActivity, Searchable, SoftDeletes;
+    use HasFactory, LogsActivity, MassPrunable, Searchable, SoftDeletes;
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -189,5 +190,17 @@ class Product extends Model
     public function shouldBeSearchable(): bool
     {
         return $this->is_active;
+    }
+
+    // ── Pruning ───────────────────────────────────────────────────────────────
+
+    /**
+     * Hard-delete soft-deleted inactive products older than 1 year.
+     */
+    public function prunable(): \Illuminate\Database\Eloquent\Builder
+    {
+        return static::onlyTrashed()
+            ->where('is_active', false)
+            ->where('deleted_at', '<=', now()->subYear());
     }
 }

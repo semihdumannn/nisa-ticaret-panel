@@ -8,9 +8,11 @@ use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
+use App\Modules\Order\Presentation\API\Controllers\DeliveryController;
 use App\Modules\Order\Presentation\API\Controllers\PaymentController;
 use App\Modules\Order\Presentation\API\Controllers\CartController;
 use App\Modules\Order\Presentation\API\Controllers\OrderController;
+use App\Modules\Product\Presentation\API\Controllers\ProductImageController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
 use App\Modules\Product\Presentation\API\Controllers\CategoryController;
 use App\Modules\Product\Presentation\API\Controllers\ProductController;
@@ -88,6 +90,17 @@ Route::prefix('v1')->group(function () {
             Route::put('/{address}', [AddressController::class, 'update'])->name('update');
             Route::delete('/{address}', [AddressController::class, 'destroy'])->name('destroy');
             Route::post('/{address}/set-default', [AddressController::class, 'setDefault'])->name('set-default');
+        });
+
+        // Product images — public read, admin write
+        Route::prefix('products/{product}/images')->name('api.products.images.')->group(function () {
+            Route::get('/', [ProductImageController::class, 'index'])->name('index');
+
+            Route::middleware('role:admin')->group(function () {
+                Route::post('/', [ProductImageController::class, 'store'])->name('store');
+                Route::delete('/{image}', [ProductImageController::class, 'destroy'])->name('destroy');
+                Route::put('/{image}/set-primary', [ProductImageController::class, 'setPrimary'])->name('set-primary');
+            });
         });
 
         // Products — admin write
@@ -168,6 +181,19 @@ Route::prefix('v1')->group(function () {
         Route::middleware('role:admin')->prefix('admin/orders')->name('api.admin.orders.')->group(function () {
             Route::get('/', [OrderController::class, 'adminIndex'])->name('index');
             Route::put('/{order}/status', [OrderController::class, 'updateStatus'])->name('status');
+        });
+
+        // Delivery & Field Agent routes
+        Route::middleware('role:delivery,field_agent')->prefix('delivery')->name('api.delivery.')->group(function () {
+            Route::get('/orders', [DeliveryController::class, 'index'])->name('orders.index');
+            Route::get('/orders/{order}', [DeliveryController::class, 'show'])->name('orders.show');
+            Route::put('/orders/{order}/on-the-way', [DeliveryController::class, 'markOnTheWay'])->name('orders.on-the-way');
+            Route::put('/orders/{order}/deliver', [DeliveryController::class, 'markDelivered'])->name('orders.deliver');
+
+            // Field agent only: assign orders to delivery staff
+            Route::middleware('role:field_agent')->group(function () {
+                Route::put('/orders/{order}/assign', [DeliveryController::class, 'assign'])->name('orders.assign');
+            });
         });
 
     });
