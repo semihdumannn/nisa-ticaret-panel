@@ -13,6 +13,9 @@ class Notification extends Model
     /** @use HasFactory<NotificationFactory> */
     use HasFactory;
 
+    /** Our custom app notification table (renamed from notifications). */
+    protected $table = 'app_notifications';
+
     protected $fillable = [
         'user_id',
         'type',

@@ -119,7 +119,7 @@ test('user can delete their own notification', function () {
         ->deleteJson("/api/v1/notifications/{$n->id}")
         ->assertStatus(200);
 
-    $this->assertDatabaseMissing('notifications', ['id' => $n->id]);
+    $this->assertDatabaseMissing('app_notifications', ['id' => $n->id]);
 });
 
 test('user cannot delete another users notification', function () {
@@ -208,7 +208,7 @@ test('placing an order dispatches OrderPlacedEvent and creates notification', fu
         ->postJson('/api/v1/orders', ['address_id' => $address->id])
         ->assertStatus(201);
 
-    $this->assertDatabaseHas('notifications', [
+    $this->assertDatabaseHas('app_notifications', [
         'user_id' => $user->id,
         'type'    => NotificationType::ORDER_UPDATE->value,
     ]);
@@ -229,7 +229,7 @@ test('updating order status creates a notification', function () {
         ->putJson("/api/v1/admin/orders/{$order->id}/status", ['status' => 'confirmed'])
         ->assertStatus(200);
 
-    $this->assertDatabaseHas('notifications', [
+    $this->assertDatabaseHas('app_notifications', [
         'user_id' => $customer->id,
         'type'    => NotificationType::ORDER_UPDATE->value,
     ]);
@@ -246,7 +246,7 @@ test('cancelling an order creates a notification', function () {
         ->postJson("/api/v1/orders/{$order->id}/cancel")
         ->assertStatus(200);
 
-    $this->assertDatabaseHas('notifications', [
+    $this->assertDatabaseHas('app_notifications', [
         'user_id' => $user->id,
         'type'    => NotificationType::ORDER_UPDATE->value,
     ]);

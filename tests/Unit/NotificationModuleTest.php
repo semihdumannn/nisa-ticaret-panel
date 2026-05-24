@@ -97,7 +97,7 @@ test('SendNotificationUseCase persists notification to DB', function () {
     ));
 
     expect($result->id)->toBeInt();
-    $this->assertDatabaseHas('notifications', [
+    $this->assertDatabaseHas('app_notifications', [
         'user_id' => $user->id,
         'type'    => 'order_update',
         'title'   => 'Test Title',

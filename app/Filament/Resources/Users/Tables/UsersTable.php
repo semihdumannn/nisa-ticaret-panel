@@ -89,6 +89,7 @@ class UsersTable
                     RestoreBulkAction::make(),
                 ]),
             ])
+            ->recordUrl(fn ($record) => \App\Filament\Resources\Users\UserResource::getUrl('view', ['record' => $record]))
             ->defaultSort('created_at', 'desc');
     }
 }

@@ -11,7 +11,17 @@ class SendPushNotificationJob implements ShouldQueue
 {
     use Queueable;
 
-    public int $tries = 2;
+    /** Max attempts before moving to failed_jobs. */
+    public int $tries = 3;
+
+    /** Timeout per attempt in seconds. */
+    public int $timeout = 30;
+
+    /** Exponential backoff: 10s → 60s → 300s between retries. */
+    public function backoff(): array
+    {
+        return [10, 60, 300];
+    }
 
     public function __construct(
         public readonly int    $userId,

@@ -70,6 +70,10 @@ class AdminPanelProvider extends PanelProvider
                 RecentOrdersWidget::class,
             ])
 
+            // ── Database Notifications ───────────────────────────────────────
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
+
             // ── Middleware ───────────────────────────────────────────────────
             ->middleware([
                 EncryptCookies::class,

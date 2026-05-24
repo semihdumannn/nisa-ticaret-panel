@@ -108,6 +108,7 @@ class ProductsTable
                     RestoreBulkAction::make(),
                 ]),
             ])
+            ->recordUrl(fn ($record) => \App\Filament\Resources\Products\ProductResource::getUrl('view', ['record' => $record]))
             ->defaultSort('created_at', 'desc');
     }
 }

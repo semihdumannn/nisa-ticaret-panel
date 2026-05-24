@@ -37,7 +37,7 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Order is already paid.'], 422);
         }
 
-        $callbackUrl = route('api.payment.callback', ['order' => $order->id]);
+        $callbackUrl = route('api.payment.callback');
 
         $result = $this->iyzico->initializeCheckout(
             order:       $order->load(['items.product', 'address']),
@@ -63,16 +63,17 @@ class PaymentController extends Controller
      */
     public function callback(Request $request): JsonResponse
     {
-        $token   = $request->input('token');
-        $orderId = $request->input('conversationId') ?? $request->route('order');
+        $token = $request->input('token');
 
         if (! $token) {
             return response()->json(['message' => 'Missing payment token.'], 422);
         }
 
+        // Verify token first — iyzico returns conversationId (= order->id we set earlier)
         $result = $this->iyzico->retrieveCheckoutForm($token);
 
-        $order = Order::find($orderId);
+        $orderId = $result['conversation_id'] ?? null;
+        $order   = $orderId ? Order::find($orderId) : null;
 
         if (! $order) {
             return response()->json(['message' => 'Order not found.'], 404);

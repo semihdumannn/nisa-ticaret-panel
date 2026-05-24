@@ -8,6 +8,7 @@ use App\Modules\Notification\Domain\Contracts\PushSenderInterface;
 use App\Modules\Notification\Domain\Events\OrderCancelledEvent;
 use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Notification\Domain\Events\OrderStatusUpdatedEvent;
+use App\Modules\Notification\Infrastructure\Listeners\AdminOrderNotificationListener;
 use App\Modules\Notification\Infrastructure\Listeners\OrderNotificationListener;
 use App\Modules\Notification\Infrastructure\Repositories\EloquentFcmTokenRepository;
 use App\Modules\Notification\Infrastructure\Repositories\EloquentNotificationRepository;
@@ -36,8 +37,13 @@ class NotificationModuleServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // ── Customer push notifications ───────────────────────────────────────
         Event::listen(OrderPlacedEvent::class, [OrderNotificationListener::class, 'handleOrderPlaced']);
         Event::listen(OrderStatusUpdatedEvent::class, [OrderNotificationListener::class, 'handleOrderStatusUpdated']);
         Event::listen(OrderCancelledEvent::class, [OrderNotificationListener::class, 'handleOrderCancelled']);
+
+        // ── Admin Filament database notifications ─────────────────────────────
+        Event::listen(OrderPlacedEvent::class, [AdminOrderNotificationListener::class, 'handleOrderPlaced']);
+        Event::listen(OrderStatusUpdatedEvent::class, [AdminOrderNotificationListener::class, 'handleOrderStatusUpdated']);
     }
 }
