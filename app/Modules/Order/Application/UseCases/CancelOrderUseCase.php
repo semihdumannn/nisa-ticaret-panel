@@ -4,6 +4,7 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Modules\Notification\Domain\Events\OrderCancelledEvent;
 use App\Modules\Order\Domain\Contracts\OrderRepositoryInterface;
 use App\Modules\Order\Domain\Exceptions\InvalidOrderTransitionException;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
@@ -47,6 +48,8 @@ class CancelOrderUseCase
                 $reason ?? 'Order cancelled.',
                 $userId,
             );
+
+            event(new OrderCancelledEvent($updated, $reason));
 
             return $updated;
         });

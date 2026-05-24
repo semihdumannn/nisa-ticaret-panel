@@ -4,6 +4,8 @@ use App\Http\Controllers\API\HealthController;
 use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
 use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
+use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
+use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
 use App\Modules\Order\Presentation\API\Controllers\CartController;
 use App\Modules\Order\Presentation\API\Controllers\OrderController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
@@ -123,6 +125,20 @@ Route::prefix('v1')->group(function () {
         // Coupons — validate (authenticated users)
         Route::prefix('coupons')->name('api.coupons.')->group(function () {
             Route::post('/validate', [CouponController::class, 'validate'])->name('validate');
+        });
+
+        // Notifications
+        Route::prefix('notifications')->name('api.notifications.')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('index');
+            Route::get('/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
+            Route::post('/mark-read', [NotificationController::class, 'markRead'])->name('mark-read');
+            Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
+        });
+
+        // Device (FCM token) management
+        Route::prefix('devices')->name('api.devices.')->group(function () {
+            Route::post('/', [DeviceController::class, 'register'])->name('register');
+            Route::delete('/', [DeviceController::class, 'unregister'])->name('unregister');
         });
 
         // Orders — admin management

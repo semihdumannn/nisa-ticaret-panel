@@ -5,6 +5,7 @@ namespace App\Modules\Order\Application\UseCases;
 use App\Models\Inventory;
 use App\Models\Order;
 use App\Modules\Campaign\Application\DTOs\ApplyCouponDTO;
+use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Campaign\Application\UseCases\ValidateCouponUseCase;
 use App\Modules\Campaign\Domain\Contracts\CouponRepositoryInterface;
 use App\Modules\Inventory\Domain\Contracts\InventoryRepositoryInterface;
@@ -169,7 +170,11 @@ class CreateOrderUseCase
             $this->orderRepo->addHistory($order, OrderStatus::PENDING->value, 'Order placed.', $dto->userId);
             $this->cartRepo->clear($cart);
 
-            return $order->load('items.product', 'address');
+            $loaded = $order->load('items.product', 'address');
+
+            event(new OrderPlacedEvent($loaded));
+
+            return $loaded;
         });
     }
 

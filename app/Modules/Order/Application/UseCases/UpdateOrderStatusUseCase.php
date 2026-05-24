@@ -3,6 +3,7 @@
 namespace App\Modules\Order\Application\UseCases;
 
 use App\Models\Order;
+use App\Modules\Notification\Domain\Events\OrderStatusUpdatedEvent;
 use App\Modules\Order\Domain\Contracts\OrderRepositoryInterface;
 use App\Modules\Order\Domain\Exceptions\InvalidOrderTransitionException;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
@@ -23,7 +24,9 @@ class UpdateOrderStatusUseCase
             throw new InvalidOrderTransitionException($order->orderStatus(), $newStatus);
         }
 
-        return DB::transaction(function () use ($order, $newStatus, $note, $userId) {
+        $previousStatus = $order->status;
+
+        return DB::transaction(function () use ($order, $newStatus, $note, $userId, $previousStatus) {
             $updates = ['status' => $newStatus->value];
 
             if ($newStatus === OrderStatus::DELIVERED) {
@@ -32,6 +35,8 @@ class UpdateOrderStatusUseCase
 
             $updated = $this->orderRepo->update($order, $updates);
             $this->orderRepo->addHistory($updated, $newStatus->value, $note, $userId);
+
+            event(new OrderStatusUpdatedEvent($updated, $previousStatus, $newStatus->value));
 
             return $updated;
         });
