@@ -5,4 +5,5 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\UserModuleServiceProvider::class,
     App\Providers\ProductModuleServiceProvider::class,
+    App\Providers\InventoryModuleServiceProvider::class,
 ];

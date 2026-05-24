@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\HealthController;
+use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
 use App\Modules\Product\Presentation\API\Controllers\CategoryController;
 use App\Modules\Product\Presentation\API\Controllers\ProductController;
@@ -75,6 +76,22 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [ProductController::class, 'store'])->name('store');
             Route::put('/{product}', [ProductController::class, 'update'])->name('update');
             Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+        });
+
+        // Inventory — public read (stock check)
+        Route::prefix('inventory')->name('api.inventory.')->group(function () {
+            Route::get('/warehouses', [InventoryController::class, 'warehouses'])->name('warehouses');
+            Route::get('/stock/{product}', [InventoryController::class, 'stock'])->name('stock');
+
+            // Admin-only operations
+            Route::middleware('role:admin')->group(function () {
+                Route::get('/movements', [InventoryController::class, 'movements'])->name('movements');
+                Route::get('/low-stock', [InventoryController::class, 'lowStock'])->name('low-stock');
+                Route::post('/receive', [InventoryController::class, 'receive'])->name('receive');
+                Route::post('/dispatch', [InventoryController::class, 'dispatch'])->name('dispatch');
+                Route::post('/adjust', [InventoryController::class, 'adjust'])->name('adjust');
+                Route::post('/transfer', [InventoryController::class, 'transfer'])->name('transfer');
+            });
         });
 
     });
