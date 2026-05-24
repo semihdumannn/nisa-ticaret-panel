@@ -8,6 +8,7 @@ use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
+use App\Modules\Order\Presentation\API\Controllers\PaymentController;
 use App\Modules\Order\Presentation\API\Controllers\CartController;
 use App\Modules\Order\Presentation\API\Controllers\OrderController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
@@ -127,7 +128,13 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [OrderController::class, 'store'])->name('store');
             Route::get('/{order}', [OrderController::class, 'show'])->name('show');
             Route::post('/{order}/cancel', [OrderController::class, 'cancel'])->name('cancel');
+            Route::post('/{order}/pay', [PaymentController::class, 'initiate'])->name('pay');
         });
+
+        // Payment callback (iyzico posts here after checkout)
+        Route::post('/payment/callback', [PaymentController::class, 'callback'])
+            ->withoutMiddleware('auth:sanctum')
+            ->name('api.payment.callback');
 
         // Coupons — validate (authenticated users)
         Route::prefix('coupons')->name('api.coupons.')->group(function () {

@@ -2,8 +2,11 @@
 
 namespace App\Filament\Resources\Orders\Pages;
 
+use App\Exports\OrdersExport;
 use App\Filament\Resources\Orders\OrderResource;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\ListRecords;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListOrders extends ListRecords
 {
@@ -12,7 +15,13 @@ class ListOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Orders are created via the mobile app — no manual creation from admin.
+            Action::make('export')
+                ->label('Export Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('gray')
+                ->action(function () {
+                    return Excel::download(new OrdersExport(), 'orders-' . now()->format('Y-m-d') . '.xlsx');
+                }),
         ];
     }
 }

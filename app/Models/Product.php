@@ -11,11 +11,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class Product extends Model
 {
     /** @use HasFactory<ProductFactory> */
-    use HasFactory, Searchable, SoftDeletes;
+    use HasFactory, LogsActivity, Searchable, SoftDeletes;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'sku', 'price', 'cost_price', 'is_active', 'is_featured', 'brand_id'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges()
+            ->setDescriptionForEvent(fn (string $eventName) => "Product {$eventName}");
+    }
 
     protected $fillable = [
         'brand_id',

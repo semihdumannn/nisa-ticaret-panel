@@ -1,52 +1,57 @@
-FROM php:8.3-fpm
+# ──────────────────────────────────────────────────────────────────────────────
+# Stage 1: Builder — install Composer dependencies
+# ──────────────────────────────────────────────────────────────────────────────
+FROM php:8.3-fpm AS builder
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libpq-dev \
-    zip \
-    unzip \
-    nginx \
-    supervisor
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl unzip libpq-dev libpng-dev libonig-dev libxml2-dev \
+    libzip-dev libfreetype6-dev libjpeg62-turbo-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip opcache
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql pgsql mbstring exif pcntl bcmath gd
-
-# Install Redis extension
 RUN pecl install redis && docker-php-ext-enable redis
 
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction --prefer-dist
+
+COPY . .
+RUN composer run-script post-autoload-dump --no-dev --no-interaction 2>/dev/null || true
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Stage 2: Production runtime
+# ──────────────────────────────────────────────────────────────────────────────
+FROM php:8.3-fpm AS production
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nginx supervisor curl \
+    libpq5 libpng16-16 libonig5 libzip4 libfreetype6 libjpeg62-turbo \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY docker/php/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
+
 WORKDIR /var/www/html
+COPY --from=builder --chown=www-data:www-data /app /var/www/html
 
-# Copy application files
-COPY . /var/www/html
+COPY docker/nginx/default.conf /etc/nginx/sites-available/default
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Copy Nginx config
-COPY docker/nginx/default.conf /etc/nginx/sites-available/default
-
-# Copy supervisor config
-COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Expose ports
 EXPOSE 80
 
-# Start supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -sf http://localhost/api/v1/health || exit 1
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

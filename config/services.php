@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // ── iyzico Payment Gateway ────────────────────────────────────────────────
+    'iyzico' => [
+        'api_key'    => env('IYZICO_API_KEY', 'sandbox-api-key'),
+        'secret_key' => env('IYZICO_SECRET_KEY', 'sandbox-secret-key'),
+        'base_url'   => env('IYZICO_BASE_URL', 'https://sandbox-api.iyzipay.com'),
+    ],
+
 ];

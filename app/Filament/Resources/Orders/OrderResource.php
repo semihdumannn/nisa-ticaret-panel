@@ -61,7 +61,9 @@ class OrderResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            \App\Filament\Resources\Orders\RelationManagers\ItemsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
