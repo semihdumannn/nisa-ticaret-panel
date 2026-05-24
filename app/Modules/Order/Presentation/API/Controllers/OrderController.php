@@ -4,6 +4,9 @@ namespace App\Modules\Order\Presentation\API\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Modules\Campaign\Domain\Exceptions\CouponMinPurchaseException;
+use App\Modules\Campaign\Domain\Exceptions\CouponUsageLimitException;
+use App\Modules\Campaign\Domain\Exceptions\InvalidCouponException;
 use App\Modules\Inventory\Domain\Exceptions\InsufficientStockException;
 use App\Modules\Order\Application\DTOs\CreateOrderDTO;
 use App\Modules\Order\Application\UseCases\CancelOrderUseCase;
@@ -57,6 +60,7 @@ class OrderController extends Controller
                 addressId:     $v['address_id'],
                 paymentMethod: $v['payment_method'] ?? null,
                 notes:         $v['notes'] ?? null,
+                couponCode:    $v['coupon_code'] ?? null,
             ));
         } catch (EmptyCartException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
@@ -66,6 +70,12 @@ class OrderController extends Controller
                 'requested' => $e->requested,
                 'available' => $e->available,
             ], 422);
+        } catch (InvalidCouponException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (CouponUsageLimitException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (CouponMinPurchaseException $e) {
+            return response()->json(['message' => $e->getMessage(), 'min_amount' => $e->minAmount], 422);
         }
 
         return response()->json(['data' => new OrderResource($order)], 201);

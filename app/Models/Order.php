@@ -23,6 +23,7 @@ class Order extends Model
         'status',
         'subtotal',
         'discount_amount',
+        'coupon_id',
         'tax_amount',
         'shipping_amount',
         'total',
@@ -79,6 +80,11 @@ class Order extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function coupon(): BelongsTo
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     // ── Status helpers ────────────────────────────────────────────────────────

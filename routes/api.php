@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\HealthController;
 use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
+use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
+use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Order\Presentation\API\Controllers\CartController;
 use App\Modules\Order\Presentation\API\Controllers\OrderController;
 use App\Modules\Product\Presentation\API\Controllers\BrandController;
@@ -27,6 +29,11 @@ Route::prefix('v1')->group(function () {
     // Auth (public)
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])->name('firebase-login');
+    });
+
+    // Campaigns (public read — active campaigns visible to all)
+    Route::prefix('campaigns')->name('api.campaigns.')->group(function () {
+        Route::get('/', [CampaignController::class, 'index'])->name('index');
     });
 
     // Products (public read)
@@ -111,6 +118,11 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [OrderController::class, 'store'])->name('store');
             Route::get('/{order}', [OrderController::class, 'show'])->name('show');
             Route::post('/{order}/cancel', [OrderController::class, 'cancel'])->name('cancel');
+        });
+
+        // Coupons — validate (authenticated users)
+        Route::prefix('coupons')->name('api.coupons.')->group(function () {
+            Route::post('/validate', [CouponController::class, 'validate'])->name('validate');
         });
 
         // Orders — admin management

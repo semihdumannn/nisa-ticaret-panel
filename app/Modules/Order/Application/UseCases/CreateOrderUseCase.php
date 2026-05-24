@@ -4,6 +4,9 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Modules\Campaign\Application\DTOs\ApplyCouponDTO;
+use App\Modules\Campaign\Application\UseCases\ValidateCouponUseCase;
+use App\Modules\Campaign\Domain\Contracts\CouponRepositoryInterface;
 use App\Modules\Inventory\Domain\Contracts\InventoryRepositoryInterface;
 use App\Modules\Inventory\Domain\Exceptions\InsufficientStockException;
 use App\Modules\Order\Application\DTOs\CreateOrderDTO;
@@ -19,6 +22,8 @@ class CreateOrderUseCase
         private readonly CartRepositoryInterface      $cartRepo,
         private readonly OrderRepositoryInterface     $orderRepo,
         private readonly InventoryRepositoryInterface $inventoryRepo,
+        private readonly ValidateCouponUseCase        $validateCoupon,
+        private readonly CouponRepositoryInterface    $couponRepo,
     ) {}
 
     /**
@@ -45,7 +50,25 @@ class CreateOrderUseCase
             throw new EmptyCartException();
         }
 
-        return DB::transaction(function () use ($dto, $cart) {
+        // ── Coupon validation (before transaction to surface errors early) ────
+        $coupon         = null;
+        $couponDiscount = 0.0;
+
+        if ($dto->couponCode) {
+            // We need the subtotal estimate to validate min_purchase_amount.
+            // Calculate here (without tax) — will recalculate inside transaction.
+            $estimatedSubtotal = $cart->items->sum(
+                fn ($i) => (float) ($i->variant?->effectivePrice() ?? $i->product->price) * $i->quantity
+            );
+
+            $coupon = $this->validateCoupon->execute(new ApplyCouponDTO(
+                code:      $dto->couponCode,
+                userId:    $dto->userId,
+                subtotal:  $estimatedSubtotal,
+            ));
+        }
+
+        return DB::transaction(function () use ($dto, $cart, $coupon, &$couponDiscount) {
             // ── Stock check & best-warehouse resolution ───────────────────────
 
             $reservations = []; // [ [inventory, qty], ... ]
@@ -92,7 +115,13 @@ class CreateOrderUseCase
 
             $subtotal = round($subtotal, 2);
             $taxTotal = round($taxTotal, 2);
-            $total    = round($subtotal + $taxTotal, 2);
+
+            // Apply coupon discount (after final subtotal is known)
+            if ($coupon) {
+                $couponDiscount = $coupon->calculateDiscount($subtotal);
+            }
+
+            $total = round(max(0, $subtotal + $taxTotal - $couponDiscount), 2);
 
             $order = $this->orderRepo->create([
                 'order_number'   => 'TEMP',       // replaced after ID is known
@@ -100,7 +129,8 @@ class CreateOrderUseCase
                 'address_id'     => $dto->addressId,
                 'status'         => OrderStatus::PENDING->value,
                 'subtotal'       => $subtotal,
-                'discount_amount'=> 0,
+                'discount_amount'=> $couponDiscount,
+                'coupon_id'      => $coupon?->id,
                 'tax_amount'     => $taxTotal,
                 'shipping_amount'=> 0,
                 'total'          => $total,
@@ -125,6 +155,13 @@ class CreateOrderUseCase
                 /** @var Inventory $inv */
                 $inv = $res['inventory'];
                 $inv->increment('reserved_quantity', $res['qty']);
+            }
+
+            // ── Record coupon usage ───────────────────────────────────────────
+
+            if ($coupon) {
+                $this->couponRepo->recordUsage($coupon->id, $dto->userId, $order->id);
+                $this->couponRepo->incrementUsage($coupon->id);
             }
 
             // ── Record history & clear cart ───────────────────────────────────

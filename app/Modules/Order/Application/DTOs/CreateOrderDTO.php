@@ -9,5 +9,6 @@ readonly class CreateOrderDTO
         public int     $addressId,
         public ?string $paymentMethod = null,
         public ?string $notes         = null,
+        public ?string $couponCode    = null,
     ) {}
 }
