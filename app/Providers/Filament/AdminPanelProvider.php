@@ -11,6 +11,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -56,7 +57,9 @@ class AdminPanelProvider extends PanelProvider
             // ── Sidebar Styling ───────────────────────────────────────────────
             // Filament defaults to lg:bg-transparent on desktop; override so the
             // sidebar is visually distinct from the content area in both themes.
-            ->extraHeadHtml('
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn () => new \Illuminate\Support\HtmlString('
 <style>
     @media (min-width: 1024px) {
         .fi-sidebar {
@@ -69,7 +72,23 @@ class AdminPanelProvider extends PanelProvider
         }
     }
 </style>
-')
+'),
+            )
+
+            // ── Developer Tools (sidebar links) ──────────────────────────────
+            ->navigationItems([
+                NavigationItem::make('API Docs')
+                    ->url('/docs/api', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-document-text')
+                    ->group('Developer')
+                    ->sort(10),
+
+                NavigationItem::make('Queue Monitor')
+                    ->url('/horizon', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-queue-list')
+                    ->group('Developer')
+                    ->sort(20),
+            ])
 
             // ── Resources & Pages ────────────────────────────────────────────
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
