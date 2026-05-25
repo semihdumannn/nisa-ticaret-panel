@@ -28,7 +28,7 @@ class ListOrders extends ListRecords
                 ->form([
                     Select::make('status')
                         ->label('Status')
-                        ->options(OrderStatus::selectOptions())
+                        ->options(OrderStatus::options())
                         ->placeholder('All statuses')
                         ->nullable(),
 

@@ -5,7 +5,6 @@ namespace App\Filament\Widgets;
 use App\Filament\Resources\Orders\OrderResource;
 use App\Models\Order;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;

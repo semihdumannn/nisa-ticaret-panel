@@ -82,6 +82,7 @@ class ActivityLogsTable
                     ]),
             ])
             ->defaultSort('created_at', 'desc')
-            ->paginate(25);
+            ->defaultPaginationPageOption(25)
+            ->paginationPageOptions([25, 50, 100]);
     }
 }
