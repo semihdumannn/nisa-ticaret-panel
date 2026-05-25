@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             AdminUserSeeder::class,
+            FuskaCategorySeeder::class,
+            FuskaProductSeeder::class,
         ]);
     }
 }
