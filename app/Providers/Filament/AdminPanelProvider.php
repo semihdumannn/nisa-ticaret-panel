@@ -53,6 +53,24 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearch()
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
 
+            // ── Sidebar Styling ───────────────────────────────────────────────
+            // Filament defaults to lg:bg-transparent on desktop; override so the
+            // sidebar is visually distinct from the content area in both themes.
+            ->extraHeadHtml('
+<style>
+    @media (min-width: 1024px) {
+        .fi-sidebar {
+            background-color: #ffffff !important;
+            border-inline-end: 1px solid #e5e7eb !important;
+        }
+        .dark .fi-sidebar {
+            background-color: #1e293b !important;
+            border-inline-end-color: #334155 !important;
+        }
+    }
+</style>
+')
+
             // ── Resources & Pages ────────────────────────────────────────────
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
