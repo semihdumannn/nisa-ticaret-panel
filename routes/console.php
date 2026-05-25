@@ -18,3 +18,6 @@ Schedule::command('inventory:check-low-stock')->dailyAt('08:00');
 
 // Hard-delete soft-deleted records past retention period (weekly, Sunday 03:00)
 Schedule::command('model:prune')->weeklyOn(0, '03:00');
+
+// Horizon metrics snapshot every 5 minutes (powers the dashboard graphs)
+Schedule::command('horizon:snapshot')->everyFiveMinutes();
