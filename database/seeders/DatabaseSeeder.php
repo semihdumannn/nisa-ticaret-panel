@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             FuskaCategorySeeder::class,
             FuskaProductSeeder::class,
+            VanguardBrandSeeder::class,
+            VanguardCategorySeeder::class,
+            VanguardProductSeeder::class,
         ]);
     }
 }
