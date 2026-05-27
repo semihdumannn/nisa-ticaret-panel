@@ -2,18 +2,26 @@
 set -e
 
 # ─── Generate .env from injected environment variables ────────────────────────
-# HuggingFace Spaces (and Docker in general) injects secrets as env vars.
-# We write them into a .env file so Laravel picks them up before config:cache.
 echo "[entrypoint] Generating .env from environment variables..."
 
-# Build APP_URL: prefer the injected secret, fall back to the HF Space hostname,
-# then fall back to localhost. SPACE_HOST is injected automatically by HF Spaces.
+# APP_URL: secret > SPACE_HOST (auto-injected by HF Spaces) > localhost
 if [ -n "${APP_URL}" ]; then
     _APP_URL="${APP_URL}"
 elif [ -n "${SPACE_HOST}" ]; then
     _APP_URL="https://${SPACE_HOST}"
 else
     _APP_URL="http://localhost:7860"
+fi
+
+# REDIS_URL: if not explicitly set, build a rediss:// URL from individual vars.
+# Upstash requires TLS — rediss:// (note double-s) enables TLS in PhpRedis.
+if [ -n "${REDIS_URL}" ]; then
+    _REDIS_URL="${REDIS_URL}"
+elif [ -n "${REDIS_HOST}" ] && [ "${REDIS_HOST}" != "127.0.0.1" ]; then
+    _REDIS_USER="${REDIS_USERNAME:-default}"
+    _REDIS_URL="rediss://${_REDIS_USER}:${REDIS_PASSWORD}@${REDIS_HOST}:${REDIS_PORT:-6379}"
+else
+    _REDIS_URL=""
 fi
 
 cat > /var/www/html/.env << ENVEOF
@@ -41,11 +49,12 @@ QUEUE_CONNECTION=${QUEUE_CONNECTION:-redis}
 SESSION_DRIVER=${SESSION_DRIVER:-file}
 SESSION_LIFETIME=120
 
+REDIS_URL=${_REDIS_URL}
 REDIS_HOST=${REDIS_HOST:-127.0.0.1}
+REDIS_USERNAME=${REDIS_USERNAME:-default}
 REDIS_PASSWORD=${REDIS_PASSWORD}
 REDIS_PORT=${REDIS_PORT:-6379}
-REDIS_SCHEME=${REDIS_SCHEME:-tls}
-REDIS_URL=${REDIS_URL}
+REDIS_SCHEME=tls
 
 MAIL_MAILER=log
 MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-noreply@nisaticaret.com}
@@ -64,20 +73,16 @@ IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-}
 IYZICO_BASE_URL=${IYZICO_BASE_URL:-https://sandbox-api.iyzipay.com}
 ENVEOF
 
-echo "[entrypoint] APP_URL resolved to: ${_APP_URL}"
+echo "[entrypoint] APP_URL  → ${_APP_URL}"
+echo "[entrypoint] REDIS_URL → ${_REDIS_URL}"
 
 # ─── Bootstrap ────────────────────────────────────────────────────────────────
 echo "[entrypoint] Running Laravel bootstrap tasks..."
 
 php artisan storage:link --force 2>/dev/null || true
-
-# config:cache, route:cache, view:cache are optimisations — failures must not
-# crash the container (Symfony 7 strict URI validation can reject the URL in
-# certain environments). The app falls back to reading files directly.
 php artisan config:cache  2>&1 || echo "[entrypoint] WARN: config:cache failed (non-fatal)"
 php artisan route:cache   2>&1 || echo "[entrypoint] WARN: route:cache failed (non-fatal)"
 php artisan view:cache    2>&1 || echo "[entrypoint] WARN: view:cache failed (non-fatal)"
-
 php artisan migrate --force --no-interaction 2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 
 echo "[entrypoint] Bootstrap complete. Starting Supervisor..."
