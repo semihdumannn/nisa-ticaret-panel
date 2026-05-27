@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-# ─── Helper: strip CR/LF/TAB from a variable value ───────────────────────────
-strip() { printf '%s' "$1" | tr -d '\r\n\t'; }
+# ─── Helper: strip CR/LF/TAB/spaces from a variable value ────────────────────
+strip() { printf '%s' "$1" | tr -d '\r\n\t' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'; }
 
 echo "[entrypoint] Generating .env from environment variables..."
 
@@ -88,11 +88,12 @@ echo "[entrypoint] REDIS_URL → ${_REDIS_URL}"
 # ─── Bootstrap ────────────────────────────────────────────────────────────────
 echo "[entrypoint] Running Laravel bootstrap tasks..."
 
-php artisan storage:link --force 2>/dev/null || true
-php artisan config:cache  2>&1 || echo "[entrypoint] WARN: config:cache failed (non-fatal)"
-php artisan route:cache   2>&1 || echo "[entrypoint] WARN: route:cache failed (non-fatal)"
-php artisan view:cache    2>&1 || echo "[entrypoint] WARN: view:cache failed (non-fatal)"
-php artisan migrate --force --no-interaction 2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
+php artisan storage:link   --force                  2>/dev/null || true
+php artisan config:cache                            2>&1 || echo "[entrypoint] WARN: config:cache failed (non-fatal)"
+php artisan route:cache                             2>&1 || echo "[entrypoint] WARN: route:cache failed (non-fatal)"
+php artisan view:cache                              2>&1 || echo "[entrypoint] WARN: view:cache failed (non-fatal)"
+php artisan migrate --force --no-interaction        2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
+php artisan db:seed --class=RolePermissionSeeder --force 2>&1 || echo "[entrypoint] WARN: RolePermissionSeeder failed (non-fatal)"
 
 echo "[entrypoint] Bootstrap complete. Starting Supervisor..."
 exec /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
