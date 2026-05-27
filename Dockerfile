@@ -52,9 +52,12 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-EXPOSE 80
+# .env is generated at runtime by entrypoint.sh from injected environment variables.
+# Do NOT bake secrets into the image.
+
+EXPOSE 7860
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-    CMD curl -sf http://localhost/api/v1/health || exit 1
+    CMD curl -sf http://localhost:7860/api/v1/health || exit 1
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
