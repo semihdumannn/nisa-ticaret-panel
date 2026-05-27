@@ -6,12 +6,22 @@ set -e
 # We write them into a .env file so Laravel picks them up before config:cache.
 echo "[entrypoint] Generating .env from environment variables..."
 
+# Build APP_URL: prefer the injected secret, fall back to the HF Space hostname,
+# then fall back to localhost. SPACE_HOST is injected automatically by HF Spaces.
+if [ -n "${APP_URL}" ]; then
+    _APP_URL="${APP_URL}"
+elif [ -n "${SPACE_HOST}" ]; then
+    _APP_URL="https://${SPACE_HOST}"
+else
+    _APP_URL="http://localhost:7860"
+fi
+
 cat > /var/www/html/.env << ENVEOF
-APP_NAME="${APP_NAME:-Nisa Ticaret}"
+APP_NAME="Nisa Ticaret"
 APP_ENV=${APP_ENV:-production}
 APP_KEY=${APP_KEY}
 APP_DEBUG=${APP_DEBUG:-false}
-APP_URL=${APP_URL:-http://localhost:7860}
+APP_URL=${_APP_URL}
 
 LOG_CHANNEL=stderr
 LOG_LEVEL=${LOG_LEVEL:-error}
@@ -53,14 +63,21 @@ IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-}
 IYZICO_BASE_URL=${IYZICO_BASE_URL:-https://sandbox-api.iyzipay.com}
 ENVEOF
 
+echo "[entrypoint] APP_URL resolved to: ${_APP_URL}"
+
 # ─── Bootstrap ────────────────────────────────────────────────────────────────
 echo "[entrypoint] Running Laravel bootstrap tasks..."
 
 php artisan storage:link --force 2>/dev/null || true
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan migrate --force --no-interaction 2>/dev/null || true
+
+# config:cache, route:cache, view:cache are optimisations — failures must not
+# crash the container (Symfony 7 strict URI validation can reject the URL in
+# certain environments). The app falls back to reading files directly.
+php artisan config:cache  2>&1 || echo "[entrypoint] WARN: config:cache failed (non-fatal)"
+php artisan route:cache   2>&1 || echo "[entrypoint] WARN: route:cache failed (non-fatal)"
+php artisan view:cache    2>&1 || echo "[entrypoint] WARN: view:cache failed (non-fatal)"
+
+php artisan migrate --force --no-interaction 2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 
 echo "[entrypoint] Bootstrap complete. Starting Supervisor..."
 exec /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
