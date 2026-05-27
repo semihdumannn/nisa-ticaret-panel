@@ -1,7 +1,7 @@
 # ──────────────────────────────────────────────────────────────────────────────
 # Stage 1: Builder — install Composer dependencies
 # ──────────────────────────────────────────────────────────────────────────────
-FROM php:8.3-fpm AS builder
+FROM php:8.3-fpm-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl unzip libpq-dev libpng-dev libonig-dev libxml2-dev \
@@ -26,7 +26,7 @@ RUN composer run-script post-autoload-dump --no-dev --no-interaction 2>/dev/null
 # ──────────────────────────────────────────────────────────────────────────────
 # Stage 2: Production runtime
 # ──────────────────────────────────────────────────────────────────────────────
-FROM php:8.3-fpm AS production
+FROM php:8.3-fpm-bookworm AS production
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx supervisor curl \
