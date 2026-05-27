@@ -12,12 +12,12 @@ uses(RefreshDatabase::class);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function makeCustomer(): User
+function paymentCustomer(): User
 {
     return User::factory()->create(['role' => 'customer', 'is_active' => true]);
 }
 
-function makePendingOrder(User $customer): Order
+function paymentPendingOrder(User $customer): Order
 {
     return Order::factory()->create([
         'customer_id'    => $customer->id,
@@ -30,8 +30,8 @@ function makePendingOrder(User $customer): Order
 // ── initiate ──────────────────────────────────────────────────────────────────
 
 test('customer can initiate iyzico payment for their own pending order', function () {
-    $customer = makeCustomer();
-    $order    = makePendingOrder($customer);
+    $customer = paymentCustomer();
+    $order    = paymentPendingOrder($customer);
 
     $this->mock(IyzicoPaymentService::class)
         ->shouldReceive('initializeCheckout')
@@ -49,9 +49,9 @@ test('customer can initiate iyzico payment for their own pending order', functio
 });
 
 test('customer cannot pay for another customers order', function () {
-    $customer = makeCustomer();
-    $other    = makeCustomer();
-    $order    = makePendingOrder($other);
+    $customer = paymentCustomer();
+    $other    = paymentCustomer();
+    $order    = paymentPendingOrder($other);
 
     $this->actingAs($customer, 'sanctum')
         ->postJson("/api/v1/orders/{$order->id}/pay")
@@ -59,7 +59,7 @@ test('customer cannot pay for another customers order', function () {
 });
 
 test('cannot initiate payment for already paid order', function () {
-    $customer = makeCustomer();
+    $customer = paymentCustomer();
     $order    = Order::factory()->create([
         'customer_id'    => $customer->id,
         'status'         => OrderStatus::CONFIRMED->value,
@@ -73,7 +73,7 @@ test('cannot initiate payment for already paid order', function () {
 });
 
 test('cannot initiate payment for cancelled order', function () {
-    $customer = makeCustomer();
+    $customer = paymentCustomer();
     $order    = Order::factory()->create([
         'customer_id'    => $customer->id,
         'status'         => OrderStatus::CANCELLED->value,
@@ -87,8 +87,8 @@ test('cannot initiate payment for cancelled order', function () {
 });
 
 test('returns 503 when iyzico service fails', function () {
-    $customer = makeCustomer();
-    $order    = makePendingOrder($customer);
+    $customer = paymentCustomer();
+    $order    = paymentPendingOrder($customer);
 
     $this->mock(IyzicoPaymentService::class)
         ->shouldReceive('initializeCheckout')
@@ -106,8 +106,8 @@ test('returns 503 when iyzico service fails', function () {
 // ── callback ─────────────────────────────────────────────────────────────────
 
 test('callback marks order as paid and confirms it on success', function () {
-    $customer = makeCustomer();
-    $order    = makePendingOrder($customer);
+    $customer = paymentCustomer();
+    $order    = paymentPendingOrder($customer);
 
     $this->mock(IyzicoPaymentService::class)
         ->shouldReceive('retrieveCheckoutForm')
@@ -142,8 +142,8 @@ test('callback returns 422 when token is missing', function () {
 });
 
 test('callback marks order as failed when iyzico returns failure', function () {
-    $customer = makeCustomer();
-    $order    = makePendingOrder($customer);
+    $customer = paymentCustomer();
+    $order    = paymentPendingOrder($customer);
 
     $this->mock(IyzicoPaymentService::class)
         ->shouldReceive('retrieveCheckoutForm')
@@ -167,7 +167,7 @@ test('callback marks order as failed when iyzico returns failure', function () {
 });
 
 test('callback is idempotent for already paid order', function () {
-    $customer = makeCustomer();
+    $customer = paymentCustomer();
     $order    = Order::factory()->create([
         'customer_id'       => $customer->id,
         'status'            => OrderStatus::CONFIRMED->value,
