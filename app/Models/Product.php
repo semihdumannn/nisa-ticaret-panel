@@ -127,6 +127,11 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
+    public function inventories(): HasMany
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
     // ── Scopes ────────────────────────────────────────────────────────────────
 
     public function scopeActive($query)
