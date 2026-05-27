@@ -1,7 +1,7 @@
 # Single-stage build — avoids runtime library name mismatches between stages.
 # Dev packages are left in the image (adds ~80 MB) but guarantees all shared
 # libraries are present regardless of Debian point-release renaming.
-FROM php:8.3-fpm-bookworm
+FROM php:8.4-fpm-bookworm
 
 # ── System dependencies ────────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
