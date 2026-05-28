@@ -85,6 +85,16 @@ ENVEOF
 echo "[entrypoint] APP_URL   → ${_APP_URL}"
 echo "[entrypoint] REDIS_URL → ${_REDIS_URL}"
 
+# ── Override process environment with cleaned values ──────────────────────────
+# phpdotenv does NOT override existing process env vars, so if HF Spaces
+# injected APP_URL/REDIS_URL with stray whitespace, PHP would still read the
+# dirty value from the environment instead of the clean value from .env.
+# Exporting the cleaned values here ensures every child process (artisan,
+# php-fpm workers) sees the sanitised strings.
+export APP_URL="${_APP_URL}"
+export REDIS_URL="${_REDIS_URL}"
+export REDIS_HOST="${_REDIS_HOST_CLEAN}"
+
 # ─── Bootstrap ────────────────────────────────────────────────────────────────
 echo "[entrypoint] Running Laravel bootstrap tasks..."
 
