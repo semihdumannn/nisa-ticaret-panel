@@ -8,6 +8,7 @@ use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,8 +17,20 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->forceHttpsIfNeeded();
         $this->configureRateLimiters();
         $this->configureScramble();
+    }
+
+    // ── HTTPS enforcement ─────────────────────────────────────────────────────
+    // HF Spaces (and most proxies) terminate TLS externally; PHP-FPM sees
+    // plain HTTP. Force the https scheme whenever APP_URL starts with https
+    // so that asset(), url(), and route() all generate correct URLs.
+    private function forceHttpsIfNeeded(): void
+    {
+        if (str_starts_with((string) config('app.url'), 'https://')) {
+            URL::forceScheme('https');
+        }
     }
 
     // ── Rate Limiters ─────────────────────────────────────────────────────────
