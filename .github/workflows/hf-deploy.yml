@@ -21,4 +21,4 @@ jobs:
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
-          git push https://semihdumannn:${HF_TOKEN}@huggingface.co/spaces/semihdumannn/nisaticaret-api main --force
+          git push https://semihdumannn:${HF_TOKEN}@huggingface.co/spaces/semihdumannn/nisa-ticaret-panel main --force
