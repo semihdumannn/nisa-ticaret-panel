@@ -44,6 +44,9 @@ RUN cp .env.example .env \
     && APP_ENV=local DB_CONNECTION=sqlite DB_DATABASE=:memory: \
        CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync \
        php artisan filament:upgrade --no-interaction 2>/dev/null || true \
+    && APP_ENV=local DB_CONNECTION=sqlite DB_DATABASE=:memory: \
+       CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync \
+       php artisan livewire:publish --assets --force 2>/dev/null || true \
     && rm -f .env
 
 # ── Nginx / Supervisor / Entrypoint ───────────────────────────────────────────
