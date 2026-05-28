@@ -33,6 +33,19 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
 COPY . .
 RUN composer run-script post-autoload-dump --no-dev --no-interaction 2>/dev/null || true
 
+# ── Filament assets ────────────────────────────────────────────────────────────
+# filament:upgrade publishes CSS/JS to public/vendor/filament/.
+# We create a throwaway .env (sqlite, array drivers) so artisan can boot
+# without any network connections. entrypoint.sh rewrites .env at runtime.
+RUN cp .env.example .env \
+    && APP_ENV=local DB_CONNECTION=sqlite DB_DATABASE=:memory: \
+       CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync \
+       php artisan key:generate --no-interaction \
+    && APP_ENV=local DB_CONNECTION=sqlite DB_DATABASE=:memory: \
+       CACHE_STORE=array SESSION_DRIVER=array QUEUE_CONNECTION=sync \
+       php artisan filament:upgrade --no-interaction 2>/dev/null || true \
+    && rm -f .env
+
 # ── Nginx / Supervisor / Entrypoint ───────────────────────────────────────────
 COPY docker/nginx/default.conf /etc/nginx/sites-available/default
 COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
