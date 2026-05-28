@@ -105,5 +105,8 @@ php artisan view:cache                              2>&1 || echo "[entrypoint] W
 php artisan migrate --force --no-interaction        2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 php artisan db:seed --class=RolePermissionSeeder --force 2>&1 || echo "[entrypoint] WARN: RolePermissionSeeder failed (non-fatal)"
 
+echo "[entrypoint] Fixing storage permissions..."
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
 echo "[entrypoint] Bootstrap complete. Starting Supervisor..."
 exec /usr/bin/supervisord -n -c /etc/supervisor/conf.d/supervisord.conf
