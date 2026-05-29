@@ -58,6 +58,18 @@ class NotificationController extends Controller
     }
 
     /**
+     * POST /api/v1/notifications/{id}/mark-read
+     */
+    public function markSingleRead(Request $request, int $id, MarkNotificationsReadUseCase $useCase): JsonResponse
+    {
+        $useCase->execute($request->user()->id, [$id]);
+
+        $unread = $this->notificationRepo->unreadCount($request->user()->id);
+
+        return response()->json(['message' => 'Marked as read.', 'unread_count' => $unread]);
+    }
+
+    /**
      * GET /api/v1/notifications/unread-count
      */
     public function unreadCount(Request $request): JsonResponse

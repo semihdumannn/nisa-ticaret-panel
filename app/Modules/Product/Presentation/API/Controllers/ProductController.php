@@ -118,4 +118,19 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully.']);
     }
+
+    /**
+     * PATCH /api/v1/admin/products/{product}/toggle-active
+     * Admin only.
+     */
+    public function toggleActive(Product $product): JsonResponse
+    {
+        $product->update(['is_active' => ! $product->is_active]);
+
+        return response()->json([
+            'id'        => $product->id,
+            'is_active' => $product->is_active,
+            'message'   => $product->is_active ? 'Ürün aktif edildi.' : 'Ürün pasife alındı.',
+        ]);
+    }
 }

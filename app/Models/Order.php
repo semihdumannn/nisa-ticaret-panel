@@ -45,6 +45,8 @@ class Order extends Model
         'notes',
         'internal_notes',
         'assigned_to',
+        'assigned_agent_id',
+        'source',
         'scheduled_delivery_date',
         'delivered_at',
         'created_by',
@@ -93,6 +95,16 @@ class Order extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function assignedAgent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_agent_id');
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(OrderNote::class)->orderByDesc('created_at');
     }
 
     public function coupon(): BelongsTo

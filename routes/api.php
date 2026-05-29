@@ -9,6 +9,7 @@ use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
 use App\Modules\Order\Presentation\API\Controllers\DeliveryController;
+use App\Modules\Order\Presentation\API\Controllers\FieldAgentController;
 use App\Modules\Order\Presentation\API\Controllers\PaymentController;
 use App\Modules\Order\Presentation\API\Controllers\CartController;
 use App\Modules\Order\Presentation\API\Controllers\OrderController;
@@ -17,7 +18,9 @@ use App\Modules\Product\Presentation\API\Controllers\BrandController;
 use App\Modules\Product\Presentation\API\Controllers\CategoryController;
 use App\Modules\Product\Presentation\API\Controllers\ProductController;
 use App\Modules\User\Presentation\API\Controllers\AddressController;
+use App\Modules\User\Presentation\API\Controllers\AdminUserController;
 use App\Modules\User\Presentation\API\Controllers\AuthController;
+use App\Modules\User\Presentation\API\Controllers\FieldAgentCustomerController;
 use App\Modules\User\Presentation\API\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -159,6 +162,7 @@ Route::prefix('v1')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('index');
             Route::get('/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
             Route::post('/mark-read', [NotificationController::class, 'markRead'])->name('mark-read');
+            Route::post('/{id}/mark-read', [NotificationController::class, 'markSingleRead'])->name('mark-read-single');
             Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
         });
 
@@ -180,7 +184,40 @@ Route::prefix('v1')->group(function () {
         // Orders — admin management
         Route::middleware('role:admin')->prefix('admin/orders')->name('api.admin.orders.')->group(function () {
             Route::get('/', [OrderController::class, 'adminIndex'])->name('index');
+            Route::get('/{order}', [OrderController::class, 'adminShow'])->name('show');
             Route::put('/{order}/status', [OrderController::class, 'updateStatus'])->name('status');
+            Route::put('/{order}/assign-delivery', [OrderController::class, 'assignDelivery'])->name('assign-delivery');
+            Route::put('/{order}/assign-agent', [OrderController::class, 'assignAgent'])->name('assign-agent');
+            Route::post('/{order}/notes', [OrderController::class, 'addNote'])->name('notes.store');
+        });
+
+        // Admin — users
+        Route::middleware('role:admin')->prefix('admin/users')->name('api.admin.users.')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::put('/{id}/role', [AdminUserController::class, 'updateRole'])->name('role');
+            Route::post('/{id}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('toggle-block');
+            Route::get('/{id}/orders', [AdminUserController::class, 'orders'])->name('orders');
+        });
+
+        // Admin — product toggle-active
+        Route::middleware('role:admin')->prefix('admin/products')->name('api.admin.products.')->group(function () {
+            Route::patch('/{product}/toggle-active', [ProductController::class, 'toggleActive'])->name('toggle-active');
+        });
+
+        // Field Agent routes
+        Route::middleware('role:field_agent,admin')->prefix('field-agent')->name('api.field-agent.')->group(function () {
+            Route::get('/stats', [FieldAgentController::class, 'stats'])->name('stats');
+            Route::get('/today-orders', [FieldAgentController::class, 'todayOrders'])->name('today-orders');
+            Route::post('/orders', [FieldAgentController::class, 'store'])->name('orders.store');
+
+            Route::prefix('customers')->name('customers.')->group(function () {
+                Route::get('/', [FieldAgentCustomerController::class, 'index'])->name('index');
+                Route::post('/', [FieldAgentCustomerController::class, 'store'])->name('store');
+                Route::get('/{id}', [FieldAgentCustomerController::class, 'show'])->name('show');
+                Route::get('/{id}/orders', [FieldAgentCustomerController::class, 'orders'])->name('orders');
+                Route::get('/{id}/addresses', [FieldAgentCustomerController::class, 'addresses'])->name('addresses');
+                Route::post('/{id}/addresses', [FieldAgentCustomerController::class, 'addAddress'])->name('addresses.store');
+            });
         });
 
         // Delivery & Field Agent routes

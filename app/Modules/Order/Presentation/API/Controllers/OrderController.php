@@ -4,6 +4,7 @@ namespace App\Modules\Order\Presentation\API\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
 use App\Modules\Campaign\Domain\Exceptions\CouponMinPurchaseException;
 use App\Modules\Campaign\Domain\Exceptions\CouponUsageLimitException;
 use App\Modules\Campaign\Domain\Exceptions\InvalidCouponException;
@@ -115,6 +116,16 @@ class OrderController extends Controller
     }
 
     /**
+     * GET /api/v1/admin/orders/{order}
+     */
+    public function adminShow(Order $order): JsonResponse
+    {
+        $order->load(['items.product', 'address', 'customer', 'notes.author', 'assignedAgent', 'statusHistory']);
+
+        return response()->json(['data' => new OrderResource($order)]);
+    }
+
+    /**
      * PUT /api/v1/admin/orders/{order}/status
      */
     public function updateStatus(UpdateOrderStatusRequest $request, Order $order, UpdateOrderStatusUseCase $useCase): JsonResponse
@@ -133,5 +144,77 @@ class OrderController extends Controller
         }
 
         return response()->json(['data' => new OrderResource($updated)]);
+    }
+
+    /**
+     * PUT /api/v1/admin/orders/{order}/assign-delivery
+     */
+    public function assignDelivery(Request $request, Order $order): JsonResponse
+    {
+        $v = $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        $delivery = User::findOrFail($v['user_id']);
+
+        if (! in_array($delivery->role, ['delivery', 'field_agent', 'admin'])) {
+            return response()->json(['message' => 'Kullanıcı teslimat personeli değil.'], 422);
+        }
+
+        $order->update(['assigned_to' => $v['user_id']]);
+
+        return response()->json([
+            'id'          => $order->id,
+            'assigned_to' => $v['user_id'],
+            'message'     => 'Teslimat personeli atandı.',
+        ]);
+    }
+
+    /**
+     * PUT /api/v1/admin/orders/{order}/assign-agent
+     */
+    public function assignAgent(Request $request, Order $order): JsonResponse
+    {
+        $v = $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        $agent = User::findOrFail($v['user_id']);
+
+        if (! in_array($agent->role, ['field_agent', 'admin'])) {
+            return response()->json(['message' => 'Kullanıcı saha personeli değil.'], 422);
+        }
+
+        $order->update(['assigned_agent_id' => $v['user_id']]);
+
+        return response()->json([
+            'id'                => $order->id,
+            'assigned_agent_id' => $v['user_id'],
+            'message'           => 'Saha personeli atandı.',
+        ]);
+    }
+
+    /**
+     * POST /api/v1/admin/orders/{order}/notes
+     */
+    public function addNote(Request $request, Order $order): JsonResponse
+    {
+        $v = $request->validate([
+            'content' => ['required', 'string', 'max:2000'],
+        ]);
+
+        $note = $order->notes()->create([
+            'content'    => $v['content'],
+            'created_by' => $request->user()->id,
+        ]);
+
+        $note->load('author');
+
+        return response()->json([
+            'id'         => $note->id,
+            'content'    => $note->content,
+            'author'     => $note->author?->name,
+            'created_at' => $note->created_at->toIso8601String(),
+        ], 201);
     }
 }
