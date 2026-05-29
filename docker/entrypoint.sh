@@ -6,6 +6,15 @@ strip() { printf '%s' "$1" | tr -d '\r\n\t' | sed 's/^[[:space:]]*//;s/[[:space:
 
 echo "[entrypoint] Generating .env from environment variables..."
 
+# ── FIREBASE CREDENTIALS ───────────────────────────────────────────────────────
+# FIREBASE_CREDENTIALS_B64: base64-encoded service account JSON (set in HF Spaces secrets)
+_FIREBASE_CREDENTIALS_PATH=""
+if [ -n "${FIREBASE_CREDENTIALS_B64}" ]; then
+    _FIREBASE_CREDENTIALS_PATH="/var/www/html/storage/app/firebase-credentials.json"
+    echo "${FIREBASE_CREDENTIALS_B64}" | base64 -d > "${_FIREBASE_CREDENTIALS_PATH}"
+    chmod 600 "${_FIREBASE_CREDENTIALS_PATH}"
+fi
+
 # ── APP_URL ────────────────────────────────────────────────────────────────────
 # SPACE_HOST (auto-injected by HF Spaces) can contain \r — strip it.
 # SetRequestForConsole passes APP_URL straight into Symfony Request::create()
@@ -80,6 +89,9 @@ HORIZON_PREFIX=nisa_ticaret_horizon:
 IYZICO_API_KEY=${IYZICO_API_KEY:-}
 IYZICO_SECRET_KEY=${IYZICO_SECRET_KEY:-}
 IYZICO_BASE_URL=${IYZICO_BASE_URL:-https://sandbox-api.iyzipay.com}
+
+FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-}
+FIREBASE_CREDENTIALS=${_FIREBASE_CREDENTIALS_PATH}
 ENVEOF
 
 echo "[entrypoint] APP_URL   → ${_APP_URL}"
@@ -105,6 +117,7 @@ php artisan view:cache                              2>&1 || echo "[entrypoint] W
 php artisan migrate --force --no-interaction        2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 php artisan db:seed --class=RolePermissionSeeder --force 2>&1 || echo "[entrypoint] WARN: RolePermissionSeeder failed (non-fatal)"
 php artisan db:seed --class=AdminUserSeeder --force 2>&1 || echo "[entrypoint] WARN: AdminUserSeeder failed (non-fatal)"
+php artisan db:seed --class=PriceStockSeeder --force 2>&1 || echo "[entrypoint] WARN: PriceStockSeeder failed (non-fatal)"
 
 echo "[entrypoint] Fixing storage permissions..."
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
