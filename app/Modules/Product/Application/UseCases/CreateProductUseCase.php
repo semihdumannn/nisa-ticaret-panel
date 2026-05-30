@@ -34,6 +34,6 @@ class CreateProductUseCase
             $product->categories()->sync($dto->categoryIds);
         }
 
-        return $product->load(['brand', 'categories', 'images', 'variants']);
+        return $product->load(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->select('product_variants.*')]);
     }
 }
