@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Modules\User\Application\DTOs\FirebaseLoginDTO;
 use App\Modules\User\Domain\Contracts\FirebaseAuthInterface;
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
+use Spatie\Permission\Models\Role;
 
 class FirebaseLoginUseCase
 {
@@ -48,8 +49,10 @@ class FirebaseLoginUseCase
                 'is_active'    => true,
             ]);
 
-            // Create empty profile
+            // Create empty profile and assign Spatie role
             $user->profile()->create([]);
+            Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
+            $user->assignRole('customer');
         } else {
             // Update firebase_uid if not set
             $updates = [];

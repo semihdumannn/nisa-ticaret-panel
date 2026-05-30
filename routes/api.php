@@ -205,7 +205,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Field Agent routes
-        Route::middleware('role:field_agent,admin')->prefix('field-agent')->name('api.field-agent.')->group(function () {
+        Route::middleware('role:field_agent|admin')->prefix('field-agent')->name('api.field-agent.')->group(function () {
             Route::get('/stats', [FieldAgentController::class, 'stats'])->name('stats');
             Route::get('/today-orders', [FieldAgentController::class, 'todayOrders'])->name('today-orders');
             Route::post('/orders', [FieldAgentController::class, 'store'])->name('orders.store');
@@ -221,7 +221,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Delivery & Field Agent routes
-        Route::middleware('role:delivery,field_agent')->prefix('delivery')->name('api.delivery.')->group(function () {
+        Route::middleware('role:delivery|field_agent')->prefix('delivery')->name('api.delivery.')->group(function () {
             Route::get('/orders', [DeliveryController::class, 'index'])->name('orders.index');
             Route::get('/orders/{order}', [DeliveryController::class, 'show'])->name('orders.show');
             Route::put('/orders/{order}/on-the-way', [DeliveryController::class, 'markOnTheWay'])->name('orders.on-the-way');
