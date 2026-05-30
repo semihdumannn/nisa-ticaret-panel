@@ -20,16 +20,17 @@ class HealthController extends Controller
             'storage'  => $this->checkStorage(),
         ];
 
-        $allHealthy = collect($checks)->every(fn ($c) => $c['status'] === 'ok');
+        $critical  = collect(['database', 'cache'])->every(fn ($k) => ($checks[$k]['status'] ?? '') === 'ok');
+        $allOk     = collect($checks)->every(fn ($c) => $c['status'] === 'ok');
 
         return response()->json([
-            'status'      => $allHealthy ? 'ok' : 'degraded',
+            'status'      => $allOk ? 'ok' : ($critical ? 'degraded' : 'error'),
             'app'         => config('app.name'),
             'version'     => app()->version(),
             'environment' => config('app.env'),
             'timestamp'   => now()->toIso8601String(),
             'checks'      => $checks,
-        ], $allHealthy ? 200 : 503);
+        ], $critical ? 200 : 503);
     }
 
     // ── Individual checks ─────────────────────────────────────────────────────
