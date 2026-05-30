@@ -25,9 +25,12 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $tree = Cache::remember('categories.tree', 86400, fn () => $this->categories->tree());
+        $data = Cache::remember('categories.tree', 86400, function () {
+            $tree = $this->categories->tree();
+            return CategoryResource::collection($tree)->resolve();
+        });
 
-        return response()->json(['data' => CategoryResource::collection($tree)]);
+        return response()->json(['data' => $data]);
     }
 
     /**
