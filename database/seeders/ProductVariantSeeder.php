@@ -11,21 +11,21 @@ class ProductVariantSeeder extends Seeder
 {
     // Slug → package_qty overrides for products without qty in the name
     private array $explicitQtys = [
-        // Fuska tekil şişeler (koli miktarları)
-        'fuska-pet-sise-0-2l'                         => 48,
-        'fuska-pet-sise-0-33l'                        => 24,
-        'fuska-pet-sise-0-5l'                         => 24,
+        // Fuska tekil şişeler — nokta slug'da silinir: 0.5L → 05l
+        'fuska-pet-sise-02l'                          => 48,
+        'fuska-pet-sise-033l'                         => 24,
+        'fuska-pet-sise-05l'                          => 24,
         'fuska-pet-sise-1l'                           => 12,
-        'fuska-pet-sise-1-5l'                         => 12,
+        'fuska-pet-sise-15l'                          => 12,
         'fuska-pet-sise-5l'                           => 4,
-        'fuska-premium-0-4l'                          => 12,
-        'fuska-premium-0-75l'                         => 12,
-        'fuska-prestige-cam-0-33l'                    => 24,
-        'fuska-prestige-cam-0-75l'                    => 12,
+        'fuska-premium-04l'                           => 12,
+        'fuska-premium-075l'                          => 12,
+        'fuska-prestige-cam-033l'                     => 24,
+        'fuska-prestige-cam-075l'                     => 12,
         'fuska-cam-damacana-15l'                      => 1,
         'fuska-damacana-19l'                          => 1,
-        'fuska-bardak-su-0-2l'                        => 100,
-        'fuska-limonata-0-25l'                        => 24,
+        'fuska-bardak-su-02l'                         => 100,
+        'fuska-limonata-025l'                         => 24,
         // Su - damacana
         'kardelen-su-19lt'                            => 1,
         // Bardak ürünler
@@ -33,9 +33,9 @@ class ProductVariantSeeder extends Seeder
         'kardan-limonata-bardak-250cc'                => 24,
         // Soda
         'kinik-sade-soda'                             => 24,
-        // Ketçap & Mayonez
+        // Ketçap & Mayonez — ç → c
         'pinar-mayonez-servis-700gr'                  => 6,
-        'pinar-ketsap-servis-800gr'                   => 6,
+        'pinar-ketcap-servis-800gr'                   => 6,
         // Büyük kaplar
         'tarihi-odunpazari-karadutlu-icecek-3lt'      => 4,
         'tarihi-odunpazari-limonata-3lt'              => 4,
