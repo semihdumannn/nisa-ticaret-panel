@@ -16,6 +16,12 @@ class ProductVariant extends Model
         'name',
         'attributes',
         'price_adjustment',
+        'sale_price',
+        'unit',
+        'min_order_qty',
+        'max_order_qty',
+        'package_qty',
+        'is_koli',
         'stock',
         'is_active',
     ];
@@ -25,6 +31,11 @@ class ProductVariant extends Model
         return [
             'attributes'       => 'array',
             'price_adjustment' => 'decimal:2',
+            'sale_price'       => 'decimal:2',
+            'min_order_qty'    => 'integer',
+            'max_order_qty'    => 'integer',
+            'package_qty'      => 'integer',
+            'is_koli'          => 'boolean',
             'stock'            => 'integer',
             'is_active'        => 'boolean',
         ];

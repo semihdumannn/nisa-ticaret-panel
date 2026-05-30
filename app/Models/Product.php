@@ -38,6 +38,7 @@ class Product extends Model
         'barcode',
         'unit',
         'price',
+        'sale_price',
         'cost_price',
         'tax_rate',
         'min_order_qty',
@@ -51,6 +52,7 @@ class Product extends Model
     {
         return [
             'price'         => 'decimal:2',
+            'sale_price'    => 'decimal:2',
             'cost_price'    => 'decimal:2',
             'tax_rate'      => 'decimal:2',
             'is_featured'   => 'boolean',

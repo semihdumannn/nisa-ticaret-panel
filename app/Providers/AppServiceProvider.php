@@ -6,7 +6,10 @@ use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Events\ConnectionEstablished;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -20,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         $this->forceHttpsIfNeeded();
         $this->configureRateLimiters();
         $this->configureScramble();
+        $this->configurePgsqlPlanCache();
     }
 
     // ── HTTPS enforcement ─────────────────────────────────────────────────────
@@ -49,6 +53,27 @@ class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('api-admin', function (Request $request) {
             return Limit::perMinute(300)->by('admin:' . ($request->user()?->id ?? $request->ip()));
+        });
+    }
+
+    // ── PostgreSQL plan cache (Neon/PgBouncer) ───────────────────────────────
+    // After schema migrations, PgBouncer backends may still have old cached
+    // plans for statements like SELECT * FROM table. Forcing generic plans
+    // prevents "cached plan must not change result type" errors.
+    private function configurePgsqlPlanCache(): void
+    {
+        if (config('database.default') !== 'pgsql') {
+            return;
+        }
+
+        Event::listen(ConnectionEstablished::class, function (ConnectionEstablished $event) {
+            if ($event->connection->getDriverName() === 'pgsql') {
+                try {
+                    $event->connection->statement('SET plan_cache_mode = force_generic_plan');
+                } catch (\Throwable) {
+                    // Non-fatal: some PostgreSQL versions may not support this setting.
+                }
+            }
         });
     }
 

@@ -41,11 +41,35 @@ class ProductController extends Controller
      * GET /api/v1/products/{product}
      * Public.
      */
-    public function show(Product $product): JsonResponse
+    public function show(int $product): JsonResponse
     {
-        $product->load(['brand', 'categories', 'images', 'variants']);
+        $model = Product::query()
+            ->select('products.*')
+            ->whereKey($product)
+            ->whereNull('products.deleted_at')
+            ->firstOrFail();
 
-        return response()->json(['product' => new ProductResource($product)]);
+        $model->load(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->where('is_active', true)->orderBy('package_qty')]);
+        $model->loadSum('inventories as total_quantity', 'quantity');
+        $model->loadSum('inventories as total_reserved', 'reserved_quantity');
+
+        return response()->json(['product' => new ProductResource($model)]);
+    }
+
+    /**
+     * GET /api/v1/products/featured
+     * Public.
+     */
+    public function featured(Request $request): AnonymousResourceCollection
+    {
+        $paginated = $this->products->paginate(
+            perPage:   (int) $request->get('per_page', 15),
+            filters:   ['is_featured' => true],
+            sort:      $request->get('sort', 'created_at'),
+            direction: $request->get('direction', 'desc'),
+        );
+
+        return ProductResource::collection($paginated);
     }
 
     /**

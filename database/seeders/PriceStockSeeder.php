@@ -206,6 +206,25 @@ class PriceStockSeeder extends Seeder
         'Poli Kekik 300gr 24lü'               => 45.00,
         'Poli Kivi 300gr'                     => 45.00,
         'Poli Portakal Aromalı Toz İçecek 300gr' => 45.00,
+
+        // ─── FUSKA SU ─────────────────────────────────────────────────────────
+        'Fuska PET Şişe 0.2L'       =>  15.00,
+        'Fuska PET Şişe 0.33L'      =>  18.00,
+        'Fuska PET Şişe 0.5L'       =>  22.00,
+        'Fuska PET Şişe 1L'         =>  30.00,
+        'Fuska PET Şişe 1.5L'       =>  38.00,
+        'Fuska PET Şişe 5L'         =>  75.00,
+        'Fuska Premium 0.4L'        =>  28.00,
+        'Fuska Premium 0.75L'       =>  42.00,
+        'Fuska Prestige Cam 0.33L'  =>  35.00,
+        'Fuska Prestige Cam 0.75L'  =>  55.00,
+        'Fuska Cam Damacana 15L'    => 350.00,
+        'Fuska Damacana 19L'        => 120.00,
+        'Fuska Bardak Su 0.2L'      =>  12.00,
+        'Fuska Limonata 0.25L'      =>  25.00,
+
+        // ─── DİĞER ────────────────────────────────────────────────────────────
+        'As01 3lt Acılı Şalgam 6lı' => 180.00,
     ];
 
     public function run(): void

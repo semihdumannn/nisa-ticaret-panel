@@ -54,6 +54,7 @@ Route::prefix('v1')->group(function () {
     // Products (public read)
     Route::prefix('products')->name('api.products.')->group(function () {
         Route::get('/search', [ProductController::class, 'search'])->name('search');
+        Route::get('/featured', [ProductController::class, 'featured'])->name('featured');
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/{product}', [ProductController::class, 'show'])->name('show');
     });

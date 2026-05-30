@@ -21,7 +21,9 @@ class CategoryResource extends JsonResource
             'is_active'      => $this->is_active,
             'sort_order'     => $this->sort_order,
             'products_count' => $this->whenCounted('products'),
-            'children'       => CategoryResource::collection($this->whenLoaded('childrenRecursive')),
+            'children'       => $this->whenLoaded('childrenRecursive',
+                fn () => CategoryResource::collection($this->childrenRecursive)->resolve()
+            ),
         ];
     }
 }

@@ -31,7 +31,9 @@ class EloquentProductRepository implements ProductRepositoryInterface
         $sort      = in_array($sort, self::ALLOWED_SORTS) ? $sort : 'created_at';
         $direction = $direction === 'asc' ? 'asc' : 'desc';
 
-        $query = Product::with(['brand', 'categories', 'images'])
+        $query = Product::with(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->where('is_active', true)->orderBy('package_qty')])
+            ->withSum('inventories as total_quantity', 'quantity')
+            ->withSum('inventories as total_reserved', 'reserved_quantity')
             ->active();
 
         // Category filter (includes descendants)
