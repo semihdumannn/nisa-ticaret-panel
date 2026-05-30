@@ -60,7 +60,7 @@ class EloquentProductRepository implements ProductRepositoryInterface
             $query->featured();
         }
 
-        return $query->orderBy($sort, $direction)->paginate($perPage);
+        return $query->orderBy('sort_order')->orderBy($sort, $direction)->paginate($perPage);
     }
 
     public function create(array $data): Product

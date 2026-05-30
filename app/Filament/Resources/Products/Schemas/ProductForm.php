@@ -82,6 +82,13 @@ class ProductForm
                             ->label('Featured Product')
                             ->onColor('warning')
                             ->helperText('Shown in featured sections on home screen.'),
+
+                        TextInput::make('sort_order')
+                            ->label('Sıralama')
+                            ->numeric()
+                            ->integer()
+                            ->default(0)
+                            ->helperText('Düşük sayı → önce gösterilir.'),
                     ]),
 
                 // ── Classification ────────────────────────────────────────────

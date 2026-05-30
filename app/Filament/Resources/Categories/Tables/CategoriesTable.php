@@ -67,6 +67,7 @@ class CategoriesTable
                     RestoreBulkAction::make(),
                 ]),
             ])
+            ->reorderable('sort_order')
             ->defaultSort('sort_order');
     }
 }

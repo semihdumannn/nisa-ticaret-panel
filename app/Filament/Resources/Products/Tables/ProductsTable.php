@@ -56,6 +56,10 @@ class ProductsTable
                     ->badge()
                     ->color('gray'),
 
+                TextColumn::make('sort_order')
+                    ->label('Sıra')
+                    ->sortable(),
+
                 IconColumn::make('is_featured')
                     ->label('Featured')
                     ->boolean()
@@ -109,6 +113,7 @@ class ProductsTable
                 ]),
             ])
             ->recordUrl(fn ($record) => \App\Filament\Resources\Products\ProductResource::getUrl('view', ['record' => $record]))
-            ->defaultSort('created_at', 'desc');
+            ->reorderable('sort_order')
+            ->defaultSort('sort_order', 'asc');
     }
 }

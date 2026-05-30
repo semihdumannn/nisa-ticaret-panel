@@ -44,6 +44,7 @@ class Product extends Model
         'max_order_qty',
         'is_featured',
         'is_active',
+        'sort_order',
         'metadata',
     ];
 
@@ -55,6 +56,7 @@ class Product extends Model
             'tax_rate'      => 'decimal:2',
             'is_featured'   => 'boolean',
             'is_active'     => 'boolean',
+            'sort_order'    => 'integer',
             'min_order_qty' => 'integer',
             'max_order_qty' => 'integer',
             'metadata'      => 'array',
