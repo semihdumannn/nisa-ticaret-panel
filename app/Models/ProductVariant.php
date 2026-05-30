@@ -16,12 +16,6 @@ class ProductVariant extends Model
         'name',
         'attributes',
         'price_adjustment',
-        'sale_price',
-        'unit',
-        'min_order_qty',
-        'max_order_qty',
-        'package_qty',
-        'is_koli',
         'stock',
         'is_active',
     ];
@@ -31,14 +25,44 @@ class ProductVariant extends Model
         return [
             'attributes'       => 'array',
             'price_adjustment' => 'decimal:2',
-            'sale_price'       => 'decimal:2',
-            'min_order_qty'    => 'integer',
-            'max_order_qty'    => 'integer',
-            'package_qty'      => 'integer',
-            'is_koli'          => 'boolean',
             'stock'            => 'integer',
             'is_active'        => 'boolean',
         ];
+    }
+
+    // ── Attribute helpers (stored in the attributes JSON column) ──────────────
+
+    public function getSalePriceAttribute(): ?float
+    {
+        $v = $this->attributes['sale_price'] ?? null;
+        return $v !== null ? (float) $v : null;
+    }
+
+    public function getPackageQtyAttribute(): int
+    {
+        return (int) ($this->attributes['package_qty'] ?? 1);
+    }
+
+    public function getIsKoliAttribute(): bool
+    {
+        return (bool) ($this->attributes['is_koli'] ?? false);
+    }
+
+    public function getUnitAttribute(): ?string
+    {
+        return $this->attributes['unit'] ?? null;
+    }
+
+    public function getMinOrderQtyAttribute(): ?int
+    {
+        $v = $this->attributes['min_order_qty'] ?? null;
+        return $v !== null ? (int) $v : null;
+    }
+
+    public function getMaxOrderQtyAttribute(): ?int
+    {
+        $v = $this->attributes['max_order_qty'] ?? null;
+        return $v !== null ? (int) $v : null;
     }
 
     public function product(): BelongsTo
