@@ -32,36 +32,41 @@ class ProductVariant extends Model
 
     // ── Attribute helpers (stored in the attributes JSON column) ──────────────
 
+    private function jsonAttrs(): array
+    {
+        return $this->getAttribute('attributes') ?? [];
+    }
+
     public function getSalePriceAttribute(): ?float
     {
-        $v = $this->attributes['sale_price'] ?? null;
+        $v = $this->jsonAttrs()['sale_price'] ?? null;
         return $v !== null ? (float) $v : null;
     }
 
     public function getPackageQtyAttribute(): int
     {
-        return (int) ($this->attributes['package_qty'] ?? 1);
+        return (int) ($this->jsonAttrs()['package_qty'] ?? 1);
     }
 
     public function getIsKoliAttribute(): bool
     {
-        return (bool) ($this->attributes['is_koli'] ?? false);
+        return (bool) ($this->jsonAttrs()['is_koli'] ?? false);
     }
 
     public function getUnitAttribute(): ?string
     {
-        return $this->attributes['unit'] ?? null;
+        return $this->jsonAttrs()['unit'] ?? null;
     }
 
     public function getMinOrderQtyAttribute(): ?int
     {
-        $v = $this->attributes['min_order_qty'] ?? null;
+        $v = $this->jsonAttrs()['min_order_qty'] ?? null;
         return $v !== null ? (int) $v : null;
     }
 
     public function getMaxOrderQtyAttribute(): ?int
     {
-        $v = $this->attributes['max_order_qty'] ?? null;
+        $v = $this->jsonAttrs()['max_order_qty'] ?? null;
         return $v !== null ? (int) $v : null;
     }
 
