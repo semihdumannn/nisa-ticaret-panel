@@ -4,7 +4,7 @@ namespace App\Modules\User\Infrastructure\External;
 
 use App\Modules\User\Domain\Contracts\FirebaseAuthInterface;
 use App\Modules\User\Domain\Exceptions\InvalidFirebaseTokenException;
-use Kreait\Firebase\Auth as FirebaseAuth;
+use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 use Kreait\Firebase\Exception\Auth\FailedToVerifyToken;
 use Throwable;
 

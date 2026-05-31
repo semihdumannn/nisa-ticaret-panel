@@ -7,7 +7,7 @@ use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
 use App\Modules\User\Infrastructure\External\FirebaseAuthService;
 use App\Modules\User\Infrastructure\Repositories\EloquentUserRepository;
 use Illuminate\Support\ServiceProvider;
-use Kreait\Firebase\Auth as FirebaseAuth;
+use Kreait\Firebase\Contract\Auth as FirebaseAuth;
 
 class UserModuleServiceProvider extends ServiceProvider
 {
