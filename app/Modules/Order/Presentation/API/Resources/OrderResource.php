@@ -36,6 +36,11 @@ class OrderResource extends JsonResource
                 'full_address' => $this->address->full_address,
                 'city'         => $this->address->city,
             ]),
+            'customer'        => $this->whenLoaded('customer', fn () => [
+                'id'    => $this->customer->id,
+                'name'  => $this->customer->name ?? '',
+                'phone' => $this->customer->phone ?? '',
+            ]),
             'items'           => OrderItemResource::collection($this->whenLoaded('items')),
             'can_cancel'      => $this->canTransitionTo(
                 \App\Modules\Order\Domain\ValueObjects\OrderStatus::CANCELLED

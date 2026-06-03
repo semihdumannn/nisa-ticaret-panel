@@ -116,6 +116,7 @@ class OrderController extends Controller
     public function adminIndex(Request $request): JsonResponse
     {
         $orders = $this->orderRepo->paginate(20, $request->only(['status', 'customer_id']));
+        $orders->load('customer');
         return response()->json(OrderResource::collection($orders)->response()->getData(true));
     }
 
