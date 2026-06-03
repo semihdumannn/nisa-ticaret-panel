@@ -39,11 +39,11 @@ class OrderNotificationListener
         $statusLabel = ucwords(str_replace('_', ' ', $event->newStatus));
 
         $body = match ($event->newStatus) {
-            'confirmed'   => "Your order {$order->order_number} has been confirmed.",
-            'preparing'   => "Your order {$order->order_number} is being prepared.",
-            'on_the_way'  => "Your order {$order->order_number} is on the way!",
-            'delivered'   => "Your order {$order->order_number} has been delivered. Enjoy!",
-            default       => "Your order {$order->order_number} status changed to {$statusLabel}.",
+            'confirmed'  => "Siparişiniz {$order->order_number} onaylandı.",
+            'preparing'  => "Siparişiniz {$order->order_number} hazırlanıyor.",
+            'on_the_way' => "Siparişiniz {$order->order_number} yola çıktı! 🚚",
+            'delivered'  => "Siparişiniz {$order->order_number} teslim edildi. 🎉",
+            default      => "Siparişiniz {$order->order_number} durumu güncellendi.",
         };
 
         $this->sendNotification->execute(new SendNotificationDTO(

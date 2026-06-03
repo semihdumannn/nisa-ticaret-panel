@@ -5,6 +5,7 @@ namespace App\Modules\Notification\Infrastructure\Listeners;
 use App\Models\User;
 use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Notification\Domain\Events\OrderStatusUpdatedEvent;
+use App\Modules\Notification\Infrastructure\Jobs\SendPushNotificationJob;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -36,6 +37,15 @@ class AdminOrderNotificationListener
                     ->button(),
             ])
             ->sendToDatabase($admins);
+
+        foreach ($admins as $admin) {
+            SendPushNotificationJob::dispatch(
+                $admin->id,
+                'Yeni Sipariş 🛒',
+                "Sipariş {$order->order_number} — ₺" . number_format((float) $order->total, 2),
+                ['type' => 'new_order', 'order_id' => (string) $order->id],
+            );
+        }
     }
 
     public function handleOrderStatusUpdated(OrderStatusUpdatedEvent $event): void

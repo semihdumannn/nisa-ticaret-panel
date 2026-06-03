@@ -14,6 +14,7 @@ use App\Modules\Product\Presentation\API\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -25,14 +26,15 @@ class ProductController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $filters = $request->only(['category_id', 'brand_id', 'min_price', 'max_price', 'is_featured']);
+        $filters  = $request->only(['category_id', 'brand_id', 'min_price', 'max_price', 'is_featured']);
+        $cacheKey = 'products:page:' . md5(json_encode($request->query()));
 
-        $paginated = $this->products->paginate(
+        $paginated = Cache::remember($cacheKey, 21600, fn () => $this->products->paginate(
             perPage:   (int) $request->get('per_page', 15),
             filters:   $filters,
             sort:      $request->get('sort', 'created_at'),
             direction: $request->get('direction', 'desc'),
-        );
+        ));
 
         return ProductResource::collection($paginated);
     }
@@ -43,15 +45,19 @@ class ProductController extends Controller
      */
     public function show(int $product): JsonResponse
     {
-        $model = Product::query()
-            ->select('products.*')
-            ->whereKey($product)
-            ->whereNull('products.deleted_at')
-            ->firstOrFail();
+        $model = Cache::remember("product:{$product}", 21600, function () use ($product) {
+            $model = Product::query()
+                ->select('products.*')
+                ->whereKey($product)
+                ->whereNull('products.deleted_at')
+                ->firstOrFail();
 
-        $model->load(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->select('product_variants.*')->where('is_active', true)->orderByRaw("CAST(COALESCE(attributes->>'package_qty', '1') AS INTEGER)")]);
-        $model->loadSum('inventories as total_quantity', 'quantity');
-        $model->loadSum('inventories as total_reserved', 'reserved_quantity');
+            $model->load(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->select('product_variants.*')->where('is_active', true)->orderByRaw("CAST(COALESCE(attributes->>'package_qty', '1') AS INTEGER)")]);
+            $model->loadSum('inventories as total_quantity', 'quantity');
+            $model->loadSum('inventories as total_reserved', 'reserved_quantity');
+
+            return $model;
+        });
 
         return response()->json(['product' => new ProductResource($model)]);
     }
@@ -62,12 +68,14 @@ class ProductController extends Controller
      */
     public function featured(Request $request): AnonymousResourceCollection
     {
-        $paginated = $this->products->paginate(
+        $cacheKey = 'products:featured:' . md5(json_encode($request->query()));
+
+        $paginated = Cache::remember($cacheKey, 21600, fn () => $this->products->paginate(
             perPage:   (int) $request->get('per_page', 15),
             filters:   ['is_featured' => true],
             sort:      $request->get('sort', 'created_at'),
             direction: $request->get('direction', 'desc'),
-        );
+        ));
 
         return ProductResource::collection($paginated);
     }
@@ -126,6 +134,8 @@ class ProductController extends Controller
     {
         $product = $updateProduct->execute($product, $request->validated());
 
+        Cache::forget("product:{$product->id}");
+
         return response()->json([
             'message' => 'Product updated successfully.',
             'product' => new ProductResource($product),
@@ -138,6 +148,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): JsonResponse
     {
+        Cache::forget("product:{$product->id}");
+
         $product->delete();
 
         return response()->json(['message' => 'Product deleted successfully.']);
@@ -150,6 +162,8 @@ class ProductController extends Controller
     public function toggleActive(Product $product): JsonResponse
     {
         $product->update(['is_active' => ! $product->is_active]);
+
+        Cache::forget("product:{$product->id}");
 
         return response()->json([
             'id'        => $product->id,

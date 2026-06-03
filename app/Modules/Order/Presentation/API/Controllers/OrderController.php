@@ -5,6 +5,7 @@ namespace App\Modules\Order\Presentation\API\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
+use App\Modules\Notification\Infrastructure\Jobs\SendPushNotificationJob;
 use App\Modules\Campaign\Domain\Exceptions\CouponMinPurchaseException;
 use App\Modules\Campaign\Domain\Exceptions\CouponUsageLimitException;
 use App\Modules\Campaign\Domain\Exceptions\InvalidCouponException;
@@ -164,6 +165,13 @@ class OrderController extends Controller
 
         $order->update(['assigned_to' => $v['user_id']]);
 
+        SendPushNotificationJob::dispatch(
+            $v['user_id'],
+            'Yeni Teslimat Ataması 🚚',
+            "Sipariş {$order->order_number} size atandı.",
+            ['type' => 'order_assigned', 'order_id' => (string) $order->id],
+        );
+
         return response()->json([
             'id'          => $order->id,
             'assigned_to' => $v['user_id'],
@@ -187,6 +195,13 @@ class OrderController extends Controller
         }
 
         $order->update(['assigned_agent_id' => $v['user_id']]);
+
+        SendPushNotificationJob::dispatch(
+            $v['user_id'],
+            'Yeni Sipariş Ataması',
+            "Sipariş {$order->order_number} size atandı.",
+            ['type' => 'order_assigned', 'order_id' => (string) $order->id],
+        );
 
         return response()->json([
             'id'                => $order->id,
