@@ -4,12 +4,14 @@ namespace App\Modules\Order\Application\UseCases;
 
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Modules\Campaign\Application\DTOs\ApplyCouponDTO;
-use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Campaign\Application\UseCases\ValidateCouponUseCase;
 use App\Modules\Campaign\Domain\Contracts\CouponRepositoryInterface;
 use App\Modules\Inventory\Domain\Contracts\InventoryRepositoryInterface;
 use App\Modules\Inventory\Domain\Exceptions\InsufficientStockException;
+use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Order\Application\DTOs\CreateOrderDTO;
 use App\Modules\Order\Domain\Contracts\CartRepositoryInterface;
 use App\Modules\Order\Domain\Contracts\OrderRepositoryInterface;
@@ -27,91 +29,67 @@ class CreateOrderUseCase
         private readonly CouponRepositoryInterface    $couponRepo,
     ) {}
 
-    /**
-     * Build an order from the user's cart.
-     *
-     * Flow (atomic):
-     *   1. Load cart + items
-     *   2. Validate cart not empty
-     *   3. For each item: find best warehouse, check stock
-     *   4. Create order + order_items (price snapshots)
-     *   5. Reserve stock in best warehouse per item
-     *   6. Clear cart
-     *   7. Record initial status history
-     *
-     * @throws EmptyCartException
-     * @throws InsufficientStockException
-     */
     public function execute(CreateOrderDTO $dto): Order
     {
-        // items doğrudan geldiyse cart'ı atla
-        if (! empty($dto->items)) {
+        // ── Items kaynağını belirle ───────────────────────────────────────────
+        $cart = null;
+
+        if (!empty($dto->items)) {
+            // Doğrudan items gönderildi — cart'ı atla
             $cartItems = collect($dto->items)->map(function ($i) {
-                $product = \App\Models\Product::findOrFail($i['product_id']);
-                $variant = isset($i['variant_id']) && $i['variant_id']
-                    ? \App\Models\ProductVariant::find($i['variant_id'])
-                    : null;
-                return (object) [
+                return (object)[
                     'product_id' => $i['product_id'],
                     'variant_id' => $i['variant_id'] ?? null,
                     'quantity'   => $i['quantity'],
-                    'product'    => $product,
-                    'variant'    => $variant,
+                    'product'    => Product::findOrFail($i['product_id']),
+                    'variant'    => isset($i['variant_id']) && $i['variant_id']
+                                    ? ProductVariant::find($i['variant_id'])
+                                    : null,
                 ];
             });
-            $cart = null;
         } else {
+            // Fallback: server cart'tan al
             $cart = $this->cartRepo->getOrCreate($dto->userId);
             $cart->load('items.product', 'items.variant');
-
             if ($cart->items->isEmpty()) {
                 throw new EmptyCartException();
             }
-
             $cartItems = $cart->items;
         }
 
-        // ── Coupon validation (before transaction to surface errors early) ────
+        // ── Coupon validation ─────────────────────────────────────────────────
         $coupon         = null;
         $couponDiscount = 0.0;
 
         if ($dto->couponCode) {
-            // We need the subtotal estimate to validate min_purchase_amount.
-            // Calculate here (without tax) — will recalculate inside transaction.
             $estimatedSubtotal = $cartItems->sum(
                 fn ($i) => (float) ($i->variant?->effectivePrice() ?? $i->product->price) * $i->quantity
             );
-
             $coupon = $this->validateCoupon->execute(new ApplyCouponDTO(
-                code:      $dto->couponCode,
-                userId:    $dto->userId,
-                subtotal:  $estimatedSubtotal,
+                code:     $dto->couponCode,
+                userId:   $dto->userId,
+                subtotal: $estimatedSubtotal,
             ));
         }
 
         $loaded = DB::transaction(function () use ($dto, $cart, $cartItems, $coupon, &$couponDiscount) {
-            // ── Stock check & best-warehouse resolution ───────────────────────
-
-            $reservations = []; // [ [inventory, qty], ... ]
-
+            // ── Stok kontrol ──────────────────────────────────────────────────
+            $reservations = [];
             foreach ($cartItems as $cartItem) {
                 $best = $this->bestInventory(
                     $cartItem->product_id,
                     $cartItem->variant_id,
                     $cartItem->quantity,
                 );
-
                 $reservations[] = ['inventory' => $best, 'qty' => $cartItem->quantity];
             }
 
-            // ── Create Order ──────────────────────────────────────────────────
-
-            $subtotal = 0.0;
-            $taxTotal = 0.0;
-
+            // ── Sipariş kalemleri hazırla ─────────────────────────────────────
+            $subtotal      = 0.0;
+            $taxTotal      = 0.0;
             $orderItemData = [];
 
-            foreach ($cartItems as $i => $cartItem) {
+            foreach ($cartItems as $cartItem) {
                 $product   = $cartItem->product;
                 $unitPrice = (float) ($cartItem->variant?->effectivePrice() ?? $product->price);
                 $taxRate   = (float) ($product->tax_rate ?? 0);
@@ -137,56 +115,50 @@ class CreateOrderUseCase
             $subtotal = round($subtotal, 2);
             $taxTotal = round($taxTotal, 2);
 
-            // Apply coupon discount (after final subtotal is known)
             if ($coupon) {
                 $couponDiscount = $coupon->calculateDiscount($subtotal);
             }
 
             $total = round(max(0, $subtotal + $taxTotal - $couponDiscount), 2);
 
+            // ── Order oluştur ─────────────────────────────────────────────────
             $order = $this->orderRepo->create([
-                'order_number'   => 'TEMP',       // replaced after ID is known
-                'customer_id'    => $dto->userId,
-                'address_id'     => $dto->addressId,
-                'status'         => OrderStatus::PENDING->value,
-                'subtotal'       => $subtotal,
-                'discount_amount'=> $couponDiscount,
-                'coupon_id'      => $coupon?->id,
-                'tax_amount'     => $taxTotal,
-                'shipping_amount'=> 0,
-                'total'          => $total,
-                'payment_method' => $dto->paymentMethod,
-                'payment_status' => 'pending',
-                'notes'          => $dto->notes,
-                'created_by'     => $dto->userId,
+                'order_number'    => 'TEMP',
+                'customer_id'     => $dto->userId,
+                'address_id'      => $dto->addressId,
+                'status'          => OrderStatus::PENDING->value,
+                'subtotal'        => $subtotal,
+                'discount_amount' => $couponDiscount,
+                'coupon_id'       => $coupon?->id,
+                'tax_amount'      => $taxTotal,
+                'shipping_amount' => 0,
+                'total'           => $total,
+                'payment_method'  => $dto->paymentMethod,
+                'payment_status'  => 'pending',
+                'notes'           => $dto->notes,
+                'created_by'      => $dto->userId,
             ]);
 
             $order->update([
                 'order_number' => 'ORD-' . now()->format('Ymd') . '-' . str_pad($order->id, 5, '0', STR_PAD_LEFT),
             ]);
 
-            // Create order items
             foreach ($orderItemData as $itemData) {
                 $order->items()->create($itemData);
             }
 
-            // ── Reserve Stock ─────────────────────────────────────────────────
-
+            // ── Stok rezerve et ───────────────────────────────────────────────
             foreach ($reservations as $res) {
-                /** @var Inventory $inv */
-                $inv = $res['inventory'];
-                $inv->increment('reserved_quantity', $res['qty']);
+                $res['inventory']->increment('reserved_quantity', $res['qty']);
             }
 
-            // ── Record coupon usage ───────────────────────────────────────────
-
+            // ── Kupon kullanımı ───────────────────────────────────────────────
             if ($coupon) {
                 $this->couponRepo->recordUsage($coupon->id, $dto->userId, $order->id);
                 $this->couponRepo->incrementUsage($coupon->id);
             }
 
-            // ── Record history & clear cart ───────────────────────────────────
-
+            // ── Geçmiş & cart temizle ─────────────────────────────────────────
             $this->orderRepo->addHistory($order, OrderStatus::PENDING->value, 'Order placed.', $dto->userId);
 
             if ($cart) {
@@ -196,6 +168,7 @@ class CreateOrderUseCase
             return $order->load('items.product', 'address');
         });
 
+        // Event transaction DIŞINDA — hata siparişi iptal etmez
         try {
             event(new OrderPlacedEvent($loaded));
         } catch (\Throwable) {}
@@ -203,17 +176,12 @@ class CreateOrderUseCase
         return $loaded;
     }
 
-    /**
-     * Find the inventory row with the most available stock for this product.
-     * @throws InsufficientStockException
-     */
     private function bestInventory(int $productId, ?int $variantId, int $needed): Inventory
     {
         $baseQuery = Inventory::where('product_id', $productId)
             ->whereRaw('(quantity - reserved_quantity) >= ?', [$needed])
             ->orderByRaw('(quantity - reserved_quantity) DESC');
 
-        // Variant-specific stok → yoksa product-level stoka fall back
         $best = $variantId
             ? (clone $baseQuery)->where('variant_id', $variantId)->first()
                 ?? (clone $baseQuery)->whereNull('variant_id')->first()
