@@ -79,6 +79,8 @@ class OrderController extends Controller
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (CouponMinPurchaseException $e) {
             return response()->json(['message' => $e->getMessage(), 'min_amount' => $e->minAmount], 422);
+        } catch (\RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
         }
 
         return response()->json(['data' => new OrderResource($order)], 201);

@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'min_order_amount' => (float) env('MIN_ORDER_AMOUNT', 200.0),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

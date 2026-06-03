@@ -72,6 +72,17 @@ class CreateOrderUseCase
             ));
         }
 
+        // Minimum sipariş tutarı kontrolü
+        $estimatedSubtotal = $cartItems->sum(
+            fn ($i) => (float) ($i->variant?->effectivePrice() ?? $i->product->price) * $i->quantity
+        );
+        $minAmount = (float) config('app.min_order_amount', 200.0);
+        if ($estimatedSubtotal < $minAmount) {
+            throw new \RuntimeException(
+                "Minimum sipariş tutarı ₺{$minAmount}'dir. Sepetiniz: ₺{$estimatedSubtotal}"
+            );
+        }
+
         $loaded = DB::transaction(function () use ($dto, $cart, $cartItems, $coupon, &$couponDiscount) {
             // ── Stok kontrol ──────────────────────────────────────────────────
             $reservations = [];
