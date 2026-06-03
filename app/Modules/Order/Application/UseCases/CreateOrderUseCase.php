@@ -178,26 +178,35 @@ class CreateOrderUseCase
 
     private function bestInventory(int $productId, ?int $variantId, int $needed): Inventory
     {
-        $baseQuery = Inventory::where('product_id', $productId)
-            ->whereRaw('(quantity - reserved_quantity) >= ?', [$needed])
-            ->orderByRaw('(quantity - reserved_quantity) DESC');
+        // Tek sorguda variant-specific + product-level kayıtları al
+        $candidates = Inventory::where('product_id', $productId)
+            ->where(function ($q) use ($variantId) {
+                $q->whereNull('variant_id');
+                if ($variantId) {
+                    $q->orWhere('variant_id', $variantId);
+                }
+            })
+            ->get();
 
-        $best = $variantId
-            ? (clone $baseQuery)->where('variant_id', $variantId)->first()
-                ?? (clone $baseQuery)->whereNull('variant_id')->first()
-            : (clone $baseQuery)->whereNull('variant_id')->first();
-
+        // Variant-specific tercih et, yoksa product-level'a dön
+        $best = null;
+        if ($variantId) {
+            $best = $candidates->firstWhere('variant_id', $variantId);
+        }
         if (! $best) {
-            $available = (int) Inventory::where('product_id', $productId)
-                ->whereRaw('quantity > reserved_quantity')
-                ->sum(DB::raw('quantity - reserved_quantity'));
-
-            throw new InsufficientStockException(
-                requested: $needed,
-                available: $available,
-            );
+            $best = $candidates->firstWhere('variant_id', null);
         }
 
-        return $best;
+        // Stok kontrolü PHP'de — whereRaw yok, plan cache sorunu yok
+        if ($best && ($best->quantity - $best->reserved_quantity) >= $needed) {
+            return $best;
+        }
+
+        $available = (int) $candidates->sum(fn ($i) => max(0, $i->quantity - $i->reserved_quantity));
+
+        throw new InsufficientStockException(
+            requested: $needed,
+            available: $available,
+        );
     }
 }
