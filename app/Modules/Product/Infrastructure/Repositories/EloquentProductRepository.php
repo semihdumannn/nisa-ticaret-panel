@@ -34,7 +34,11 @@ class EloquentProductRepository implements ProductRepositoryInterface
         $query = Product::with(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->select('product_variants.*')->where('is_active', true)->orderByRaw("CAST(COALESCE(attributes->>'package_qty', '1') AS INTEGER)")])
             ->withSum('inventories as total_quantity', 'quantity')
             ->withSum('inventories as total_reserved', 'reserved_quantity')
-            ->active();
+            ->active()
+            ->where(function ($q) {
+                $q->whereHas('categories', fn ($c) => $c->where('is_active', true))
+                  ->orWhereDoesntHave('categories');
+            });
 
         // Category filter (includes descendants)
         if (! empty($filters['category_id'])) {

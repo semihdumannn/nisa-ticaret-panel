@@ -50,6 +50,10 @@ class ProductController extends Controller
                 ->select('products.*')
                 ->whereKey($product)
                 ->whereNull('products.deleted_at')
+                ->where(function ($q) {
+                    $q->whereHas('categories', fn ($c) => $c->where('is_active', true))
+                      ->orWhereDoesntHave('categories');
+                })
                 ->firstOrFail();
 
             $model->load(['brand', 'categories', 'images', 'variants' => fn ($q) => $q->select('product_variants.*')->where('is_active', true)->orderByRaw("CAST(COALESCE(attributes->>'package_qty', '1') AS INTEGER)")]);
