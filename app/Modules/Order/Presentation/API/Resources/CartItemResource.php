@@ -16,7 +16,7 @@ class CartItemResource extends JsonResource
             'product'    => [
                 'name'  => $this->product?->name,
                 'sku'   => $this->product?->sku,
-                'image' => $this->product?->images()->where('is_primary', true)->value('url'),
+                'image' => $this->product?->images()->where('is_primary', true)->value('image_url'),
             ],
             'variant'    => $this->variant ? ['name' => $this->variant->name] : null,
             'quantity'   => $this->quantity,
