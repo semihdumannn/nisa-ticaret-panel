@@ -44,11 +44,31 @@ class CreateOrderUseCase
      */
     public function execute(CreateOrderDTO $dto): Order
     {
-        $cart = $this->cartRepo->getOrCreate($dto->userId);
-        $cart->load('items.product', 'items.variant');
+        // items doğrudan geldiyse cart'ı atla
+        if (! empty($dto->items)) {
+            $cartItems = collect($dto->items)->map(function ($i) {
+                $product = \App\Models\Product::findOrFail($i['product_id']);
+                $variant = isset($i['variant_id']) && $i['variant_id']
+                    ? \App\Models\ProductVariant::find($i['variant_id'])
+                    : null;
+                return (object) [
+                    'product_id' => $i['product_id'],
+                    'variant_id' => $i['variant_id'] ?? null,
+                    'quantity'   => $i['quantity'],
+                    'product'    => $product,
+                    'variant'    => $variant,
+                ];
+            });
+            $cart = null;
+        } else {
+            $cart = $this->cartRepo->getOrCreate($dto->userId);
+            $cart->load('items.product', 'items.variant');
 
-        if ($cart->items->isEmpty()) {
-            throw new EmptyCartException();
+            if ($cart->items->isEmpty()) {
+                throw new EmptyCartException();
+            }
+
+            $cartItems = $cart->items;
         }
 
         // ── Coupon validation (before transaction to surface errors early) ────
@@ -58,7 +78,7 @@ class CreateOrderUseCase
         if ($dto->couponCode) {
             // We need the subtotal estimate to validate min_purchase_amount.
             // Calculate here (without tax) — will recalculate inside transaction.
-            $estimatedSubtotal = $cart->items->sum(
+            $estimatedSubtotal = $cartItems->sum(
                 fn ($i) => (float) ($i->variant?->effectivePrice() ?? $i->product->price) * $i->quantity
             );
 
@@ -69,12 +89,12 @@ class CreateOrderUseCase
             ));
         }
 
-        return DB::transaction(function () use ($dto, $cart, $coupon, &$couponDiscount) {
+        $loaded = DB::transaction(function () use ($dto, $cart, $cartItems, $coupon, &$couponDiscount) {
             // ── Stock check & best-warehouse resolution ───────────────────────
 
             $reservations = []; // [ [inventory, qty], ... ]
 
-            foreach ($cart->items as $cartItem) {
+            foreach ($cartItems as $cartItem) {
                 $best = $this->bestInventory(
                     $cartItem->product_id,
                     $cartItem->variant_id,
@@ -91,7 +111,7 @@ class CreateOrderUseCase
 
             $orderItemData = [];
 
-            foreach ($cart->items as $i => $cartItem) {
+            foreach ($cartItems as $i => $cartItem) {
                 $product   = $cartItem->product;
                 $unitPrice = (float) ($cartItem->variant?->effectivePrice() ?? $product->price);
                 $taxRate   = (float) ($product->tax_rate ?? 0);
@@ -168,14 +188,19 @@ class CreateOrderUseCase
             // ── Record history & clear cart ───────────────────────────────────
 
             $this->orderRepo->addHistory($order, OrderStatus::PENDING->value, 'Order placed.', $dto->userId);
-            $this->cartRepo->clear($cart);
 
-            $loaded = $order->load('items.product', 'address');
+            if ($cart) {
+                $this->cartRepo->clear($cart);
+            }
 
-            event(new OrderPlacedEvent($loaded));
-
-            return $loaded;
+            return $order->load('items.product', 'address');
         });
+
+        try {
+            event(new OrderPlacedEvent($loaded));
+        } catch (\Throwable) {}
+
+        return $loaded;
     }
 
     /**

@@ -62,6 +62,7 @@ class OrderController extends Controller
                 paymentMethod: $v['payment_method'] ?? null,
                 notes:         $v['notes'] ?? null,
                 couponCode:    $v['coupon_code'] ?? null,
+                items:         $v['items'] ?? [],
             ));
         } catch (EmptyCartException $e) {
             return response()->json(['message' => $e->getMessage()], 422);
