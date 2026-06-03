@@ -184,17 +184,20 @@ class CreateOrderUseCase
      */
     private function bestInventory(int $productId, ?int $variantId, int $needed): Inventory
     {
-        $best = Inventory::where('product_id', $productId)
-            ->where('variant_id', $variantId)
+        $baseQuery = Inventory::where('product_id', $productId)
             ->whereRaw('(quantity - reserved_quantity) >= ?', [$needed])
-            ->orderByRaw('(quantity - reserved_quantity) DESC')
-            ->first();
+            ->orderByRaw('(quantity - reserved_quantity) DESC');
+
+        // Variant-specific stok → yoksa product-level stoka fall back
+        $best = $variantId
+            ? (clone $baseQuery)->where('variant_id', $variantId)->first()
+                ?? (clone $baseQuery)->whereNull('variant_id')->first()
+            : (clone $baseQuery)->whereNull('variant_id')->first();
 
         if (! $best) {
-            // MAX(0, ...) works in both SQLite (testing) and PostgreSQL (production)
             $available = (int) Inventory::where('product_id', $productId)
-                ->where('variant_id', $variantId)
-                ->sum(DB::raw('MAX(0, quantity - reserved_quantity)'));
+                ->whereRaw('quantity > reserved_quantity')
+                ->sum(DB::raw('quantity - reserved_quantity'));
 
             throw new InsufficientStockException(
                 requested: $needed,
