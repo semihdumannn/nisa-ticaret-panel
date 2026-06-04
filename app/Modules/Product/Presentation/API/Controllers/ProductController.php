@@ -13,7 +13,6 @@ use App\Modules\Product\Presentation\API\Requests\UpdateProductRequest;
 use App\Modules\Product\Presentation\API\Resources\ProductResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
@@ -24,19 +23,22 @@ class ProductController extends Controller
      * GET /api/v1/products
      * Public. Supports: ?category_id, ?brand_id, ?min_price, ?max_price, ?is_featured, ?sort, ?direction, ?per_page
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request): JsonResponse
     {
         $filters  = $request->only(['category_id', 'brand_id', 'min_price', 'max_price', 'is_featured']);
         $cacheKey = 'products:page:' . md5(json_encode($request->query()));
 
-        $paginated = Cache::remember($cacheKey, 21600, fn () => $this->products->paginate(
-            perPage:   (int) $request->get('per_page', 15),
-            filters:   $filters,
-            sort:      $request->get('sort', 'created_at'),
-            direction: $request->get('direction', 'desc'),
-        ));
+        $data = Cache::remember($cacheKey, 21600, function () use ($request, $filters) {
+            $paginated = $this->products->paginate(
+                perPage:   (int) $request->get('per_page', 15),
+                filters:   $filters,
+                sort:      $request->get('sort', 'created_at'),
+                direction: $request->get('direction', 'desc'),
+            );
+            return ProductResource::collection($paginated)->response()->getData(true);
+        });
 
-        return ProductResource::collection($paginated);
+        return response()->json($data);
     }
 
     /**
@@ -45,7 +47,7 @@ class ProductController extends Controller
      */
     public function show(int $product): JsonResponse
     {
-        $model = Cache::remember("product:{$product}", 21600, function () use ($product) {
+        $data = Cache::remember("product:{$product}", 21600, function () use ($product) {
             $model = Product::query()
                 ->select('products.*')
                 ->whereKey($product)
@@ -60,35 +62,38 @@ class ProductController extends Controller
             $model->loadSum('inventories as total_quantity', 'quantity');
             $model->loadSum('inventories as total_reserved', 'reserved_quantity');
 
-            return $model;
+            return ['product' => (new ProductResource($model))->resolve()];
         });
 
-        return response()->json(['product' => new ProductResource($model)]);
+        return response()->json($data);
     }
 
     /**
      * GET /api/v1/products/featured
      * Public.
      */
-    public function featured(Request $request): AnonymousResourceCollection
+    public function featured(Request $request): JsonResponse
     {
         $cacheKey = 'products:featured:' . md5(json_encode($request->query()));
 
-        $paginated = Cache::remember($cacheKey, 21600, fn () => $this->products->paginate(
-            perPage:   (int) $request->get('per_page', 15),
-            filters:   ['is_featured' => true],
-            sort:      $request->get('sort', 'created_at'),
-            direction: $request->get('direction', 'desc'),
-        ));
+        $data = Cache::remember($cacheKey, 21600, function () use ($request) {
+            $paginated = $this->products->paginate(
+                perPage:   (int) $request->get('per_page', 15),
+                filters:   ['is_featured' => true],
+                sort:      $request->get('sort', 'created_at'),
+                direction: $request->get('direction', 'desc'),
+            );
+            return ProductResource::collection($paginated)->response()->getData(true);
+        });
 
-        return ProductResource::collection($paginated);
+        return response()->json($data);
     }
 
     /**
      * GET /api/v1/products/search
      * Public.
      */
-    public function search(Request $request): AnonymousResourceCollection
+    public function search(Request $request): JsonResponse
     {
         $request->validate(['q' => ['required', 'string', 'min:2', 'max:100']]);
 
@@ -96,7 +101,9 @@ class ProductController extends Controller
             ->query(fn ($q) => $q->active()->with(['brand', 'images']))
             ->paginate(15);
 
-        return ProductResource::collection($results);
+        return response()->json(
+            ProductResource::collection($results)->response()->getData(true)
+        );
     }
 
     /**
