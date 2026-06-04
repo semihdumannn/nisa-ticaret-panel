@@ -54,18 +54,15 @@ class FirebaseLoginUseCase
             Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
             $user->assignRole('customer');
         } else {
-            // Update firebase_uid if not set
-            $updates = [];
+            $updates = ['last_login_at' => now()];
             if (! $user->firebase_uid) {
                 $updates['firebase_uid'] = $uid;
             }
             if ($email && ! $user->email) {
                 $updates['email'] = $email;
             }
-            if ($updates) {
-                $this->userRepository->update($user, $updates);
-                $user->refresh();
-            }
+            $this->userRepository->update($user, $updates);
+            $user->refresh();
         }
 
         // 3. Generate Sanctum token

@@ -195,6 +195,7 @@ Route::prefix('v1')->group(function () {
         // Admin — users
         Route::middleware('role:admin')->prefix('admin/users')->name('api.admin.users.')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::put('/{id}/status', [AdminUserController::class, 'updateStatus'])->name('status');
             Route::put('/{id}/role', [AdminUserController::class, 'updateRole'])->name('role');
             Route::post('/{id}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('toggle-block');
             Route::get('/{id}/orders', [AdminUserController::class, 'orders'])->name('orders');

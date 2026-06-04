@@ -16,7 +16,8 @@ class AdminUserController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = User::withCount('orders');
+        $query = User::withCount('orders')
+            ->withSum('orders as total_spent', 'total');
 
         if ($role = $request->input('role')) {
             $query->where('role', $role);
@@ -34,14 +35,16 @@ class AdminUserController extends Controller
         $users   = $query->orderByDesc('created_at')->paginate($perPage);
 
         $data = $users->map(fn (User $u) => [
-            'id'           => $u->id,
-            'name'         => $u->name,
-            'phone'        => $u->phone,
-            'email'        => $u->email,
-            'role'         => $u->role,
-            'is_active'    => $u->is_active,
-            'total_orders' => $u->orders_count,
-            'created_at'   => $u->created_at->toIso8601String(),
+            'id'            => $u->id,
+            'name'          => $u->name,
+            'phone'         => $u->phone,
+            'email'         => $u->email,
+            'role'          => $u->role,
+            'is_active'     => $u->is_active,
+            'last_login_at' => $u->last_login_at?->toIso8601String(),
+            'total_orders'  => $u->orders_count,
+            'total_spent'   => (float) ($u->total_spent ?? 0),
+            'created_at'    => $u->created_at->toIso8601String(),
         ]);
 
         return response()->json([
@@ -52,6 +55,27 @@ class AdminUserController extends Controller
                 'per_page'     => $users->perPage(),
                 'total'        => $users->total(),
             ],
+        ]);
+    }
+
+    /**
+     * PUT /api/v1/admin/users/{id}/status
+     */
+    public function updateStatus(Request $request, int $id): JsonResponse
+    {
+        $v    = $request->validate(['is_active' => ['required', 'boolean']]);
+        $user = User::findOrFail($id);
+
+        if ($user->id === $request->user()->id) {
+            return response()->json(['message' => 'Kendi hesabınızı pasife alamazsınız.'], 403);
+        }
+
+        $user->update(['is_active' => $v['is_active']]);
+
+        return response()->json([
+            'id'        => $user->id,
+            'is_active' => $user->is_active,
+            'message'   => $user->is_active ? 'Kullanıcı aktif edildi.' : 'Kullanıcı pasife alındı.',
         ]);
     }
 
