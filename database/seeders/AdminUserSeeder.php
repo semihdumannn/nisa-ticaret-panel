@@ -10,16 +10,20 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@nisaticaret.com'],
-            [
-                'name'              => 'Admin User',
-                'phone'             => '+905000000000',
+        $phone       = env('ADMIN_PHONE', '+905000000000');
+        $firebaseUid = env('ADMIN_FIREBASE_UID') ?: null;
+
+        $admin = User::updateOrCreate(
+            ['email' => env('ADMIN_EMAIL', 'admin@nisaticaret.com')],
+            array_filter([
+                'name'              => env('ADMIN_NAME', 'Admin User'),
+                'phone'             => $phone,
                 'role'              => 'admin',
                 'is_active'         => true,
-                'password'          => Hash::make('password'),
+                'password'          => Hash::make(env('ADMIN_PASSWORD', 'password')),
                 'email_verified_at' => now(),
-            ]
+                'firebase_uid'      => $firebaseUid,
+            ], fn ($v) => $v !== null)
         );
 
         // Ensure profile exists
@@ -30,6 +34,6 @@ class AdminUserSeeder extends Seeder
             $admin->assignRole('admin');
         }
 
-        $this->command->info("✅ Admin user: {$admin->email} | Password: password");
+        $this->command->info("✅ Admin: {$admin->email} | phone: {$admin->phone}" . ($firebaseUid ? " | firebase_uid set" : ""));
     }
 }
