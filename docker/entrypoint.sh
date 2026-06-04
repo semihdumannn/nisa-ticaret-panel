@@ -117,14 +117,15 @@ php artisan view:cache                              2>&1 || echo "[entrypoint] W
 php artisan migrate --force --no-interaction        2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 php artisan db:seed --class=RolePermissionSeeder --force 2>&1 || echo "[entrypoint] WARN: RolePermissionSeeder failed (non-fatal)"
 
-# One-time cleanup: if a spurious customer account owns the admin's Firebase UID,
-# detach it so AdminUserSeeder (which no longer touches firebase_uid) runs cleanly.
-if [ -n "${ADMIN_FIREBASE_UID}" ] && [ -n "${ADMIN_EMAIL}" ]; then
-    php artisan tinker --execute="
-        App\Models\User::where('firebase_uid', '${ADMIN_FIREBASE_UID}')
-            ->where('email', '!=', '${ADMIN_EMAIL}')
-            ->update(['firebase_uid' => null]);
-    " 2>/dev/null || true
+# One-time cleanup: detach firebase_uid / phone from spurious non-admin accounts
+# so AdminUserSeeder can update the real admin without hitting unique constraints.
+if [ -n "${ADMIN_EMAIL}" ]; then
+    if [ -n "${ADMIN_FIREBASE_UID}" ]; then
+        php artisan tinker --execute="App\Models\User::where('firebase_uid','${ADMIN_FIREBASE_UID}')->where('email','!=','${ADMIN_EMAIL}')->update(['firebase_uid'=>null]);" 2>/dev/null || true
+    fi
+    if [ -n "${ADMIN_PHONE}" ]; then
+        php artisan tinker --execute="App\Models\User::where('phone','${ADMIN_PHONE}')->where('email','!=','${ADMIN_EMAIL}')->update(['phone'=>null]);" 2>/dev/null || true
+    fi
 fi
 
 php artisan db:seed --class=AdminUserSeeder --force 2>&1 || echo "[entrypoint] WARN: AdminUserSeeder failed (non-fatal)"
