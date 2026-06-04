@@ -83,7 +83,7 @@ Route::prefix('v1')->group(function () {
         // Profile
         Route::prefix('profile')->name('api.profile.')->group(function () {
             Route::get('/', [ProfileController::class, 'show'])->name('show');
-            Route::put('/', [ProfileController::class, 'update'])->name('update');
+            Route::match(['PUT', 'PATCH'], '/', [ProfileController::class, 'update'])->name('update');
             Route::post('/avatar', [ProfileController::class, 'uploadAvatar'])->name('avatar');
         });
 

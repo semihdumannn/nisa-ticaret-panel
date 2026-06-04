@@ -21,8 +21,8 @@ class UserResource extends JsonResource
                 'avatar_url'   => $this->profile?->avatar_url,
                 'company_name' => $this->profile?->company_name,
                 'tax_number'   => $this->profile?->tax_number,
-                'balance'      => $this->profile?->balance,
-                'credit_limit' => $this->profile?->credit_limit,
+                'balance'      => (float) ($this->profile?->balance ?? 0),
+                'credit_limit' => (float) ($this->profile?->credit_limit ?? 0),
             ]),
             'created_at' => $this->created_at?->toIso8601String(),
         ];
