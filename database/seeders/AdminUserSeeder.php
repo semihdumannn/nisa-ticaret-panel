@@ -12,9 +12,17 @@ class AdminUserSeeder extends Seeder
     {
         $phone       = env('ADMIN_PHONE', '+905000000000');
         $firebaseUid = env('ADMIN_FIREBASE_UID') ?: null;
+        $adminEmail  = env('ADMIN_EMAIL', 'admin@nisaticaret.com');
+
+        // If a spurious user owns this firebase_uid, detach it so the UPDATE below won't hit the unique constraint
+        if ($firebaseUid) {
+            User::where('firebase_uid', $firebaseUid)
+                ->where('email', '!=', $adminEmail)
+                ->update(['firebase_uid' => null]);
+        }
 
         $admin = User::updateOrCreate(
-            ['email' => env('ADMIN_EMAIL', 'admin@nisaticaret.com')],
+            ['email' => $adminEmail],
             array_filter([
                 'name'              => env('ADMIN_NAME', 'Admin User'),
                 'phone'             => $phone,
