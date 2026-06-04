@@ -116,6 +116,17 @@ php artisan route:cache                             2>&1 || echo "[entrypoint] W
 php artisan view:cache                              2>&1 || echo "[entrypoint] WARN: view:cache failed (non-fatal)"
 php artisan migrate --force --no-interaction        2>&1 || echo "[entrypoint] WARN: migrate failed (non-fatal)"
 php artisan db:seed --class=RolePermissionSeeder --force 2>&1 || echo "[entrypoint] WARN: RolePermissionSeeder failed (non-fatal)"
+
+# One-time cleanup: if a spurious customer account owns the admin's Firebase UID,
+# detach it so AdminUserSeeder (which no longer touches firebase_uid) runs cleanly.
+if [ -n "${ADMIN_FIREBASE_UID}" ] && [ -n "${ADMIN_EMAIL}" ]; then
+    php artisan tinker --execute="
+        App\Models\User::where('firebase_uid', '${ADMIN_FIREBASE_UID}')
+            ->where('email', '!=', '${ADMIN_EMAIL}')
+            ->update(['firebase_uid' => null]);
+    " 2>/dev/null || true
+fi
+
 php artisan db:seed --class=AdminUserSeeder --force 2>&1 || echo "[entrypoint] WARN: AdminUserSeeder failed (non-fatal)"
 php artisan db:seed --class=PriceStockSeeder --force 2>&1 || echo "[entrypoint] WARN: PriceStockSeeder failed (non-fatal)"
 

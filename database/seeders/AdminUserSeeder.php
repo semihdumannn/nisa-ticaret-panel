@@ -10,28 +10,21 @@ class AdminUserSeeder extends Seeder
 {
     public function run(): void
     {
-        $phone       = env('ADMIN_PHONE', '+905000000000');
-        $firebaseUid = env('ADMIN_FIREBASE_UID') ?: null;
-        $adminEmail  = env('ADMIN_EMAIL', 'admin@nisaticaret.com');
+        $adminEmail = env('ADMIN_EMAIL', 'admin@nisaticaret.com');
+        $phone      = env('ADMIN_PHONE', '+905000000000');
 
-        // If a spurious user owns this firebase_uid, detach it so the UPDATE below won't hit the unique constraint
-        if ($firebaseUid) {
-            User::where('firebase_uid', $firebaseUid)
-                ->where('email', '!=', $adminEmail)
-                ->update(['firebase_uid' => null]);
-        }
-
+        // Never set firebase_uid here — FirebaseLoginUseCase finds the admin by
+        // phone and sets it on first login, avoiding unique-constraint races.
         $admin = User::updateOrCreate(
             ['email' => $adminEmail],
-            array_filter([
+            [
                 'name'              => env('ADMIN_NAME', 'Admin User'),
                 'phone'             => $phone,
                 'role'              => 'admin',
                 'is_active'         => true,
                 'password'          => Hash::make(env('ADMIN_PASSWORD', 'password')),
                 'email_verified_at' => now(),
-                'firebase_uid'      => $firebaseUid,
-            ], fn ($v) => $v !== null)
+            ]
         );
 
         // Ensure profile exists
@@ -42,6 +35,6 @@ class AdminUserSeeder extends Seeder
             $admin->assignRole('admin');
         }
 
-        $this->command->info("✅ Admin: {$admin->email} | phone: {$admin->phone}" . ($firebaseUid ? " | firebase_uid set" : ""));
+        $this->command->info("✅ Admin: {$admin->email} | phone: {$admin->phone}");
     }
 }
