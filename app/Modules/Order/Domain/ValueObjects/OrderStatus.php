@@ -39,7 +39,7 @@ enum OrderStatus: string
     public function allowedTransitions(): array
     {
         return match ($this) {
-            self::PENDING    => [self::CONFIRMED,  self::CANCELLED],
+            self::PENDING    => [self::CONFIRMED, self::PREPARING, self::CANCELLED],
             self::CONFIRMED  => [self::PREPARING,  self::CANCELLED],
             self::PREPARING  => [self::ON_THE_WAY, self::CANCELLED],
             self::ON_THE_WAY => [self::DELIVERED,  self::CANCELLED],
