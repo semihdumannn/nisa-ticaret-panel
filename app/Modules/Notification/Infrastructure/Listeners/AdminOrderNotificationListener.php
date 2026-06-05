@@ -7,7 +7,7 @@ use App\Modules\Notification\Domain\Events\OrderPlacedEvent;
 use App\Modules\Notification\Domain\Events\OrderStatusUpdatedEvent;
 use App\Modules\Notification\Infrastructure\Jobs\SendPushNotificationJob;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
-use Filament\Actions\Action;
+use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 
 /**
@@ -33,7 +33,7 @@ class AdminOrderNotificationListener
             ->actions([
                 Action::make('view')
                     ->label('Siparişi Görüntüle')
-                    ->url(\App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id]))
+                    ->url(url("/admin/orders/{$order->id}"))
                     ->button(),
             ])
             ->sendToDatabase($admins);
