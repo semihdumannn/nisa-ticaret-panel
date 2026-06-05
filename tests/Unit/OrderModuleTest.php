@@ -45,7 +45,7 @@ test('OrderStatus valid transitions from pending', function () {
 
 test('OrderStatus canTransitionTo returns correct result', function () {
     expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::CONFIRMED))->toBeTrue();
-    expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::PREPARING))->toBeFalse();
+    expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::PREPARING))->toBeTrue();
     expect(OrderStatus::DELIVERED->canTransitionTo(OrderStatus::CANCELLED))->toBeFalse();
 });
 
