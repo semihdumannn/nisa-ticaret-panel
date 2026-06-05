@@ -26,7 +26,7 @@ class UpdateOrderStatusUseCase
 
         $previousStatus = $order->status;
 
-        return DB::transaction(function () use ($order, $newStatus, $note, $userId, $previousStatus) {
+        $updated = DB::transaction(function () use ($order, $newStatus, $note, $userId) {
             $updates = ['status' => $newStatus->value];
 
             if ($newStatus === OrderStatus::DELIVERED) {
@@ -36,9 +36,14 @@ class UpdateOrderStatusUseCase
             $updated = $this->orderRepo->update($order, $updates);
             $this->orderRepo->addHistory($updated, $newStatus->value, $note, $userId);
 
-            event(new OrderStatusUpdatedEvent($updated, $previousStatus, $newStatus->value));
-
             return $updated;
         });
+
+        // Event transaction dışında — Redis/queue hatası durum güncellemesini geri almaz
+        try {
+            event(new OrderStatusUpdatedEvent($updated, $previousStatus, $newStatus->value));
+        } catch (\Throwable) {}
+
+        return $updated;
     }
 }
