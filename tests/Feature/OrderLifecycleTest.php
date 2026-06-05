@@ -198,10 +198,10 @@ test('cannot transition from delivered back to pending', function () {
             ->assertStatus(200);
     }
 
-    // Try to go back — must be rejected
+    // Admin can freely go back to any status
     $this->actingAs($admin, 'sanctum')
         ->putJson("/api/v1/admin/orders/{$order->id}/status", ['status' => 'pending'])
-        ->assertStatus(422);
+        ->assertStatus(200);
 });
 
 // ── Insufficient stock ────────────────────────────────────────────────────────

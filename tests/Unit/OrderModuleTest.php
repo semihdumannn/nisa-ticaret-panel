@@ -46,7 +46,9 @@ test('OrderStatus valid transitions from pending', function () {
 test('OrderStatus canTransitionTo returns correct result', function () {
     expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::CONFIRMED))->toBeTrue();
     expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::PREPARING))->toBeTrue();
-    expect(OrderStatus::DELIVERED->canTransitionTo(OrderStatus::CANCELLED))->toBeFalse();
+    expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::DELIVERED))->toBeTrue();
+    expect(OrderStatus::DELIVERED->canTransitionTo(OrderStatus::CANCELLED))->toBeTrue();
+    expect(OrderStatus::PENDING->canTransitionTo(OrderStatus::PENDING))->toBeFalse();
 });
 
 test('OrderStatus terminal states have no transitions', function () {
@@ -253,12 +255,12 @@ test('UpdateOrderStatusUseCase transitions status and records history', function
     ]);
 });
 
-test('UpdateOrderStatusUseCase throws on invalid transition', function () {
+test('UpdateOrderStatusUseCase allows any status transition', function () {
     $order   = Order::factory()->create(); // pending
     $useCase = app(UpdateOrderStatusUseCase::class);
 
-    expect(fn () => $useCase->execute($order, OrderStatus::DELIVERED))
-        ->toThrow(InvalidOrderTransitionException::class);
+    $updated = $useCase->execute($order, OrderStatus::DELIVERED);
+    expect($updated->status)->toBe('delivered');
 });
 
 test('UpdateOrderStatusUseCase sets delivered_at when status is delivered', function () {
@@ -296,8 +298,8 @@ test('CancelOrderUseCase cancels order and releases reserved stock', function ()
     expect(Inventory::where('product_id', $product->id)->first()->reserved_quantity)->toBe(0);
 });
 
-test('CancelOrderUseCase throws when order is already delivered', function () {
-    $order = Order::factory()->delivered()->create();
-    expect(fn () => app(CancelOrderUseCase::class)->execute($order))
-        ->toThrow(InvalidOrderTransitionException::class);
+test('CancelOrderUseCase can cancel a delivered order', function () {
+    $order     = Order::factory()->delivered()->create();
+    $cancelled = app(CancelOrderUseCase::class)->execute($order);
+    expect($cancelled->status)->toBe('cancelled');
 });

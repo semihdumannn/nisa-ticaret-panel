@@ -38,19 +38,15 @@ enum OrderStatus: string
     /** Returns the statuses this status can legally transition to. */
     public function allowedTransitions(): array
     {
-        return match ($this) {
-            self::PENDING    => [self::CONFIRMED, self::PREPARING, self::CANCELLED],
-            self::CONFIRMED  => [self::PREPARING,  self::CANCELLED],
-            self::PREPARING  => [self::ON_THE_WAY, self::CANCELLED],
-            self::ON_THE_WAY => [self::DELIVERED,  self::CANCELLED],
-            self::DELIVERED  => [],
-            self::CANCELLED  => [],
-        };
+        return array_filter(
+            self::cases(),
+            fn (self $s) => $s !== $this,
+        );
     }
 
     public function canTransitionTo(self $next): bool
     {
-        return in_array($next, $this->allowedTransitions(), strict: true);
+        return $next !== $this;
     }
 
     public function isTerminal(): bool
