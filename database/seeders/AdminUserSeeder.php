@@ -15,17 +15,28 @@ class AdminUserSeeder extends Seeder
 
         // Never set firebase_uid here — FirebaseLoginUseCase finds the admin by
         // phone and sets it on first login, avoiding unique-constraint races.
-        $admin = User::updateOrCreate(
-            ['email' => $adminEmail],
-            [
+        // Password is only set on creation; existing password is preserved across restarts.
+        $existing = User::where('email', $adminEmail)->first();
+        if ($existing) {
+            $existing->fill([
+                'name'              => env('ADMIN_NAME', 'Admin User'),
+                'phone'             => $phone,
+                'role'              => 'admin',
+                'is_active'         => true,
+                'email_verified_at' => now(),
+            ])->save();
+            $admin = $existing;
+        } else {
+            $admin = User::create([
+                'email'             => $adminEmail,
                 'name'              => env('ADMIN_NAME', 'Admin User'),
                 'phone'             => $phone,
                 'role'              => 'admin',
                 'is_active'         => true,
                 'password'          => Hash::make(env('ADMIN_PASSWORD', 'password')),
                 'email_verified_at' => now(),
-            ]
-        );
+            ]);
+        }
 
         // Ensure profile exists
         $admin->profile()->firstOrCreate(['user_id' => $admin->id]);
