@@ -26,13 +26,13 @@ class AdminOrderNotificationListener
         }
 
         Notification::make()
-            ->title('New Order Received')
-            ->body("Order {$order->order_number} — ₺" . number_format((float) $order->total, 2) . ' from ' . ($order->customer?->name ?? 'Unknown'))
+            ->title('Yeni Sipariş Alındı 🛒')
+            ->body("Sipariş {$order->order_number} — ₺" . number_format((float) $order->total, 2) . ' · ' . ($order->customer?->name ?? 'Misafir'))
             ->icon('heroicon-o-shopping-cart')
             ->iconColor('primary')
             ->actions([
                 Action::make('view')
-                    ->label('View Order')
+                    ->label('Siparişi Görüntüle')
                     ->url(\App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id]))
                     ->button(),
             ])
@@ -67,8 +67,8 @@ class AdminOrderNotificationListener
         $isDelivered = $status === OrderStatus::DELIVERED;
 
         Notification::make()
-            ->title($isDelivered ? 'Order Delivered' : 'Order Cancelled')
-            ->body("Order {$order->order_number} has been {$status->label()}.")
+            ->title($isDelivered ? 'Sipariş Teslim Edildi ✅' : 'Sipariş İptal Edildi ❌')
+            ->body("Sipariş {$order->order_number} " . ($isDelivered ? 'teslim edildi.' : 'iptal edildi.'))
             ->icon($isDelivered ? 'heroicon-o-check-badge' : 'heroicon-o-x-circle')
             ->iconColor($isDelivered ? 'success' : 'danger')
             ->sendToDatabase($admins);

@@ -35,6 +35,11 @@ return [
         ],
     ],
 
+    // ── Firebase Cloud Messaging ──────────────────────────────────────────────
+    'fcm' => [
+        'sender_id' => env('FCM_SENDER_ID'),
+    ],
+
     // ── iyzico Payment Gateway ────────────────────────────────────────────────
     'iyzico' => [
         'api_key'    => env('IYZICO_API_KEY', 'sandbox-api-key'),

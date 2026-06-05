@@ -25,8 +25,12 @@ class NotificationModuleServiceProvider extends ServiceProvider
         $this->app->bind(FcmTokenRepositoryInterface::class, EloquentFcmTokenRepository::class);
 
         // Use NullPushSender when Firebase credentials file is not present (tests / local dev).
+        // Handle both absolute paths (set by Docker entrypoint) and relative paths.
         $credentialsPath = config('firebase.projects.' . config('firebase.default') . '.credentials', '');
-        $hasCredentials  = $credentialsPath && file_exists(base_path($credentialsPath));
+        $resolvedPath    = $credentialsPath && str_starts_with($credentialsPath, '/')
+            ? $credentialsPath
+            : ($credentialsPath ? base_path($credentialsPath) : '');
+        $hasCredentials  = $resolvedPath && file_exists($resolvedPath);
 
         if ($hasCredentials) {
             $this->app->bind(PushSenderInterface::class, FcmPushSender::class);
