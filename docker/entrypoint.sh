@@ -36,7 +36,7 @@ if [ -n "${REDIS_URL}" ]; then
     _REDIS_URL="$(strip "${REDIS_URL}")"
 elif [ "${_REDIS_HOST_CLEAN}" != "127.0.0.1" ] && [ -n "${REDIS_PASSWORD}" ]; then
     _REDIS_USER="${REDIS_USERNAME:-default}"
-    _REDIS_URL="rediss://${_REDIS_USER}:$(strip "${REDIS_PASSWORD}")@${_REDIS_HOST_CLEAN}:${REDIS_PORT:-6379}"
+    _REDIS_URL="rediss://${_REDIS_USER}:$(strip "${REDIS_PASSWORD}")@${_REDIS_HOST_CLEAN}:${REDIS_PORT:-6380}"
 else
     _REDIS_URL=""
 fi
@@ -73,7 +73,7 @@ REDIS_URL=${_REDIS_URL}
 REDIS_HOST=${_REDIS_HOST_CLEAN}
 REDIS_USERNAME=${REDIS_USERNAME:-default}
 REDIS_PASSWORD=$(strip "${REDIS_PASSWORD}")
-REDIS_PORT=${REDIS_PORT:-6379}
+REDIS_PORT=${REDIS_PORT:-6380}
 REDIS_SCHEME=tls
 
 MAIL_MAILER=log
