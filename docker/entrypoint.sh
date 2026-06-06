@@ -7,12 +7,21 @@ strip() { printf '%s' "$1" | tr -d '\r\n\t' | sed 's/^[[:space:]]*//;s/[[:space:
 echo "[entrypoint] Generating .env from environment variables..."
 
 # ── FIREBASE CREDENTIALS ───────────────────────────────────────────────────────
-# FIREBASE_CREDENTIALS_B64: base64-encoded service account JSON (set in HF Spaces secrets)
+# Priority 1: FIREBASE_CREDENTIALS_B64 — base64-encoded service account JSON
+# Priority 2: FIREBASE_CREDENTIALS_JSON — raw JSON string
 _FIREBASE_CREDENTIALS_PATH=""
 if [ -n "${FIREBASE_CREDENTIALS_B64}" ]; then
     _FIREBASE_CREDENTIALS_PATH="/var/www/html/storage/app/firebase-credentials.json"
     echo "${FIREBASE_CREDENTIALS_B64}" | base64 -d > "${_FIREBASE_CREDENTIALS_PATH}"
     chmod 600 "${_FIREBASE_CREDENTIALS_PATH}"
+    echo "[entrypoint] Firebase credentials loaded from FIREBASE_CREDENTIALS_B64"
+elif [ -n "${FIREBASE_CREDENTIALS_JSON}" ]; then
+    _FIREBASE_CREDENTIALS_PATH="/var/www/html/storage/app/firebase-credentials.json"
+    printf '%s' "${FIREBASE_CREDENTIALS_JSON}" > "${_FIREBASE_CREDENTIALS_PATH}"
+    chmod 600 "${_FIREBASE_CREDENTIALS_PATH}"
+    echo "[entrypoint] Firebase credentials loaded from FIREBASE_CREDENTIALS_JSON"
+else
+    echo "[entrypoint] WARNING: No Firebase credentials set — push notifications disabled (NullPushSender)"
 fi
 
 # ── APP_URL ────────────────────────────────────────────────────────────────────

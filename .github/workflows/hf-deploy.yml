@@ -15,6 +15,22 @@ jobs:
           fetch-depth: 0
           lfs: true
 
+      - name: Set Firebase credentials secret in HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          FIREBASE_CREDENTIALS_B64: ${{ secrets.FIREBASE_CREDENTIALS_B64 }}
+        run: |
+          if [ -n "${FIREBASE_CREDENTIALS_B64}" ]; then
+            curl -s -X POST \
+              "https://huggingface.co/api/spaces/semihdumannn/nisa-ticaret-panel/secrets" \
+              -H "Authorization: Bearer ${HF_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "{\"key\": \"FIREBASE_CREDENTIALS_B64\", \"value\": \"${FIREBASE_CREDENTIALS_B64}\"}" \
+              && echo "✅ Firebase credentials secret set in HF Space"
+          else
+            echo "⚠️  FIREBASE_CREDENTIALS_B64 GitHub secret not set — push notifications will be disabled"
+          fi
+
       - name: Push to HuggingFace Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
