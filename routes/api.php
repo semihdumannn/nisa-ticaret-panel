@@ -36,43 +36,6 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/health', [HealthController::class, 'check'])->name('api.health');
 
-    // Push sender debug (geçici — push sorunlarını teşhis için)
-    Route::get('/debug/push-sender', function () {
-        $sender = app(\App\Modules\Notification\Domain\Contracts\PushSenderInterface::class);
-        $credPath = config('firebase.projects.' . config('firebase.default') . '.credentials', '');
-        $resolved = $credPath && str_starts_with($credPath, '/') ? $credPath : ($credPath ? base_path($credPath) : '');
-        return response()->json([
-            'sender'           => class_basename($sender),
-            'credentials_path' => $credPath,
-            'resolved_path'    => $resolved,
-            'file_exists'      => $resolved ? file_exists($resolved) : false,
-            'env_b64_set'      => !empty(env('FIREBASE_CREDENTIALS_B64')),
-        ]);
-    });
-
-    Route::get('/debug/push-test', function () {
-        try {
-            $tokens = \App\Models\FcmToken::latest()->take(3)->pluck('token')->toArray();
-            if (empty($tokens)) {
-                return response()->json(['status' => 'no_tokens', 'note' => 'Veritabanında FCM token bulunamadı']);
-            }
-            $sender = app(\App\Modules\Notification\Domain\Contracts\PushSenderInterface::class);
-            $invalidTokens = $sender->send($tokens, 'Test Bildirimi', 'Nisa Ticaret push çalışıyor! 🎉', ['type' => 'test']);
-            return response()->json([
-                'status'         => 'sent',
-                'sender'         => class_basename($sender),
-                'tokens_tried'   => count($tokens),
-                'invalid_tokens' => $invalidTokens,
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'status' => 'error',
-                'error'  => $e->getMessage(),
-                'class'  => class_basename($e),
-            ], 500);
-        }
-    });
-
     // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])
