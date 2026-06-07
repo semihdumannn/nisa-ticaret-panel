@@ -52,14 +52,17 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/debug/push-test', function () {
         try {
+            $tokens = \App\Models\FcmToken::latest()->take(3)->pluck('token')->toArray();
+            if (empty($tokens)) {
+                return response()->json(['status' => 'no_tokens', 'note' => 'Veritabanında FCM token bulunamadı']);
+            }
             $sender = app(\App\Modules\Notification\Domain\Contracts\PushSenderInterface::class);
-            $dummyToken = 'dummy-invalid-token-for-fcm-auth-test';
-            $invalidTokens = $sender->send([$dummyToken], 'Test Bildirimi', 'Firebase bağlantısı çalışıyor!');
+            $invalidTokens = $sender->send($tokens, 'Test Bildirimi', 'Nisa Ticaret push çalışıyor! 🎉', ['type' => 'test']);
             return response()->json([
-                'status'         => 'fcm_reachable',
+                'status'         => 'sent',
                 'sender'         => class_basename($sender),
+                'tokens_tried'   => count($tokens),
                 'invalid_tokens' => $invalidTokens,
-                'note'           => 'Dummy token beklenen şekilde invalid döndü — FCM auth başarılı',
             ]);
         } catch (\Throwable $e) {
             return response()->json([
