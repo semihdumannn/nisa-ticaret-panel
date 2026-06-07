@@ -50,6 +50,26 @@ Route::prefix('v1')->group(function () {
         ]);
     });
 
+    Route::get('/debug/push-test', function () {
+        try {
+            $sender = app(\App\Modules\Notification\Domain\Contracts\PushSenderInterface::class);
+            $dummyToken = 'dummy-invalid-token-for-fcm-auth-test';
+            $invalidTokens = $sender->send([$dummyToken], 'Test Bildirimi', 'Firebase bağlantısı çalışıyor!');
+            return response()->json([
+                'status'         => 'fcm_reachable',
+                'sender'         => class_basename($sender),
+                'invalid_tokens' => $invalidTokens,
+                'note'           => 'Dummy token beklenen şekilde invalid döndü — FCM auth başarılı',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'error'  => $e->getMessage(),
+                'class'  => class_basename($e),
+            ], 500);
+        }
+    });
+
     // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])
