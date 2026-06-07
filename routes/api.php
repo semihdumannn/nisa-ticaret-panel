@@ -36,6 +36,20 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/health', [HealthController::class, 'check'])->name('api.health');
 
+    // Push sender debug (geçici — push sorunlarını teşhis için)
+    Route::get('/debug/push-sender', function () {
+        $sender = app(\App\Modules\Notification\Domain\Contracts\PushSenderInterface::class);
+        $credPath = config('firebase.projects.' . config('firebase.default') . '.credentials', '');
+        $resolved = $credPath && str_starts_with($credPath, '/') ? $credPath : ($credPath ? base_path($credPath) : '');
+        return response()->json([
+            'sender'           => class_basename($sender),
+            'credentials_path' => $credPath,
+            'resolved_path'    => $resolved,
+            'file_exists'      => $resolved ? file_exists($resolved) : false,
+            'env_b64_set'      => !empty(env('FIREBASE_CREDENTIALS_B64')),
+        ]);
+    });
+
     // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])
