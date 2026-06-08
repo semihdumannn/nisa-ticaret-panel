@@ -45,7 +45,8 @@ Route::prefix('v1')->group(function () {
         $results = [];
         foreach ($tokens as $fcmToken) {
             try {
-                $message = \Kreait\Firebase\Messaging\CloudMessage::withTarget('token', $fcmToken->token)
+                $message = \Kreait\Firebase\Messaging\CloudMessage::new()
+                    ->withToken($fcmToken->token)
                     ->withNotification(\Kreait\Firebase\Messaging\Notification::create('Test', 'Verbose push testi'))
                     ->withData(['type' => 'debug']);
                 $messaging->send($message);

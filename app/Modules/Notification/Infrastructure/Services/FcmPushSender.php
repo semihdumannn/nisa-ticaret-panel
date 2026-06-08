@@ -31,7 +31,8 @@ class FcmPushSender implements PushSenderInterface
 
         foreach ($tokens as $token) {
             try {
-                $message = CloudMessage::withTarget('token', $token)
+                $message = CloudMessage::new()
+                    ->withToken($token)
                     ->withNotification($notification)
                     ->withData($data);
 
