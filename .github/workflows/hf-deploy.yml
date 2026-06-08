@@ -15,15 +15,21 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - name: Set FIREBASE_CREDENTIALS path in HF Space
+      - name: Set FIREBASE_CREDENTIALS JSON in HF Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
         run: |
+          PAYLOAD=$(python3 -c "
+import json, os
+creds = os.environ['FIREBASE_CREDENTIALS_JSON']
+print(json.dumps({'key': 'FIREBASE_CREDENTIALS', 'value': creds}))
+")
           curl -s -X POST \
             "https://huggingface.co/api/spaces/semihdumannn/nisa-ticaret-panel/variables" \
             -H "Authorization: Bearer ${HF_TOKEN}" \
             -H "Content-Type: application/json" \
-            -d '{"key": "FIREBASE_CREDENTIALS", "value": "database/firebase-credentials.json"}' \
+            -d "${PAYLOAD}" \
             && echo "✅ FIREBASE_CREDENTIALS set in HF Space"
 
       - name: Push to HuggingFace Space
