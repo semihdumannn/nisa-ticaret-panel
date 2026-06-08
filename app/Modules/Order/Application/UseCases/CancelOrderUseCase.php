@@ -25,7 +25,7 @@ class CancelOrderUseCase
             throw new InvalidOrderTransitionException($order->orderStatus(), OrderStatus::CANCELLED);
         }
 
-        return DB::transaction(function () use ($order, $reason, $userId) {
+        $updated = DB::transaction(function () use ($order, $reason, $userId) {
             // Release reserved stock for each item
             $order->load('items');
 
@@ -49,9 +49,14 @@ class CancelOrderUseCase
                 $userId,
             );
 
-            event(new OrderCancelledEvent($updated, $reason));
-
             return $updated;
         });
+
+        // Event transaction DIŞINDA — hata iptali geri almaz
+        try {
+            event(new OrderCancelledEvent($updated, $reason));
+        } catch (\Throwable) {}
+
+        return $updated;
     }
 }

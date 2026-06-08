@@ -72,5 +72,14 @@ class AdminOrderNotificationListener
             ->icon($isDelivered ? 'heroicon-o-check-badge' : 'heroicon-o-x-circle')
             ->iconColor($isDelivered ? 'success' : 'danger')
             ->sendToDatabase($admins);
+
+        foreach ($admins as $admin) {
+            SendPushNotificationJob::dispatch(
+                $admin->id,
+                $isDelivered ? 'Sipariş Teslim Edildi ✅' : 'Sipariş İptal Edildi ❌',
+                "Sipariş {$order->order_number} " . ($isDelivered ? 'teslim edildi.' : 'iptal edildi.'),
+                ['type' => 'order_status_updated', 'order_id' => (string) $order->id, 'status' => $event->newStatus],
+            );
+        }
     }
 }
