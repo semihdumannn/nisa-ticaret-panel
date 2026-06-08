@@ -36,28 +36,6 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/health', [HealthController::class, 'check'])->name('api.health');
 
-    Route::get('/debug/push-verbose', function () {
-        $tokens = \App\Models\FcmToken::latest()->take(3)->get(['token', 'user_id', 'created_at']);
-        if ($tokens->isEmpty()) {
-            return response()->json(['status' => 'no_tokens']);
-        }
-        $messaging = app(\Kreait\Firebase\Contract\Messaging::class);
-        $results = [];
-        foreach ($tokens as $fcmToken) {
-            try {
-                $message = \Kreait\Firebase\Messaging\CloudMessage::new()
-                    ->withToken($fcmToken->token)
-                    ->withNotification(\Kreait\Firebase\Messaging\Notification::create('Test', 'Verbose push testi'))
-                    ->withData(['type' => 'debug']);
-                $messaging->send($message);
-                $results[] = ['user_id' => $fcmToken->user_id, 'status' => 'sent', 'token_prefix' => substr($fcmToken->token, 0, 20)];
-            } catch (\Throwable $e) {
-                $results[] = ['user_id' => $fcmToken->user_id, 'status' => 'error', 'class' => get_class($e), 'message' => $e->getMessage(), 'token_prefix' => substr($fcmToken->token, 0, 20)];
-            }
-        }
-        return response()->json(['results' => $results]);
-    });
-
     // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
         Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])

@@ -6,7 +6,10 @@ use App\Modules\Notification\Domain\Contracts\PushSenderInterface;
 use Kreait\Firebase\Contract\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\Exception\Messaging\AuthenticationError;
 use Kreait\Firebase\Exception\Messaging\InvalidMessage;
+use Kreait\Firebase\Exception\Messaging\NotFound;
+use Kreait\Firebase\Exception\MessagingException;
 use Throwable;
 
 class FcmPushSender implements PushSenderInterface
@@ -14,11 +17,8 @@ class FcmPushSender implements PushSenderInterface
     public function __construct(private readonly Messaging $messaging) {}
 
     /**
-     * Send a push notification to all provided FCM tokens.
-     * Returns tokens that FCM reports as invalid so they can be pruned.
-     *
      * @param  string[]  $tokens
-     * @return string[]  Invalid tokens
+     * @return string[]  Invalid (unregistered) tokens
      */
     public function send(array $tokens, string $title, string $body, array $data = []): array
     {
@@ -26,7 +26,7 @@ class FcmPushSender implements PushSenderInterface
             return [];
         }
 
-        $notification = Notification::create($title, $body);
+        $notification  = Notification::create($title, $body);
         $invalidTokens = [];
 
         foreach ($tokens as $token) {
@@ -37,11 +37,25 @@ class FcmPushSender implements PushSenderInterface
                     ->withData($data);
 
                 $this->messaging->send($message);
-            } catch (InvalidMessage $e) {
+            } catch (NotFound | InvalidMessage $e) {
                 $invalidTokens[] = $token;
-            } catch (Throwable) {
-                // Log but don't crash for transient errors
-                logger()->warning('FCM send failed', ['token' => substr($token, 0, 20), 'error' => class_basename(Throwable::class)]);
+            } catch (AuthenticationError $e) {
+                logger()->error('FCM authentication failed — credentials invalid or revoked', [
+                    'error' => $e->getMessage(),
+                ]);
+                throw $e;
+            } catch (MessagingException $e) {
+                logger()->warning('FCM send failed', [
+                    'token' => substr($token, 0, 20),
+                    'class' => get_class($e),
+                    'error' => $e->getMessage(),
+                ]);
+            } catch (Throwable $e) {
+                logger()->warning('FCM unexpected error', [
+                    'token' => substr($token, 0, 20),
+                    'class' => get_class($e),
+                    'error' => $e->getMessage(),
+                ]);
             }
         }
 

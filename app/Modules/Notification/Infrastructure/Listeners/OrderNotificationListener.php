@@ -23,9 +23,13 @@ class OrderNotificationListener
         $this->sendNotification->execute(new SendNotificationDTO(
             userId: $order->customer_id,
             type:   NotificationType::ORDER_UPDATE,
-            title:  'Order Placed',
-            body:   "Your order {$order->order_number} has been received and is being processed.",
-            data:   ['order_id' => $order->id, 'order_number' => $order->order_number],
+            title:  'Siparişiniz Alındı',
+            body:   "Siparişiniz {$order->order_number} alındı, işleme koyuldu.",
+            data:   [
+                'order_id'     => (string) $order->id,
+                'order_number' => (string) $order->order_number,
+                'type'         => 'order_placed',
+            ],
         ));
     }
 
@@ -36,25 +40,24 @@ class OrderNotificationListener
             return;
         }
 
-        $statusLabel = ucwords(str_replace('_', ' ', $event->newStatus));
-
-        $body = match ($event->newStatus) {
-            'confirmed'  => "Siparişiniz {$order->order_number} onaylandı.",
-            'preparing'  => "Siparişiniz {$order->order_number} hazırlanıyor.",
-            'on_the_way' => "Siparişiniz {$order->order_number} yola çıktı! 🚚",
-            'delivered'  => "Siparişiniz {$order->order_number} teslim edildi. 🎉",
-            default      => "Siparişiniz {$order->order_number} durumu güncellendi.",
+        [$title, $body] = match ($event->newStatus) {
+            'confirmed'  => ['Siparişiniz Onaylandı ✅', "Siparişiniz {$order->order_number} onaylandı."],
+            'preparing'  => ['Siparişiniz Hazırlanıyor 🛒', "Siparişiniz {$order->order_number} hazırlanıyor."],
+            'on_the_way' => ['Siparişiniz Yolda 🚚', "Siparişiniz {$order->order_number} yola çıktı!"],
+            'delivered'  => ['Siparişiniz Teslim Edildi 🎉', "Siparişiniz {$order->order_number} teslim edildi."],
+            default      => ['Sipariş Güncellendi', "Siparişiniz {$order->order_number} durumu güncellendi."],
         };
 
         $this->sendNotification->execute(new SendNotificationDTO(
             userId: $order->customer_id,
             type:   NotificationType::ORDER_UPDATE,
-            title:  "Order {$statusLabel}",
+            title:  $title,
             body:   $body,
             data:   [
-                'order_id'       => $order->id,
-                'order_number'   => $order->order_number,
-                'status'         => $event->newStatus,
+                'order_id'     => (string) $order->id,
+                'order_number' => (string) $order->order_number,
+                'status'       => $event->newStatus,
+                'type'         => 'order_status_updated',
             ],
         ));
     }
@@ -69,9 +72,13 @@ class OrderNotificationListener
         $this->sendNotification->execute(new SendNotificationDTO(
             userId: $order->customer_id,
             type:   NotificationType::ORDER_UPDATE,
-            title:  'Order Cancelled',
-            body:   "Your order {$order->order_number} has been cancelled.",
-            data:   ['order_id' => $order->id, 'order_number' => $order->order_number],
+            title:  'Siparişiniz İptal Edildi',
+            body:   "Siparişiniz {$order->order_number} iptal edildi.",
+            data:   [
+                'order_id'     => (string) $order->id,
+                'order_number' => (string) $order->order_number,
+                'type'         => 'order_cancelled',
+            ],
         ));
     }
 }
