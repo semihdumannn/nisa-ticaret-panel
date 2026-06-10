@@ -38,9 +38,14 @@ Route::prefix('v1')->group(function () {
 
     // Auth (public) — login gets its own strict throttle
     Route::prefix('auth')->name('api.auth.')->group(function () {
-        Route::post('/firebase-login', [AuthController::class, 'firebaseLogin'])
+        Route::post('/device-register', [AuthController::class, 'deviceRegister'])
             ->middleware('throttle:api-login')
-            ->name('firebase-login');
+            ->name('device-register');
+        Route::post('/totp-login', [AuthController::class, 'totpLogin'])
+            ->middleware('throttle:api-login')
+            ->name('totp-login');
+        Route::get('/server-time', [AuthController::class, 'serverTime'])
+            ->name('server-time');
     });
 
     // App Config (public — mobile app config)

@@ -31,11 +31,13 @@ class User extends Authenticatable implements FilamentUser
         'last_login_at',
         'email_verified_at',
         'password',
+        'totp_secret',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'totp_secret',
     ];
 
     protected function casts(): array
@@ -45,6 +47,7 @@ class User extends Authenticatable implements FilamentUser
             'last_login_at'     => 'datetime',
             'password'          => 'hashed',
             'is_active'         => 'boolean',
+            'totp_secret'       => 'encrypted',
         ];
     }
 

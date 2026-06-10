@@ -4,7 +4,7 @@ namespace App\Modules\User\Presentation\API\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FirebaseLoginRequest extends FormRequest
+class TotpLoginRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,8 @@ class FirebaseLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_token'    => ['required', 'string'],
+            'phone'       => ['required', 'string', 'max:20'],
+            'code'        => ['required', 'string', 'size:6'],
             'device_name' => ['nullable', 'string', 'max:100'],
         ];
     }
@@ -22,7 +23,9 @@ class FirebaseLoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id_token.required' => 'Firebase ID token is required.',
+            'phone.required' => 'Telefon numarası gereklidir.',
+            'code.required'  => 'Doğrulama kodu gereklidir.',
+            'code.size'      => 'Doğrulama kodu 6 haneli olmalıdır.',
         ];
     }
 }

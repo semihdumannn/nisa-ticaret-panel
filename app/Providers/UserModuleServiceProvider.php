@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Modules\User\Domain\Contracts\FirebaseAuthInterface;
+use App\Modules\User\Domain\Contracts\TotpServiceInterface;
 use App\Modules\User\Domain\Contracts\UserRepositoryInterface;
-use App\Modules\User\Infrastructure\External\FirebaseAuthService;
+use App\Modules\User\Infrastructure\External\Google2FaTotpService;
 use App\Modules\User\Infrastructure\Repositories\EloquentUserRepository;
 use Illuminate\Support\ServiceProvider;
-use Kreait\Firebase\Contract\Auth as FirebaseAuth;
+use PragmaRX\Google2FA\Google2FA;
 
 class UserModuleServiceProvider extends ServiceProvider
 {
@@ -16,9 +16,9 @@ class UserModuleServiceProvider extends ServiceProvider
         // Bind repository
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
 
-        // Bind Firebase auth service
-        $this->app->bind(FirebaseAuthInterface::class, function ($app) {
-            return new FirebaseAuthService($app->make(FirebaseAuth::class));
+        // Bind TOTP service
+        $this->app->bind(TotpServiceInterface::class, function ($app) {
+            return new Google2FaTotpService($app->make(Google2FA::class));
         });
     }
 

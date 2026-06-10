@@ -2,10 +2,11 @@
 
 namespace App\Modules\User\Application\DTOs;
 
-readonly class FirebaseLoginDTO
+readonly class DeviceRegisterDTO
 {
     public function __construct(
-        public string $idToken,
+        public string $phone,
+        public ?string $name = null,
         public ?string $deviceName = null,
     ) {}
 }
