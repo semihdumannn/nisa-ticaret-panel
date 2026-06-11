@@ -1,29 +1,16 @@
 <?php
 
 use App\Models\User;
-use App\Modules\User\Domain\Contracts\FirebaseAuthInterface;
-use App\Modules\User\Domain\Exceptions\InvalidFirebaseTokenException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PragmaRX\Google2FA\Google2FA;
 
 uses(RefreshDatabase::class);
 
-// ── Firebase Login ────────────────────────────────────────────────────────────
+// ── Device Register ─────────────────────────────────────────────────────────
 
-test('firebase login creates a new user and returns token', function () {
-    // Mock Firebase service
-    $this->mock(FirebaseAuthInterface::class)
-        ->shouldReceive('verifyIdToken')
-        ->once()
-        ->with('valid-firebase-token')
-        ->andReturn([
-            'uid'          => 'firebase-uid-abc',
-            'phone_number' => '+905551234567',
-            'email'        => 'new@example.com',
-            'name'         => 'New User',
-        ]);
-
-    $response = $this->postJson('/api/v1/auth/firebase-login', [
-        'id_token'    => 'valid-firebase-token',
+test('device register creates a new user and returns token and totp secret', function () {
+    $response = $this->postJson('/api/v1/auth/device-register', [
+        'phone'       => '+905551234567',
         'device_name' => 'test-device',
     ]);
 
@@ -33,64 +20,111 @@ test('firebase login creates a new user and returns token', function () {
             'token',
             'token_type',
             'user' => ['id', 'name', 'email', 'phone', 'role'],
+            'totp_secret',
+            'totp_period',
             'is_new_user',
         ]);
 
     expect($response->json('is_new_user'))->toBeTrue();
     expect($response->json('token_type'))->toBe('Bearer');
+    expect($response->json('totp_secret'))->not->toBeEmpty();
 
     $this->assertDatabaseHas('users', [
-        'firebase_uid' => 'firebase-uid-abc',
-        'phone'        => '+905551234567',
+        'phone' => '+905551234567',
     ]);
 });
 
-test('firebase login returns existing user on second login', function () {
+test('device register returns existing user with existing totp secret', function () {
     $existingUser = User::factory()->create([
-        'firebase_uid' => 'existing-uid',
-        'phone'        => '+905557654321',
-        'email'        => 'existing@example.com',
+        'phone'       => '+905557654321',
+        'email'       => 'existing@example.com',
+        'totp_secret' => 'EXISTINGSECRETKEY234567',
     ]);
     $existingUser->profile()->create([]);
 
-    $this->mock(FirebaseAuthInterface::class)
-        ->shouldReceive('verifyIdToken')
-        ->once()
-        ->andReturn([
-            'uid'          => 'existing-uid',
-            'phone_number' => '+905557654321',
-            'email'        => 'existing@example.com',
-            'name'         => 'Existing User',
-        ]);
-
-    $response = $this->postJson('/api/v1/auth/firebase-login', [
-        'id_token' => 'valid-token',
+    $response = $this->postJson('/api/v1/auth/device-register', [
+        'phone' => '+905557654321',
     ]);
 
     $response->assertStatus(200);
     expect($response->json('is_new_user'))->toBeFalse();
     expect($response->json('user.id'))->toBe($existingUser->id);
+    expect($response->json('totp_secret'))->toBe('EXISTINGSECRETKEY234567');
 });
 
-test('firebase login returns 401 for invalid token', function () {
-    $this->mock(FirebaseAuthInterface::class)
-        ->shouldReceive('verifyIdToken')
-        ->once()
-        ->andThrow(new InvalidFirebaseTokenException('Token expired'));
+test('device register requires phone', function () {
+    $response = $this->postJson('/api/v1/auth/device-register', []);
 
-    $response = $this->postJson('/api/v1/auth/firebase-login', [
-        'id_token' => 'invalid-token',
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['phone']);
+});
+
+// ── TOTP Login ────────────────────────────────────────────────────────────────
+
+test('totp login returns token for valid code', function () {
+    $google2fa = app(Google2FA::class);
+    $secret    = $google2fa->generateSecretKey();
+
+    $user = User::factory()->create([
+        'phone'       => '+905550009999',
+        'totp_secret' => $secret,
+    ]);
+    $user->profile()->create([]);
+
+    $code = $google2fa->getCurrentOtp($secret);
+
+    $response = $this->postJson('/api/v1/auth/totp-login', [
+        'phone' => '+905550009999',
+        'code'  => $code,
+    ]);
+
+    $response->assertStatus(200)
+        ->assertJsonStructure([
+            'token',
+            'token_type',
+            'user' => ['id', 'name', 'email', 'phone', 'role'],
+        ]);
+
+    expect($response->json('user.id'))->toBe($user->id);
+});
+
+test('totp login returns 401 for invalid code', function () {
+    $google2fa = app(Google2FA::class);
+    $secret    = $google2fa->generateSecretKey();
+
+    User::factory()->create([
+        'phone'       => '+905550008888',
+        'totp_secret' => $secret,
+    ])->profile()->create([]);
+
+    $response = $this->postJson('/api/v1/auth/totp-login', [
+        'phone' => '+905550008888',
+        'code'  => '000000',
     ]);
 
     $response->assertStatus(401)
-        ->assertJson(['error' => 'INVALID_TOKEN']);
+        ->assertJson(['error' => 'INVALID_TOTP']);
 });
 
-test('firebase login requires id_token', function () {
-    $response = $this->postJson('/api/v1/auth/firebase-login', []);
+test('totp login returns 401 for unknown phone', function () {
+    $response = $this->postJson('/api/v1/auth/totp-login', [
+        'phone' => '+905550007777',
+        'code'  => '123456',
+    ]);
 
-    $response->assertStatus(422)
-        ->assertJsonValidationErrors(['id_token']);
+    $response->assertStatus(401)
+        ->assertJson(['error' => 'INVALID_TOTP']);
+});
+
+// ── Server Time ───────────────────────────────────────────────────────────────
+
+test('server time returns current timestamp', function () {
+    $response = $this->getJson('/api/v1/auth/server-time');
+
+    $response->assertStatus(200)
+        ->assertJsonStructure(['timestamp']);
+
+    expect($response->json('timestamp'))->toBeInt();
 });
 
 // ── Logout ────────────────────────────────────────────────────────────────────

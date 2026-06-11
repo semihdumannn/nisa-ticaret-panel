@@ -93,13 +93,13 @@ test('unauthorized role returns JSON 403', function () {
 // ── Exception Handler: 422 ────────────────────────────────────────────────────
 
 test('validation failure returns JSON 422 with errors key', function () {
-    $this->postJson('/api/v1/auth/firebase-login', [])
+    $this->postJson('/api/v1/auth/device-register', [])
         ->assertStatus(422)
         ->assertJsonStructure(['message', 'errors']);
 });
 
 test('validation error response has correct message', function () {
-    $this->postJson('/api/v1/auth/firebase-login', [])
+    $this->postJson('/api/v1/auth/device-register', [])
         ->assertStatus(422)
         ->assertJsonPath('message', 'The given data was invalid.');
 });
@@ -114,11 +114,11 @@ test('login endpoint is throttled after 10 requests', function () {
 
     // Burn through the 10-request limit
     for ($i = 0; $i < 10; $i++) {
-        $this->postJson('/api/v1/auth/firebase-login', ['firebase_token' => 'bad']);
+        $this->postJson('/api/v1/auth/totp-login', ['phone' => '+905550000000', 'code' => '000000']);
     }
 
     // The 11th should be throttled
-    $this->postJson('/api/v1/auth/firebase-login', ['firebase_token' => 'bad'])
+    $this->postJson('/api/v1/auth/totp-login', ['phone' => '+905550000000', 'code' => '000000'])
         ->assertStatus(429)
         ->assertJsonStructure(['message', 'retry_after']);
 });
@@ -127,10 +127,10 @@ test('throttled response includes retry_after field', function () {
     RateLimiter::clear('login:127.0.0.1');
 
     for ($i = 0; $i < 10; $i++) {
-        $this->postJson('/api/v1/auth/firebase-login', ['firebase_token' => 'bad']);
+        $this->postJson('/api/v1/auth/totp-login', ['phone' => '+905550000000', 'code' => '000000']);
     }
 
-    $response = $this->postJson('/api/v1/auth/firebase-login', ['firebase_token' => 'bad'])
+    $response = $this->postJson('/api/v1/auth/totp-login', ['phone' => '+905550000000', 'code' => '000000'])
         ->assertStatus(429);
 
     expect($response->json('retry_after'))->toBeInt()->toBeGreaterThan(0);
