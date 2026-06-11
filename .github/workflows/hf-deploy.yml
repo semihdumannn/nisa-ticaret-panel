@@ -20,11 +20,7 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
         run: |
-          PAYLOAD=$(python3 -c "
-import json, os
-creds = os.environ['FIREBASE_CREDENTIALS_JSON']
-print(json.dumps({'key': 'FIREBASE_CREDENTIALS', 'value': creds}))
-")
+          PAYLOAD=$(jq -n --arg value "$FIREBASE_CREDENTIALS_JSON" '{key: "FIREBASE_CREDENTIALS", value: $value}')
           curl -s -X POST \
             "https://huggingface.co/api/spaces/semihdumannn/nisa-ticaret-panel/variables" \
             -H "Authorization: Bearer ${HF_TOKEN}" \
