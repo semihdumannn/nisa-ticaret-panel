@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->string('payment_token', 128)->nullable()->after('payment_reference');
-            $table->index('payment_token');
+            $table->unique('payment_token');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropIndex(['payment_token']);
+            $table->dropUnique(['payment_token']);
             $table->dropColumn('payment_token');
         });
     }

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Modules\Order\Domain\Exceptions\MinimumOrderAmountException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -87,6 +88,12 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message'     => 'Too many requests. Please slow down.',
                     'retry_after' => (int) ($e->getHeaders()['Retry-After'] ?? 60),
                 ], 429);
+            }
+        });
+
+        $exceptions->render(function (MinimumOrderAmountException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => $e->getMessage()], 422);
             }
         });
 
