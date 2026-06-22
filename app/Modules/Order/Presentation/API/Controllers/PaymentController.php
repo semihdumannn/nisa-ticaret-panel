@@ -7,14 +7,14 @@ use App\Models\Order;
 use App\Modules\Order\Application\UseCases\UpdateOrderStatusUseCase;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use App\Modules\Order\Domain\ValueObjects\PaymentStatus;
-use App\Modules\Order\Infrastructure\External\IyzicoPaymentService;
+use App\Modules\Order\Domain\Contracts\PaymentServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
     public function __construct(
-        private readonly IyzicoPaymentService $iyzico,
+        private readonly PaymentServiceInterface $iyzico,
         private readonly UpdateOrderStatusUseCase $updateStatus,
     ) {}
 

@@ -4,8 +4,6 @@ use App\Models\Order;
 use App\Models\User;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use App\Modules\Order\Domain\ValueObjects\PaymentStatus;
-use App\Modules\Order\Infrastructure\External\IyzicoPaymentService;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -33,7 +31,7 @@ test('customer can initiate iyzico payment for their own pending order', functio
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
 
-    $this->mock(IyzicoPaymentService::class)
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('initializeCheckout')
         ->once()
         ->andReturn([
@@ -90,7 +88,7 @@ test('returns 503 when iyzico service fails', function () {
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
 
-    $this->mock(IyzicoPaymentService::class)
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('initializeCheckout')
         ->once()
         ->andReturn([
@@ -109,7 +107,7 @@ test('callback marks order as paid and confirms it on success', function () {
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
 
-    $this->mock(IyzicoPaymentService::class)
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('retrieveCheckoutForm')
         ->once()
         ->with('tok_success')
@@ -145,7 +143,7 @@ test('callback marks order as failed when iyzico returns failure', function () {
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
 
-    $this->mock(IyzicoPaymentService::class)
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('retrieveCheckoutForm')
         ->once()
         ->andReturn([
@@ -175,7 +173,7 @@ test('callback is idempotent for already paid order', function () {
         'payment_reference' => 'pay_existing',
     ]);
 
-    $this->mock(IyzicoPaymentService::class)
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('retrieveCheckoutForm')
         ->once()
         ->andReturn([

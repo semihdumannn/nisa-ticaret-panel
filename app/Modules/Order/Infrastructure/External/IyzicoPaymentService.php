@@ -48,11 +48,12 @@ class IyzicoPaymentService implements PaymentServiceInterface
         // Buyer
         $buyer = new Buyer();
         $buyer->setId((string) $customer->id);
-        $buyer->setName($customer->name ?? 'Unknown');
-        $buyer->setSurname('—');
+        $nameParts = explode(' ', $customer->name ?? 'Müşteri', 2);
+        $buyer->setName($nameParts[0]);
+        $buyer->setSurname($nameParts[1] ?? $nameParts[0]);
         $buyer->setGsmNumber($customer->phone ?? '+905000000000');
         $buyer->setEmail($customer->email ?? 'noemail@nisa.com');
-        $buyer->setIdentityNumber('11111111111'); // TR national ID (sandbox)
+        $buyer->setIdentityNumber(config('services.iyzico.buyer_identity_number', '11111111111'));
         $buyer->setRegistrationAddress($order->address->full_address ?? 'N/A');
         $buyer->setCity($order->address->city ?? 'Istanbul');
         $buyer->setCountry('Turkey');
@@ -73,7 +74,7 @@ class IyzicoPaymentService implements PaymentServiceInterface
             $bi = new BasketItem();
             $bi->setId((string) $item->id);
             $bi->setName($item->product->name ?? 'Product');
-            $bi->setCategory1('Beverage');
+            $bi->setCategory1($item->product->category?->name ?? 'Genel');
             $bi->setItemType(BasketItemType::PHYSICAL);
             $bi->setPrice(number_format((float) $item->total_price, 2, '.', ''));
             $items[] = $bi;
