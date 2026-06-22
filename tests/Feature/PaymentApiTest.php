@@ -22,6 +22,7 @@ function paymentPendingOrder(User $customer): Order
         'status'         => OrderStatus::PENDING->value,
         'payment_status' => PaymentStatus::PENDING->value,
         'total'          => 250.00,
+        'payment_token'  => null, // explicit
     ]);
 }
 
@@ -106,6 +107,7 @@ test('returns 503 when iyzico service fails', function () {
 test('callback marks order as paid and confirms it on success', function () {
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
+    $order->update(['payment_token' => 'tok_success']);
 
     $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('retrieveCheckoutForm')
@@ -142,6 +144,7 @@ test('callback returns 422 when token is missing', function () {
 test('callback marks order as failed when iyzico returns failure', function () {
     $customer = paymentCustomer();
     $order    = paymentPendingOrder($customer);
+    $order->update(['payment_token' => 'tok_fail']);
 
     $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
         ->shouldReceive('retrieveCheckoutForm')
@@ -171,6 +174,7 @@ test('callback is idempotent for already paid order', function () {
         'status'            => OrderStatus::CONFIRMED->value,
         'payment_status'    => PaymentStatus::PAID->value,
         'payment_reference' => 'pay_existing',
+        'payment_token'     => 'tok_dup',
     ]);
 
     $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
@@ -190,5 +194,38 @@ test('callback is idempotent for already paid order', function () {
     $this->assertDatabaseHas('orders', [
         'id'             => $order->id,
         'payment_status' => PaymentStatus::PAID->value,
+    ]);
+});
+
+test('callback rejects token not associated with any order', function () {
+    // No order has this token stored
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
+        ->shouldNotReceive('retrieveCheckoutForm'); // iyzico should NOT be called
+
+    $this->postJson('/api/v1/payment/callback', ['token' => 'tok_unknown_xyz'])
+        ->assertNotFound()
+        ->assertJsonFragment(['message' => 'Order not found.']);
+});
+
+test('initiate stores payment token on order', function () {
+    $customer = paymentCustomer();
+    $order    = paymentPendingOrder($customer);
+
+    $this->mock(\App\Modules\Order\Domain\Contracts\PaymentServiceInterface::class)
+        ->shouldReceive('initializeCheckout')
+        ->once()
+        ->andReturn([
+            'success'           => true,
+            'checkout_form_url' => 'https://sandbox-api.iyzipay.com/checkout/form/abc123',
+            'token'             => 'tok_stored_abc123',
+        ]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson("/api/v1/orders/{$order->id}/pay")
+        ->assertOk();
+
+    $this->assertDatabaseHas('orders', [
+        'id'            => $order->id,
+        'payment_token' => 'tok_stored_abc123',
     ]);
 });

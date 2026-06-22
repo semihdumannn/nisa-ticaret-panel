@@ -54,6 +54,8 @@ class PaymentController extends Controller
             return response()->json(['message' => $result['message'] ?? 'Payment initialization failed.'], 503);
         }
 
+        $order->update(['payment_token' => $result['token']]);
+
         return response()->json([
             'checkout_url' => $result['checkout_form_url'],
             'token'        => $result['token'],
@@ -75,15 +77,14 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Missing payment token.'], 422);
         }
 
-        // Verify token with iyzico — conversation_id = order->id we set during init
-        $result = $this->iyzico->retrieveCheckoutForm($token);
-
-        $orderId = $result['conversation_id'] ?? null;
-        $order   = $orderId ? Order::find($orderId) : null;
+        // Validate token against DB first — don't call iyzico with unknown tokens
+        $order = Order::where('payment_token', $token)->first();
 
         if (! $order) {
             return response()->json(['message' => 'Order not found.'], 404);
         }
+
+        $result = $this->iyzico->retrieveCheckoutForm($token);
 
         // ── Idempotency guard ─────────────────────────────────────────────────
         // If already paid, return success without double-processing.

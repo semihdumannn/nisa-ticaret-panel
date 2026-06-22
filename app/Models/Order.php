@@ -42,6 +42,7 @@ class Order extends Model
         'payment_method',
         'payment_status',
         'payment_reference',
+        'payment_token',
         'notes',
         'internal_notes',
         'assigned_to',
