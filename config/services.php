@@ -42,9 +42,10 @@ return [
 
     // ── iyzico Payment Gateway ────────────────────────────────────────────────
     'iyzico' => [
-        'api_key'    => env('IYZICO_API_KEY', 'sandbox-api-key'),
-        'secret_key' => env('IYZICO_SECRET_KEY', 'sandbox-secret-key'),
-        'base_url'   => env('IYZICO_BASE_URL', 'https://sandbox-api.iyzipay.com'),
+        'api_key'               => env('IYZICO_API_KEY', 'sandbox-api-key'),
+        'secret_key'            => env('IYZICO_SECRET_KEY', 'sandbox-secret-key'),
+        'base_url'              => env('IYZICO_BASE_URL', 'https://sandbox-api.iyzipay.com'),
+        'buyer_identity_number' => env('IYZICO_BUYER_IDENTITY_NUMBER', '11111111111'),
     ],
 
 ];
