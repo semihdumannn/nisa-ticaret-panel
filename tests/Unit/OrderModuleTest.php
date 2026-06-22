@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AppConfig;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Inventory;
@@ -19,6 +20,7 @@ use App\Modules\Order\Application\UseCases\UpdateCartItemUseCase;
 use App\Modules\Order\Application\UseCases\UpdateOrderStatusUseCase;
 use App\Modules\Order\Domain\Exceptions\EmptyCartException;
 use App\Modules\Order\Domain\Exceptions\InvalidOrderTransitionException;
+use App\Modules\Order\Domain\Exceptions\MinimumOrderAmountException;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use App\Modules\Order\Domain\ValueObjects\PaymentStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -302,4 +304,23 @@ test('CancelOrderUseCase can cancel a delivered order', function () {
     $order     = Order::factory()->delivered()->create();
     $cancelled = app(CancelOrderUseCase::class)->execute($order);
     expect($cancelled->status)->toBe('cancelled');
+});
+
+// ── MinimumOrderAmountException ───────────────────────────────────────────────
+
+it('throws MinimumOrderAmountException when subtotal is below configured minimum', function () {
+    // Seed a low minimum so we can trigger the exception
+    AppConfig::where('key', 'min_order_amount')->updateOrInsert(
+        ['key' => 'min_order_amount'],
+        ['value' => '500', 'type' => 'number', 'description' => 'test']
+    );
+    AppConfig::flushCache();
+
+    $exception = new MinimumOrderAmountException(minimum: 500.0, actual: 150.0);
+
+    expect($exception)->toBeInstanceOf(\RuntimeException::class)
+        ->and($exception->getMinimum())->toBe(500.0)
+        ->and($exception->getActual())->toBe(150.0)
+        ->and($exception->getCode())->toBe(422)
+        ->and($exception->getMessage())->toContain('500');
 });

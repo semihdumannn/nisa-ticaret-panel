@@ -2,6 +2,7 @@
 
 namespace App\Modules\Order\Application\UseCases;
 
+use App\Models\AppConfig;
 use App\Models\Inventory;
 use App\Models\Order;
 use App\Models\Product;
@@ -16,6 +17,7 @@ use App\Modules\Order\Application\DTOs\CreateOrderDTO;
 use App\Modules\Order\Domain\Contracts\CartRepositoryInterface;
 use App\Modules\Order\Domain\Contracts\OrderRepositoryInterface;
 use App\Modules\Order\Domain\Exceptions\EmptyCartException;
+use App\Modules\Order\Domain\Exceptions\MinimumOrderAmountException;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use Illuminate\Support\Facades\DB;
 
@@ -76,10 +78,11 @@ class CreateOrderUseCase
         $estimatedSubtotal = $cartItems->sum(
             fn ($i) => (float) ($i->variant?->effectivePrice() ?? $i->product->price) * $i->quantity
         );
-        $minAmount = (float) config('app.min_order_amount', 200.0);
+        $minAmount = (float) AppConfig::get('min_order_amount', 50.0);
         if ($estimatedSubtotal < $minAmount) {
-            throw new \RuntimeException(
-                "Minimum sipariş tutarı ₺{$minAmount}'dir. Sepetiniz: ₺{$estimatedSubtotal}"
+            throw new MinimumOrderAmountException(
+                minimum: $minAmount,
+                actual:  $estimatedSubtotal,
             );
         }
 

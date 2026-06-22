@@ -251,3 +251,29 @@ test('order response includes status label and can_cancel flag', function () {
     expect($response->json('data.status_label'))->toBe('Pending')
         ->and($response->json('data.can_cancel'))->toBeTrue();
 });
+
+// ── Minimum order amount ──────────────────────────────────────────────────────
+
+test('create order fails with 422 when subtotal is below min_order_amount', function () {
+    // Set a very high minimum so any order fails
+    \App\Models\AppConfig::where('key', 'min_order_amount')->updateOrInsert(
+        ['key' => 'min_order_amount'],
+        ['value' => '99999', 'type' => 'number', 'description' => 'test']
+    );
+    \App\Models\AppConfig::flushCache();
+
+    $customer = \App\Models\User::factory()->create(['role' => 'customer', 'is_active' => true, 'phone' => '+905550005099']);
+    $product  = \App\Models\Product::factory()->create(['price' => 10, 'tax_rate' => 0]);
+    $wh       = \App\Models\Warehouse::factory()->create();
+    $address  = \App\Models\Address::create(['user_id' => $customer->id, 'full_address' => '1 Test St', 'city' => 'Istanbul']);
+
+    \App\Models\Inventory::create(['product_id' => $product->id, 'warehouse_id' => $wh->id, 'quantity' => 50, 'reserved_quantity' => 0]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->postJson('/api/v1/orders', [
+            'items'          => [['product_id' => $product->id, 'quantity' => 1]],
+            'address_id'     => $address->id,
+            'payment_method' => 'cash',
+        ])
+        ->assertUnprocessable();
+});
