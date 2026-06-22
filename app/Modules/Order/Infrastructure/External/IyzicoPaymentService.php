@@ -15,8 +15,9 @@ use Iyzipay\Request\CreateCheckoutFormInitializeRequest;
 use Iyzipay\Request\RetrieveCheckoutFormRequest;
 use Iyzipay\Options;
 use Illuminate\Support\Facades\Log;
+use App\Modules\Order\Domain\Contracts\PaymentServiceInterface;
 
-class IyzicoPaymentService
+class IyzicoPaymentService implements PaymentServiceInterface
 {
     private Options $options;
 
