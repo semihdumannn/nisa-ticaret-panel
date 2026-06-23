@@ -7,6 +7,7 @@ use App\Modules\Analytics\Presentation\API\Controllers\AppConfigController;
 use App\Modules\Campaign\Presentation\API\Controllers\AdminCouponController;
 use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
+use App\Modules\Favorite\Presentation\API\Controllers\FavoriteController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
 use App\Modules\Order\Presentation\API\Controllers\DeliveryController;
@@ -178,6 +179,14 @@ Route::prefix('v1')->group(function () {
         Route::prefix('devices')->name('api.devices.')->group(function () {
             Route::post('/', [DeviceController::class, 'register'])->name('register');
             Route::delete('/', [DeviceController::class, 'unregister'])->name('unregister');
+        });
+
+        // Favorites
+        Route::prefix('favorites')->name('api.favorites.')->group(function () {
+            Route::get('/',                           [FavoriteController::class, 'index'])->name('index');
+            Route::post('/',                          [FavoriteController::class, 'store'])->name('store');
+            Route::delete('/by-product/{productId}',  [FavoriteController::class, 'destroyByProduct'])->name('destroy-by-product');
+            Route::delete('/{id}',                    [FavoriteController::class, 'destroy'])->name('destroy');
         });
 
         // Analytics — admin-only (higher rate limit for dashboards)

@@ -41,6 +41,7 @@ class ProductResource extends JsonResource
             'max_order_qty'  => $this->max_order_qty,
             'is_featured'    => $this->is_featured,
             'is_active'      => $this->is_active,
+            'is_favorited'   => (bool) ($this->additional['is_favorited'] ?? false),
 
             // Koli convenience fields (derived from the koli variant)
             'koli_variant_id'  => $koliVariant?->id,
