@@ -3,6 +3,7 @@
 namespace App\Modules\Campaign\Domain\Contracts;
 
 use App\Models\Coupon;
+use Illuminate\Support\Collection;
 
 interface CouponRepositoryInterface
 {
@@ -15,4 +16,7 @@ interface CouponRepositoryInterface
 
     /** Has this user already used this coupon? */
     public function hasUserUsed(int $couponId, int $userId): bool;
+
+    /** List coupons that are currently active (not expired, usage limit not reached). */
+    public function listActive(): Collection;
 }

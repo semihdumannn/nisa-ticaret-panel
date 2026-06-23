@@ -5,6 +5,7 @@ namespace App\Modules\Campaign\Infrastructure\Repositories;
 use App\Models\Coupon;
 use App\Models\CouponUsage;
 use App\Modules\Campaign\Domain\Contracts\CouponRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class EloquentCouponRepository implements CouponRepositoryInterface
 {
@@ -32,5 +33,18 @@ class EloquentCouponRepository implements CouponRepositoryInterface
         return CouponUsage::where('coupon_id', $couponId)
             ->where('user_id', $userId)
             ->exists();
+    }
+
+    public function listActive(): Collection
+    {
+        return Coupon::where('is_active', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where(function ($q) {
+                $q->whereNull('usage_limit')
+                    ->orWhereColumn('usage_count', '<', 'usage_limit');
+            })
+            ->orderBy('end_date')
+            ->get();
     }
 }

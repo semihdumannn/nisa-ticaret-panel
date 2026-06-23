@@ -233,6 +233,50 @@ test('order can be created without coupon (coupon_code is optional)', function (
     expect((float) $response->json('data.discount_amount'))->toBe(0.0);
 });
 
+// ── GET /api/v1/coupons ───────────────────────────────────────────────────────
+
+test('customer can list active coupons', function () {
+    $customer = \App\Models\User::factory()->create(['role' => 'customer', 'is_active' => true]);
+    \App\Models\Coupon::factory()->create(['is_active' => true, 'end_date' => now()->addDays(30)]);
+    \App\Models\Coupon::factory()->create(['is_active' => false]);
+
+    $this->actingAs($customer, 'sanctum')
+        ->getJson('/api/v1/coupons')
+        ->assertOk()
+        ->assertJsonStructure(['coupons' => [['id', 'code', 'type', 'discount_value']]]);
+});
+
+// ── Admin coupon CRUD ─────────────────────────────────────────────────────────
+
+test('admin can create a coupon', function () {
+    $admin = \App\Models\User::factory()->create(['role' => 'admin', 'is_active' => true]);
+    $admin->assignRole('admin');
+
+    $this->actingAs($admin, 'sanctum')
+        ->postJson('/api/v1/admin/coupons', [
+            'code'           => 'TEST50',
+            'type'           => 'fixed_amount',
+            'discount_value' => 50.0,
+            'is_active'      => true,
+        ])
+        ->assertCreated()
+        ->assertJsonPath('data.code', 'TEST50');
+});
+
+test('admin can deactivate a coupon', function () {
+    $admin  = \App\Models\User::factory()->create(['role' => 'admin', 'is_active' => true]);
+    $admin->assignRole('admin');
+    $coupon = \App\Models\Coupon::factory()->create(['is_active' => true]);
+
+    $this->actingAs($admin, 'sanctum')
+        ->deleteJson("/api/v1/admin/coupons/{$coupon->id}")
+        ->assertNoContent();
+
+    $this->assertDatabaseHas('coupons', ['id' => $coupon->id, 'is_active' => false]);
+});
+
+// ── Percentage coupon cap ─────────────────────────────────────────────────────
+
 test('percentage coupon discount is capped at max_discount_amount', function () {
     [$user, $token,, , $address] = scaffoldCouponOrderContext('+905550007015');
     // Cart = ₺200 subtotal; 50% would be ₺100, capped at ₺40

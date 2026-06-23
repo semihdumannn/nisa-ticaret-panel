@@ -15,6 +15,7 @@ class CouponResource extends JsonResource
             'type'                => $this->type,
             'type_label'          => $this->couponType()->label(),
             'value'               => (float) $this->value,
+            'discount_value'      => (float) $this->value,
             'min_purchase_amount' => $this->min_purchase_amount ? (float) $this->min_purchase_amount : null,
             'max_discount_amount' => $this->max_discount_amount ? (float) $this->max_discount_amount : null,
             'is_active'           => $this->is_active,

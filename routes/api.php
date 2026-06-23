@@ -4,6 +4,7 @@ use App\Http\Controllers\API\HealthController;
 use App\Modules\Inventory\Presentation\API\Controllers\InventoryController;
 use App\Modules\Analytics\Presentation\API\Controllers\AnalyticsController;
 use App\Modules\Analytics\Presentation\API\Controllers\AppConfigController;
+use App\Modules\Campaign\Presentation\API\Controllers\AdminCouponController;
 use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
@@ -158,8 +159,9 @@ Route::prefix('v1')->group(function () {
             ->withoutMiddleware('auth:sanctum')
             ->name('api.payment.callback');
 
-        // Coupons — validate (authenticated users)
+        // Coupons — list active + validate (authenticated users)
         Route::prefix('coupons')->name('api.coupons.')->group(function () {
+            Route::get('/', [CouponController::class, 'index'])->name('index');
             Route::post('/validate', [CouponController::class, 'validate'])->name('validate');
         });
 
@@ -204,6 +206,14 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}/role', [AdminUserController::class, 'updateRole'])->name('role');
             Route::post('/{id}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('toggle-block');
             Route::get('/{id}/orders', [AdminUserController::class, 'orders'])->name('orders');
+        });
+
+        // Admin — coupons
+        Route::middleware('role:admin')->prefix('admin/coupons')->name('api.admin.coupons.')->group(function () {
+            Route::get('/', [AdminCouponController::class, 'index'])->name('index');
+            Route::post('/', [AdminCouponController::class, 'store'])->name('store');
+            Route::put('/{id}', [AdminCouponController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminCouponController::class, 'destroy'])->name('destroy');
         });
 
         // Admin — product toggle-active
