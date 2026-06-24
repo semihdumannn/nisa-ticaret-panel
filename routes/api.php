@@ -26,6 +26,8 @@ use App\Modules\User\Presentation\API\Controllers\AdminUserController;
 use App\Modules\User\Presentation\API\Controllers\AuthController;
 use App\Modules\User\Presentation\API\Controllers\FieldAgentCustomerController;
 use App\Modules\User\Presentation\API\Controllers\ProfileController;
+use App\Modules\Faq\Presentation\API\Controllers\FaqController;
+use App\Modules\Faq\Presentation\API\Controllers\AdminFaqController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,6 +82,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [BrandController::class, 'index'])->name('index');
         Route::get('/{brand}/products', [BrandController::class, 'products'])->name('products');
     });
+
+    // FAQ (public read)
+    Route::get('/help/faq', [FaqController::class, 'index'])->name('api.faq.index');
 
     // ── Protected Routes (Sanctum) ────────────────────────────────────────────
     Route::middleware('auth:sanctum')->group(function () {
@@ -243,6 +248,14 @@ Route::prefix('v1')->group(function () {
         // Admin — product toggle-active
         Route::middleware('role:admin')->prefix('admin/products')->name('api.admin.products.')->group(function () {
             Route::patch('/{product}/toggle-active', [ProductController::class, 'toggleActive'])->name('toggle-active');
+        });
+
+        // Admin — FAQ
+        Route::middleware('role:admin')->prefix('admin/faq')->name('api.admin.faq.')->group(function () {
+            Route::get('/', [AdminFaqController::class, 'index'])->name('index');
+            Route::post('/', [AdminFaqController::class, 'store'])->name('store');
+            Route::put('/{id}', [AdminFaqController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminFaqController::class, 'destroy'])->name('destroy');
         });
 
         // Field Agent routes

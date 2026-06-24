@@ -11,5 +11,5 @@ Baseline tests: 333
 - [x] Task 2: Favorites module (commits 894ee39..abeb760, review clean after fix — is_favorited overlay injected post-cache in index/show)
 - [x] Task 3: Reviews module (commits abeb760..135b822, review clean — minor: no DB transaction in SubmitReviewUseCase; average_rating/review_count always 0 in product list due to omitted withAvg/withCount)
 - [x] Task 4: Subscriptions module (commits 135b822..ea84fa7, review clean after fix — N+1 on variant.product resolved, factories created for ProductVariant+Address)
-- [ ] Task 5: Subscription cron job (auto-order)
+- [x] Task 5: Subscription cron job (commits ea84fa7..1e992db, review clean after fixes — pause_until filter added to findDueToday, DB transaction wraps order creation)
 - [ ] Task 6: FAQ module + ProductResource enhancements

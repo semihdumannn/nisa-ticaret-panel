@@ -101,3 +101,29 @@ Matches expected baseline 354 + 4 new cron tests = 358.
 ## Concerns / Notes
 
 None — all tests pass cleanly. The `order_number` field was not mentioned in the brief but the `orders` table requires it (not nullable). The implementation generates `SUB-YYYYMMDD-NNNNN` format which is consistent with the rest of the codebase.
+
+---
+
+## Fix Report
+
+### Fix 1: `pause_until` filter in `findDueToday()`
+**File**: `app/Modules/Subscription/Infrastructure/Repositories/EloquentSubscriptionRepository.php`
+
+Added filter to exclude subscriptions where `pause_until` is set to a future date:
+```php
+->where(function ($q) {
+    $q->whereNull('pause_until')
+      ->orWhereDate('pause_until', '<', now()->toDateString());
+})
+```
+
+### Fix 2: DB transaction in `ProcessDueSubscriptionsUseCase`
+**File**: `app/Modules/Subscription/Application/UseCases/ProcessDueSubscriptionsUseCase.php`
+
+- Added `use Illuminate\Support\Facades\DB;` import
+- Wrapped order creation, item creation, and subscription update in `DB::transaction()`
+- Stock check remains outside transaction (read-only guard)
+- Exception handling catches after transaction rolls back if any DB write fails
+
+**Commit**: `1e992db44431c73eb71b0d76d19a613c100aae1d`
+**Tests**: SubscriptionCronTest 4/4 passed; Full suite 358/358 passed
