@@ -11,5 +11,6 @@ return [
     App\Providers\NotificationModuleServiceProvider::class,
     App\Providers\OrderModuleServiceProvider::class,
     App\Providers\ProductModuleServiceProvider::class,
+    App\Providers\SubscriptionModuleServiceProvider::class,
     App\Providers\UserModuleServiceProvider::class,
 ];

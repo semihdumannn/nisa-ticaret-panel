@@ -8,6 +8,7 @@ use App\Modules\Campaign\Presentation\API\Controllers\AdminCouponController;
 use App\Modules\Campaign\Presentation\API\Controllers\CampaignController;
 use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Favorite\Presentation\API\Controllers\FavoriteController;
+use App\Modules\Subscription\Presentation\API\Controllers\SubscriptionController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
 use App\Modules\Review\Presentation\API\Controllers\ReviewController;
@@ -186,6 +187,14 @@ Route::prefix('v1')->group(function () {
         // Reviews
         Route::post('/reviews', [ReviewController::class, 'store'])->name('api.reviews.store');
         Route::get('/orders/{orderId}/review-status', [ReviewController::class, 'reviewStatus'])->name('api.reviews.status');
+
+        // Subscriptions
+        Route::prefix('subscriptions')->name('api.subscriptions.')->group(function () {
+            Route::get('/',        [SubscriptionController::class, 'index'])->name('index');
+            Route::post('/',       [SubscriptionController::class, 'store'])->name('store');
+            Route::put('/{id}',    [SubscriptionController::class, 'update'])->name('update');
+            Route::delete('/{id}', [SubscriptionController::class, 'destroy'])->name('destroy');
+        });
 
         // Favorites
         Route::prefix('favorites')->name('api.favorites.')->group(function () {

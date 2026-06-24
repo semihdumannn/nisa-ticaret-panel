@@ -96,6 +96,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
+        $exceptions->render(function (\App\Modules\Subscription\Domain\Exceptions\SubscriptionException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'error'   => $e->errorCode,
+                    'message' => $e->getMessage(),
+                ], 422);
+            }
+        });
+
         // ── Generic HttpException (e.g. Spatie role/permission 403) ──────────
         $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, $request) {
             if ($request->is('api/*')) {
