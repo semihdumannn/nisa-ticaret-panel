@@ -94,3 +94,30 @@ test('can get order review status', function () {
         ->assertOk()
         ->assertJsonStructure(['order_id', 'can_review', 'reviewed_product_ids', 'pending_product_ids']);
 });
+
+test('cannot submit review for another users order', function () {
+    $user1   = reviewUser();
+    $user2   = reviewUser();
+    $product = Product::factory()->create();
+    $order   = deliveredOrder($user1, $product);
+
+    $this->actingAs($user2, 'sanctum')
+        ->postJson('/api/v1/reviews', [
+            'order_id'   => $order->id,
+            'product_id' => $product->id,
+            'rating'     => 4,
+        ])
+        ->assertUnprocessable()
+        ->assertJsonPath('error', 'NOT_YOUR_ORDER');
+});
+
+test('cannot get review status of another users order', function () {
+    $user1   = reviewUser();
+    $user2   = reviewUser();
+    $product = Product::factory()->create();
+    $order   = deliveredOrder($user1, $product);
+
+    $this->actingAs($user2, 'sanctum')
+        ->getJson("/api/v1/orders/{$order->id}/review-status")
+        ->assertForbidden();
+});

@@ -86,6 +86,29 @@ test('user can cancel a subscription', function () {
     $this->assertDatabaseHas('subscriptions', ['id' => $sub->id, 'status' => 'cancelled']);
 });
 
+test('user can update subscription plan', function () {
+    $user = subUser();
+    ['product' => $product, 'variant' => $variant, 'address' => $address] = subFixtures($user);
+    $sub = Subscription::create([
+        'user_id'         => $user->id,
+        'product_id'      => $product->id,
+        'variant_id'      => $variant->id,
+        'quantity'        => 1,
+        'address_id'      => $address->id,
+        'plan'            => 'monthly',
+        'discount_rate'   => 5.0,
+        'status'          => 'active',
+        'next_order_date' => now()->addDays(30)->toDateString(),
+        'start_date'      => now()->toDateString(),
+    ]);
+
+    $this->actingAs($user, 'sanctum')
+        ->putJson("/api/v1/subscriptions/{$sub->id}", ['plan' => 'weekly'])
+        ->assertOk()
+        ->assertJsonPath('plan', 'weekly')
+        ->assertJsonPath('discount_rate', 10.0);
+});
+
 test('user cannot access another users subscription', function () {
     $user1 = subUser();
     $user2 = subUser();

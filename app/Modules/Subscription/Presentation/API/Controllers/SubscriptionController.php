@@ -79,7 +79,7 @@ class SubscriptionController extends Controller
 
         $subscription->load(['product', 'variant', 'address']);
 
-        return response()->json(new SubscriptionResource($subscription));
+        return response()->json(new SubscriptionResource($subscription), 200, [], JSON_PRESERVE_ZERO_FRACTION);
     }
 
     /**

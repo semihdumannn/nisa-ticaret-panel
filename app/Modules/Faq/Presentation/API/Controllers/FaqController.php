@@ -2,9 +2,10 @@
 
 namespace App\Modules\Faq\Presentation\API\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\FaqItem;
 
-class FaqController
+class FaqController extends Controller
 {
     public function index()
     {

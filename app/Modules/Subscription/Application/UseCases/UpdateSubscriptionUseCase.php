@@ -43,6 +43,15 @@ class UpdateSubscriptionUseCase
         }
 
         if (isset($data['address_id'])) {
+            $address = \App\Models\Address::where('id', $data['address_id'])
+                ->where('user_id', $userId)
+                ->first();
+            if (!$address) {
+                throw new \App\Modules\Subscription\Domain\Exceptions\SubscriptionException(
+                    'Bu adres size ait değil.',
+                    'ADDRESS_NOT_YOURS'
+                );
+            }
             $updateData['address_id'] = $data['address_id'];
         }
 
