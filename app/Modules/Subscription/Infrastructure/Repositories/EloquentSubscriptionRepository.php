@@ -25,7 +25,7 @@ class EloquentSubscriptionRepository implements SubscriptionRepositoryInterface
     {
         return Subscription::where('id', $id)
             ->where('user_id', $userId)
-            ->with(['product', 'variant', 'address'])
+            ->with(['product', 'variant.product', 'address'])
             ->first();
     }
 
@@ -33,7 +33,7 @@ class EloquentSubscriptionRepository implements SubscriptionRepositoryInterface
     {
         return Subscription::where('user_id', $userId)
             ->whereIn('status', $statuses)
-            ->with(['product', 'variant', 'address'])
+            ->with(['product', 'variant.product', 'address'])
             ->latest('created_at')
             ->get();
     }
@@ -46,7 +46,7 @@ class EloquentSubscriptionRepository implements SubscriptionRepositoryInterface
     {
         return Subscription::where('status', 'active')
             ->where('next_order_date', '<=', now()->toDateString())
-            ->with(['user', 'product', 'variant', 'address'])
+            ->with(['user', 'product', 'variant.product', 'address'])
             ->get();
     }
 }
