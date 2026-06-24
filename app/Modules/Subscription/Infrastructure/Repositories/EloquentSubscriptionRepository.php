@@ -41,11 +41,12 @@ class EloquentSubscriptionRepository implements SubscriptionRepositoryInterface
     /**
      * Find all active subscriptions due today (for cron job — Task 5).
      * Returns active subscriptions where next_order_date <= today.
+     * Uses whereDate() for cross-database compatibility (SQLite stores dates with time component).
      */
     public function findDueToday(): Collection
     {
         return Subscription::where('status', 'active')
-            ->where('next_order_date', '<=', now()->toDateString())
+            ->whereDate('next_order_date', '<=', now()->toDateString())
             ->with(['user', 'product', 'variant.product', 'address'])
             ->get();
     }

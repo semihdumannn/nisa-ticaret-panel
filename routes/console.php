@@ -24,3 +24,6 @@ Schedule::command('notifications:prune')->dailyAt('03:30');
 
 // Horizon metrics snapshot every 5 minutes (powers the dashboard graphs)
 Schedule::command('horizon:snapshot')->everyFiveMinutes()->runInBackground();
+
+// Process due subscription orders every day at 08:00
+Schedule::command('subscriptions:process-orders')->dailyAt('08:00');
