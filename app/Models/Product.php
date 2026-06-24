@@ -134,6 +134,11 @@ class Product extends Model
         return $this->hasMany(Inventory::class);
     }
 
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(\App\Models\Review::class);
+    }
+
     // ── Scopes ────────────────────────────────────────────────────────────────
 
     public function scopeActive($query)

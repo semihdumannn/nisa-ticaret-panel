@@ -4,6 +4,7 @@ return [
     App\Providers\AppServiceProvider::class,
     App\Providers\CampaignModuleServiceProvider::class,
     App\Providers\FavoriteModuleServiceProvider::class,
+    App\Providers\ReviewModuleServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\HorizonServiceProvider::class,
     App\Providers\InventoryModuleServiceProvider::class,

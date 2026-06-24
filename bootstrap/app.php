@@ -90,6 +90,12 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
+        $exceptions->render(function (\App\Modules\Review\Domain\Exceptions\ReviewNotAllowedException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['error' => $e->errorCode], 422);
+            }
+        });
+
         // ── Generic HttpException (e.g. Spatie role/permission 403) ──────────
         $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, $request) {
             if ($request->is('api/*')) {

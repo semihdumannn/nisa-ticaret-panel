@@ -78,6 +78,8 @@ class ProductResource extends JsonResource
                 'stock'         => (int) $v->stock,
                 'is_active'     => $v->is_active,
             ])),
+            'average_rating' => (float) ($this->reviews_avg_rating ?? 0),
+            'review_count'   => (int) ($this->reviews_count ?? 0),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

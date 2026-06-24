@@ -10,6 +10,7 @@ use App\Modules\Campaign\Presentation\API\Controllers\CouponController;
 use App\Modules\Favorite\Presentation\API\Controllers\FavoriteController;
 use App\Modules\Notification\Presentation\API\Controllers\DeviceController;
 use App\Modules\Notification\Presentation\API\Controllers\NotificationController;
+use App\Modules\Review\Presentation\API\Controllers\ReviewController;
 use App\Modules\Order\Presentation\API\Controllers\DeliveryController;
 use App\Modules\Order\Presentation\API\Controllers\FieldAgentController;
 use App\Modules\Order\Presentation\API\Controllers\PaymentController;
@@ -64,6 +65,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/featured', [ProductController::class, 'featured'])->name('featured');
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/{product}', [ProductController::class, 'show'])->name('show');
+        Route::get('/{productId}/reviews', [ReviewController::class, 'productReviews'])->name('reviews');
     });
 
     // Categories (public read)
@@ -180,6 +182,10 @@ Route::prefix('v1')->group(function () {
             Route::post('/', [DeviceController::class, 'register'])->name('register');
             Route::delete('/', [DeviceController::class, 'unregister'])->name('unregister');
         });
+
+        // Reviews
+        Route::post('/reviews', [ReviewController::class, 'store'])->name('api.reviews.store');
+        Route::get('/orders/{orderId}/review-status', [ReviewController::class, 'reviewStatus'])->name('api.reviews.status');
 
         // Favorites
         Route::prefix('favorites')->name('api.favorites.')->group(function () {
