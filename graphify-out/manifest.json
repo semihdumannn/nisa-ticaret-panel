@@ -1,0 +1,2242 @@
+{
+  "/Users/semihduman/Herd/nisa-backend/.claude/settings.local.json": {
+    "mtime": 1779578382.149996,
+    "ast_hash": "d834554e009e34f93582d1e6b51bd5b4",
+    "semantic_hash": "d834554e009e34f93582d1e6b51bd5b4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Console/Commands/AggregateDailyStatsCommand.php": {
+    "mtime": 1779620565.324239,
+    "ast_hash": "0f86ae2841252689dc33dad0f7617779",
+    "semantic_hash": "0f86ae2841252689dc33dad0f7617779"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Console/Commands/CheckLowStockCommand.php": {
+    "mtime": 1779665901.4565594,
+    "ast_hash": "82c80afa39416d0ec5e056d7118150b3",
+    "semantic_hash": "82c80afa39416d0ec5e056d7118150b3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Console/Commands/PruneOldNotificationsCommand.php": {
+    "mtime": 1781294632.2620869,
+    "ast_hash": "dfedd61560f8c9e371b66d2d63d6fa17",
+    "semantic_hash": "dfedd61560f8c9e371b66d2d63d6fa17"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Exports/OrdersExport.php": {
+    "mtime": 1779666233.0096416,
+    "ast_hash": "68a6d260b206f57c3fd8840345b288b5",
+    "semantic_hash": "68a6d260b206f57c3fd8840345b288b5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Exports/ProductsExport.php": {
+    "mtime": 1779663967.4340599,
+    "ast_hash": "8bee46a7a3113f1ec7d44f5dd013bf68",
+    "semantic_hash": "8bee46a7a3113f1ec7d44f5dd013bf68"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Exports/UsersExport.php": {
+    "mtime": 1779663974.0131402,
+    "ast_hash": "f28488b327db9a4889b017016efdc115",
+    "semantic_hash": "f28488b327db9a4889b017016efdc115"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/ActivityLogs/ActivityLogResource.php": {
+    "mtime": 1779663673.4348164,
+    "ast_hash": "52cb2d41e3738e488a554d013556aaf5",
+    "semantic_hash": "52cb2d41e3738e488a554d013556aaf5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/ActivityLogs/Pages/ListActivityLogs.php": {
+    "mtime": 1779663692.3545878,
+    "ast_hash": "028c25f303c18bc2c6ad4953b7d8e65e",
+    "semantic_hash": "028c25f303c18bc2c6ad4953b7d8e65e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/ActivityLogs/Tables/ActivityLogsTable.php": {
+    "mtime": 1779697626.4135065,
+    "ast_hash": "1657ed9f1946e5b6f0de2cd6a2361de6",
+    "semantic_hash": "1657ed9f1946e5b6f0de2cd6a2361de6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/AppConfigResource.php": {
+    "mtime": 1779620635.4726763,
+    "ast_hash": "e75e0351bf5139bd7e9e76966ef2642b",
+    "semantic_hash": "e75e0351bf5139bd7e9e76966ef2642b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/Pages/CreateAppConfig.php": {
+    "mtime": 1779620628.2219725,
+    "ast_hash": "513dd2f355fef512d7b9962b78abdbb3",
+    "semantic_hash": "513dd2f355fef512d7b9962b78abdbb3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/Pages/EditAppConfig.php": {
+    "mtime": 1779620629.3935905,
+    "ast_hash": "cd136ef82c4e322851283d7f5f085795",
+    "semantic_hash": "cd136ef82c4e322851283d7f5f085795"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/Pages/ListAppConfigs.php": {
+    "mtime": 1779620627.0758548,
+    "ast_hash": "dddd5091eb76bb8492efa50d05247934",
+    "semantic_hash": "dddd5091eb76bb8492efa50d05247934"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/Schemas/AppConfigForm.php": {
+    "mtime": 1779663178.0621438,
+    "ast_hash": "6ccddd9578f8798f67090233e4a4801f",
+    "semantic_hash": "6ccddd9578f8798f67090233e4a4801f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/AppConfigs/Tables/AppConfigsTable.php": {
+    "mtime": 1779620622.4718447,
+    "ast_hash": "7c5ec6030a675580f9d7cbe0a4a4a462",
+    "semantic_hash": "7c5ec6030a675580f9d7cbe0a4a4a462"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/BrandResource.php": {
+    "mtime": 1779579452.2004657,
+    "ast_hash": "f0c23b100174d4a7d493d5bc70fdd27a",
+    "semantic_hash": "f0c23b100174d4a7d493d5bc70fdd27a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/Pages/CreateBrand.php": {
+    "mtime": 1779579404.5919976,
+    "ast_hash": "9dfb4217da5447d9918dc059370f828f",
+    "semantic_hash": "9dfb4217da5447d9918dc059370f828f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/Pages/EditBrand.php": {
+    "mtime": 1779579404.5924053,
+    "ast_hash": "79689433c265661005476c65a2a52fa3",
+    "semantic_hash": "79689433c265661005476c65a2a52fa3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/Pages/ListBrands.php": {
+    "mtime": 1779579404.5916352,
+    "ast_hash": "8dd8c72be08f55c968cf14de57790f1e",
+    "semantic_hash": "8dd8c72be08f55c968cf14de57790f1e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/Schemas/BrandForm.php": {
+    "mtime": 1779663307.100376,
+    "ast_hash": "2d5d2fb7a6802c4a2aa48ebac74fb14f",
+    "semantic_hash": "2d5d2fb7a6802c4a2aa48ebac74fb14f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Brands/Tables/BrandsTable.php": {
+    "mtime": 1779579444.8148792,
+    "ast_hash": "176bbfa84c02907cc5f19567bfcce9eb",
+    "semantic_hash": "176bbfa84c02907cc5f19567bfcce9eb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/CampaignResource.php": {
+    "mtime": 1779618951.626169,
+    "ast_hash": "c25771afcfdae203e56abb1aeb9f7c94",
+    "semantic_hash": "c25771afcfdae203e56abb1aeb9f7c94"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/Pages/CreateCampaign.php": {
+    "mtime": 1779618937.6617506,
+    "ast_hash": "ad2cd925911121898b775117c93f56c3",
+    "semantic_hash": "ad2cd925911121898b775117c93f56c3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/Pages/EditCampaign.php": {
+    "mtime": 1779618941.4507492,
+    "ast_hash": "4c493b45ab54d3aad184e51acaaac98e",
+    "semantic_hash": "4c493b45ab54d3aad184e51acaaac98e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/Pages/ListCampaigns.php": {
+    "mtime": 1779618933.9571266,
+    "ast_hash": "55f316569659f893bd06ec7c68086381",
+    "semantic_hash": "55f316569659f893bd06ec7c68086381"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/Schemas/CampaignForm.php": {
+    "mtime": 1779663140.318742,
+    "ast_hash": "012058c433bda9b014b7f1e930ae19a0",
+    "semantic_hash": "012058c433bda9b014b7f1e930ae19a0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Campaigns/Tables/CampaignsTable.php": {
+    "mtime": 1779618922.6327236,
+    "ast_hash": "2c1473ba2aca1a5142cd0ec8c14204ff",
+    "semantic_hash": "2c1473ba2aca1a5142cd0ec8c14204ff"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/CategoryResource.php": {
+    "mtime": 1779579495.866347,
+    "ast_hash": "ad58c619fc9c8dfb836b52f8f9720aff",
+    "semantic_hash": "ad58c619fc9c8dfb836b52f8f9720aff"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/Pages/CreateCategory.php": {
+    "mtime": 1779579405.9382539,
+    "ast_hash": "18035ce91d82b63b0e27d9f9eecd458b",
+    "semantic_hash": "18035ce91d82b63b0e27d9f9eecd458b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/Pages/EditCategory.php": {
+    "mtime": 1779579405.9386542,
+    "ast_hash": "5d438f53feb26cdcaa43147e19dbf08c",
+    "semantic_hash": "5d438f53feb26cdcaa43147e19dbf08c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/Pages/ListCategories.php": {
+    "mtime": 1779579405.9379373,
+    "ast_hash": "b9999df83ea23f564fbf18851ef99e09",
+    "semantic_hash": "b9999df83ea23f564fbf18851ef99e09"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/Schemas/CategoryForm.php": {
+    "mtime": 1779663189.4292696,
+    "ast_hash": "5e0e0132fa90100b7438eda053d337b5",
+    "semantic_hash": "5e0e0132fa90100b7438eda053d337b5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Categories/Tables/CategoriesTable.php": {
+    "mtime": 1780183569.1371782,
+    "ast_hash": "e2f262ec61db76891515b71108afb124",
+    "semantic_hash": "e2f262ec61db76891515b71108afb124"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/CouponResource.php": {
+    "mtime": 1779618987.593254,
+    "ast_hash": "1c188a18719fe2390de6638aa2ea1b29",
+    "semantic_hash": "1c188a18719fe2390de6638aa2ea1b29"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/Pages/CreateCoupon.php": {
+    "mtime": 1779618976.6117864,
+    "ast_hash": "a9b118d28679403ca0feba7dade84247",
+    "semantic_hash": "a9b118d28679403ca0feba7dade84247"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/Pages/EditCoupon.php": {
+    "mtime": 1779618980.092032,
+    "ast_hash": "037721340a016ded603d67aa5904f142",
+    "semantic_hash": "037721340a016ded603d67aa5904f142"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/Pages/ListCoupons.php": {
+    "mtime": 1779618975.471426,
+    "ast_hash": "a6ef5dd8d2f968343b73beed43a96775",
+    "semantic_hash": "a6ef5dd8d2f968343b73beed43a96775"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/Schemas/CouponForm.php": {
+    "mtime": 1779663154.6515806,
+    "ast_hash": "5c0f45ea6c72069d0ebb74fa00487b5a",
+    "semantic_hash": "5c0f45ea6c72069d0ebb74fa00487b5a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Coupons/Tables/CouponsTable.php": {
+    "mtime": 1779618970.8238215,
+    "ast_hash": "258bce4f10a7b9160c1047a9710bc00f",
+    "semantic_hash": "258bce4f10a7b9160c1047a9710bc00f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/InventoryResource.php": {
+    "mtime": 1779612669.4751046,
+    "ast_hash": "1841e0020c720a76c4db59119c6a9d56",
+    "semantic_hash": "1841e0020c720a76c4db59119c6a9d56"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/Pages/CreateInventory.php": {
+    "mtime": 1779611066.3743987,
+    "ast_hash": "d81444c062a096f72afae6f502199a20",
+    "semantic_hash": "d81444c062a096f72afae6f502199a20"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/Pages/EditInventory.php": {
+    "mtime": 1779611066.3747725,
+    "ast_hash": "08ac7ad0ab3b30adcd110426f2c6d393",
+    "semantic_hash": "08ac7ad0ab3b30adcd110426f2c6d393"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/Pages/ListInventories.php": {
+    "mtime": 1779611066.3740463,
+    "ast_hash": "19c36c4c70b3311066894f19f8e68f6e",
+    "semantic_hash": "19c36c4c70b3311066894f19f8e68f6e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/Schemas/InventoryForm.php": {
+    "mtime": 1779663122.4498954,
+    "ast_hash": "85d270b2875df330e0d8b45518acd6ea",
+    "semantic_hash": "85d270b2875df330e0d8b45518acd6ea"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Inventories/Tables/InventoriesTable.php": {
+    "mtime": 1779611115.6224194,
+    "ast_hash": "9e54ddc5e6d121a6bacd41a4f962810e",
+    "semantic_hash": "9e54ddc5e6d121a6bacd41a4f962810e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Notifications/NotificationResource.php": {
+    "mtime": 1779620113.984393,
+    "ast_hash": "2914321c41ea7ede152756cf6b424b60",
+    "semantic_hash": "2914321c41ea7ede152756cf6b424b60"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Notifications/Pages/ListNotifications.php": {
+    "mtime": 1779620107.190339,
+    "ast_hash": "67cff9a605ecc35a88b49e480e1ea97a",
+    "semantic_hash": "67cff9a605ecc35a88b49e480e1ea97a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Notifications/Pages/ViewNotification.php": {
+    "mtime": 1779620108.4281695,
+    "ast_hash": "50ba9871527669b14a6b414db5593a60",
+    "semantic_hash": "50ba9871527669b14a6b414db5593a60"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Notifications/Schemas/NotificationForm.php": {
+    "mtime": 1779660496.6140904,
+    "ast_hash": "748ac3f4754474a82eee6a817859d9e8",
+    "semantic_hash": "748ac3f4754474a82eee6a817859d9e8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Notifications/Tables/NotificationsTable.php": {
+    "mtime": 1779620097.9654016,
+    "ast_hash": "d4a93e016d0858f10693daca800dfd39",
+    "semantic_hash": "d4a93e016d0858f10693daca800dfd39"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/OrderResource.php": {
+    "mtime": 1779663935.5191016,
+    "ast_hash": "51eccdeb9ac8f22b2a244f3f896f5239",
+    "semantic_hash": "51eccdeb9ac8f22b2a244f3f896f5239"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Pages/CreateOrder.php": {
+    "mtime": 1779615898.3107321,
+    "ast_hash": "32acb24f491771fcd57dfa79fc7c7b03",
+    "semantic_hash": "32acb24f491771fcd57dfa79fc7c7b03"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Pages/EditOrder.php": {
+    "mtime": 1779615898.3111644,
+    "ast_hash": "e1d1079de188d5861a892cd08a423f20",
+    "semantic_hash": "e1d1079de188d5861a892cd08a423f20"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Pages/ListOrders.php": {
+    "mtime": 1779698607.9029682,
+    "ast_hash": "b36fb4a3bba3a08190c82aabf70d1a2d",
+    "semantic_hash": "b36fb4a3bba3a08190c82aabf70d1a2d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Pages/ViewOrder.php": {
+    "mtime": 1779663277.7835844,
+    "ast_hash": "481ef410142903f5bb7963f7eed6ed93",
+    "semantic_hash": "481ef410142903f5bb7963f7eed6ed93"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/RelationManagers/ItemsRelationManager.php": {
+    "mtime": 1779663917.2943344,
+    "ast_hash": "0ff4917a8fbbea859f2b092bb075e4d3",
+    "semantic_hash": "0ff4917a8fbbea859f2b092bb075e4d3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Schemas/OrderForm.php": {
+    "mtime": 1779660496.6099513,
+    "ast_hash": "072c67735e5aec3e40845d371db8ca26",
+    "semantic_hash": "072c67735e5aec3e40845d371db8ca26"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Schemas/OrderInfolist.php": {
+    "mtime": 1779662986.5306766,
+    "ast_hash": "6ac277ecd7108d2e235a4655bff1cf02",
+    "semantic_hash": "6ac277ecd7108d2e235a4655bff1cf02"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Orders/Tables/OrdersTable.php": {
+    "mtime": 1779663018.7471292,
+    "ast_hash": "5d9e36516c88d68cdc2126651f97fb74",
+    "semantic_hash": "5d9e36516c88d68cdc2126651f97fb74"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Pages/CreateProduct.php": {
+    "mtime": 1779579407.3146331,
+    "ast_hash": "93a43321ea73b4bf1b1e9b43ad4f460f",
+    "semantic_hash": "93a43321ea73b4bf1b1e9b43ad4f460f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Pages/EditProduct.php": {
+    "mtime": 1779579407.3153002,
+    "ast_hash": "96a7a0b2bd266f8a600f955251680a8b",
+    "semantic_hash": "96a7a0b2bd266f8a600f955251680a8b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Pages/ListProducts.php": {
+    "mtime": 1779663991.5435338,
+    "ast_hash": "09adbe9e6dd772e2c789edd0e20be6b0",
+    "semantic_hash": "09adbe9e6dd772e2c789edd0e20be6b0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Pages/ViewProduct.php": {
+    "mtime": 1779665155.5488317,
+    "ast_hash": "aaebadf0037a3f73506e0882b61a6f7f",
+    "semantic_hash": "aaebadf0037a3f73506e0882b61a6f7f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/ProductResource.php": {
+    "mtime": 1779665181.2590668,
+    "ast_hash": "bfa02a56ac5483947895358311be5f63",
+    "semantic_hash": "bfa02a56ac5483947895358311be5f63"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/RelationManagers/InventoryRelationManager.php": {
+    "mtime": 1779663925.7901354,
+    "ast_hash": "9c065e6ed9f84d58097e3683f99c91f1",
+    "semantic_hash": "9c065e6ed9f84d58097e3683f99c91f1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Schemas/ProductForm.php": {
+    "mtime": 1780183592.6932912,
+    "ast_hash": "c8a12bfcd4551b0980d42d3ff84a5764",
+    "semantic_hash": "c8a12bfcd4551b0980d42d3ff84a5764"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Schemas/ProductInfolist.php": {
+    "mtime": 1779665149.539796,
+    "ast_hash": "a7ba473663835cbf9ce5cc9770736987",
+    "semantic_hash": "a7ba473663835cbf9ce5cc9770736987"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Products/Tables/ProductsTable.php": {
+    "mtime": 1780183578.3939228,
+    "ast_hash": "09419f17093a75e4a0668eb0c86f55e9",
+    "semantic_hash": "09419f17093a75e4a0668eb0c86f55e9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/Pages/CreateStockMovement.php": {
+    "mtime": 1779611068.8846617,
+    "ast_hash": "998f9aa55f8805ebfbc60e8938c099a7",
+    "semantic_hash": "998f9aa55f8805ebfbc60e8938c099a7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/Pages/EditStockMovement.php": {
+    "mtime": 1779611068.885012,
+    "ast_hash": "844aa1850f27a1d186bf8d32f7db7a92",
+    "semantic_hash": "844aa1850f27a1d186bf8d32f7db7a92"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/Pages/ListStockMovements.php": {
+    "mtime": 1779611068.8843653,
+    "ast_hash": "594da03a44b1bc3d764f253767af0a75",
+    "semantic_hash": "594da03a44b1bc3d764f253767af0a75"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/Schemas/StockMovementForm.php": {
+    "mtime": 1779660496.6003478,
+    "ast_hash": "38c70a84514fc87f17f31dd477b9cd33",
+    "semantic_hash": "38c70a84514fc87f17f31dd477b9cd33"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/StockMovementResource.php": {
+    "mtime": 1779612665.0000505,
+    "ast_hash": "69e033224b4a7badc029b7330481e865",
+    "semantic_hash": "69e033224b4a7badc029b7330481e865"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/StockMovements/Tables/StockMovementsTable.php": {
+    "mtime": 1779612643.0503678,
+    "ast_hash": "33b1b4f5ec262c4e9e6aa881db214ff7",
+    "semantic_hash": "33b1b4f5ec262c4e9e6aa881db214ff7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Pages/CreateUser.php": {
+    "mtime": 1779578444.54607,
+    "ast_hash": "27a1576c8105b4b309c407a9772b85ae",
+    "semantic_hash": "27a1576c8105b4b309c407a9772b85ae"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Pages/EditUser.php": {
+    "mtime": 1779578444.5467002,
+    "ast_hash": "ab5fa92eb0b8d95532ca369b866f33f1",
+    "semantic_hash": "ab5fa92eb0b8d95532ca369b866f33f1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Pages/ListUsers.php": {
+    "mtime": 1779664001.4118533,
+    "ast_hash": "d5a4313051988c265c9f716dca565167",
+    "semantic_hash": "d5a4313051988c265c9f716dca565167"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Pages/ViewUser.php": {
+    "mtime": 1779665211.9408758,
+    "ast_hash": "7b57e9a15ee880f31d6d89e048902003",
+    "semantic_hash": "7b57e9a15ee880f31d6d89e048902003"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Schemas/UserForm.php": {
+    "mtime": 1779663043.122048,
+    "ast_hash": "0bb4753ab223b881907c74199b75ff6f",
+    "semantic_hash": "0bb4753ab223b881907c74199b75ff6f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Schemas/UserInfolist.php": {
+    "mtime": 1779665207.2722313,
+    "ast_hash": "644466474f76894a4b55b58ef8806db2",
+    "semantic_hash": "644466474f76894a4b55b58ef8806db2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/Tables/UsersTable.php": {
+    "mtime": 1779698871.693258,
+    "ast_hash": "341ee71981c345c0c47eac2ef0b55fa9",
+    "semantic_hash": "341ee71981c345c0c47eac2ef0b55fa9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Users/UserResource.php": {
+    "mtime": 1779665222.537648,
+    "ast_hash": "16ea9028c137313df80262de6ea203e0",
+    "semantic_hash": "16ea9028c137313df80262de6ea203e0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/Pages/CreateWarehouse.php": {
+    "mtime": 1779611064.2131972,
+    "ast_hash": "b45b3bf8d5571ff96d0bb088c9729b13",
+    "semantic_hash": "b45b3bf8d5571ff96d0bb088c9729b13"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/Pages/EditWarehouse.php": {
+    "mtime": 1779611064.2133906,
+    "ast_hash": "465bc7dc485bf262b3e03d5ac22b2994",
+    "semantic_hash": "465bc7dc485bf262b3e03d5ac22b2994"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/Pages/ListWarehouses.php": {
+    "mtime": 1779611064.213024,
+    "ast_hash": "02d3abf99bd86f024fcb2ac564ea0f35",
+    "semantic_hash": "02d3abf99bd86f024fcb2ac564ea0f35"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/Schemas/WarehouseForm.php": {
+    "mtime": 1779663168.3285074,
+    "ast_hash": "11ec01457fd977e3cb0d2e16c8238bae",
+    "semantic_hash": "11ec01457fd977e3cb0d2e16c8238bae"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/Tables/WarehousesTable.php": {
+    "mtime": 1779611091.954552,
+    "ast_hash": "9a8bfbbbff7dc0edc8433ed6294fd69d",
+    "semantic_hash": "9a8bfbbbff7dc0edc8433ed6294fd69d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Resources/Warehouses/WarehouseResource.php": {
+    "mtime": 1779611099.8927135,
+    "ast_hash": "39ddc2550d35ae3bc9a807907b807c9e",
+    "semantic_hash": "39ddc2550d35ae3bc9a807907b807c9e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Widgets/DashboardStatsWidget.php": {
+    "mtime": 1779620603.3196323,
+    "ast_hash": "65218cb57beaade10051222abba5d4dc",
+    "semantic_hash": "65218cb57beaade10051222abba5d4dc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Widgets/OrdersByStatusWidget.php": {
+    "mtime": 1779662913.0356185,
+    "ast_hash": "17c95c871fa8691c3436fa52d370ee2e",
+    "semantic_hash": "17c95c871fa8691c3436fa52d370ee2e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Widgets/RecentOrdersWidget.php": {
+    "mtime": 1779698878.5968401,
+    "ast_hash": "5e20c7eeed1f9403a5147bb7eff482cb",
+    "semantic_hash": "5e20c7eeed1f9403a5147bb7eff482cb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Widgets/RevenueChartWidget.php": {
+    "mtime": 1779662941.0467694,
+    "ast_hash": "a48b13c9f3f8a4bd097f2960b4ff0198",
+    "semantic_hash": "a48b13c9f3f8a4bd097f2960b4ff0198"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Filament/Widgets/TopProductsWidget.php": {
+    "mtime": 1779662921.1331685,
+    "ast_hash": "126e65a071c461a53a7765ff603f74b4",
+    "semantic_hash": "126e65a071c461a53a7765ff603f74b4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Http/Controllers/API/HealthController.php": {
+    "mtime": 1780182202.9621925,
+    "ast_hash": "1f167137fdc44708f8d9427d05132c1a",
+    "semantic_hash": "1f167137fdc44708f8d9427d05132c1a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Http/Controllers/Controller.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "25a307335c0719bc9a91b3f7babd186d",
+    "semantic_hash": "25a307335c0719bc9a91b3f7babd186d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Http/Middleware/SecurityHeadersMiddleware.php": {
+    "mtime": 1779627398.833234,
+    "ast_hash": "b5db92228e43deea536db3c22b6a2026",
+    "semantic_hash": "b5db92228e43deea536db3c22b6a2026"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Address.php": {
+    "mtime": 1779577363.7126577,
+    "ast_hash": "9b2d3be7c782e59f440ca5af8106640e",
+    "semantic_hash": "9b2d3be7c782e59f440ca5af8106640e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/AppConfig.php": {
+    "mtime": 1779628488.7339032,
+    "ast_hash": "19408e6d6bd92cd22d6c04ea94015494",
+    "semantic_hash": "19408e6d6bd92cd22d6c04ea94015494"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Brand.php": {
+    "mtime": 1779579119.8850207,
+    "ast_hash": "e1b877b0150c456b77c94e712fda781b",
+    "semantic_hash": "e1b877b0150c456b77c94e712fda781b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Campaign.php": {
+    "mtime": 1779618408.4612644,
+    "ast_hash": "e1ec9514831aa0622d88881adc0a5796",
+    "semantic_hash": "e1ec9514831aa0622d88881adc0a5796"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Cart.php": {
+    "mtime": 1779615601.2808537,
+    "ast_hash": "1c0023db5ad576a58578376f6d5ef696",
+    "semantic_hash": "1c0023db5ad576a58578376f6d5ef696"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/CartItem.php": {
+    "mtime": 1779615618.3123991,
+    "ast_hash": "99f9b46ca69dc4184f4f2541c5651823",
+    "semantic_hash": "99f9b46ca69dc4184f4f2541c5651823"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Category.php": {
+    "mtime": 1779579132.0990164,
+    "ast_hash": "69618340e8418000334cd67069c5ab91",
+    "semantic_hash": "69618340e8418000334cd67069c5ab91"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Coupon.php": {
+    "mtime": 1779618688.2240071,
+    "ast_hash": "f53b0bcc4b3fb86931ce2f0e688bfa09",
+    "semantic_hash": "f53b0bcc4b3fb86931ce2f0e688bfa09"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/CouponUsage.php": {
+    "mtime": 1779618690.136781,
+    "ast_hash": "62a4f9e0070b01a8276fa9f9ccb272c4",
+    "semantic_hash": "62a4f9e0070b01a8276fa9f9ccb272c4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/DailyStat.php": {
+    "mtime": 1779620496.0303626,
+    "ast_hash": "c9edb52d014ef263e67ae00a4104a247",
+    "semantic_hash": "c9edb52d014ef263e67ae00a4104a247"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/FcmToken.php": {
+    "mtime": 1779619918.5450115,
+    "ast_hash": "fbddc6cdfae4c53449cc1ebd5ad33081",
+    "semantic_hash": "fbddc6cdfae4c53449cc1ebd5ad33081"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Inventory.php": {
+    "mtime": 1779610589.2767258,
+    "ast_hash": "8c40b9ded3e5722ac8ad7a389147dd07",
+    "semantic_hash": "8c40b9ded3e5722ac8ad7a389147dd07"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Notification.php": {
+    "mtime": 1779665385.888271,
+    "ast_hash": "d2bab31a10d36e843512e61033413461",
+    "semantic_hash": "d2bab31a10d36e843512e61033413461"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Order.php": {
+    "mtime": 1780099033.8071814,
+    "ast_hash": "7305d1489b779ea9eee851063faf8ec4",
+    "semantic_hash": "7305d1489b779ea9eee851063faf8ec4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/OrderItem.php": {
+    "mtime": 1779615636.1254158,
+    "ast_hash": "d9f546700b8e3a9497e56788afdba682",
+    "semantic_hash": "d9f546700b8e3a9497e56788afdba682"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/OrderNote.php": {
+    "mtime": 1780098739.1027002,
+    "ast_hash": "749212851e46e7222d2ed016af8b4ef8",
+    "semantic_hash": "749212851e46e7222d2ed016af8b4ef8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/OrderStatusHistory.php": {
+    "mtime": 1779615643.6980307,
+    "ast_hash": "3c01c2f24d15dc15bf03db02bf49b1ca",
+    "semantic_hash": "3c01c2f24d15dc15bf03db02bf49b1ca"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Product.php": {
+    "mtime": 1780183562.9968297,
+    "ast_hash": "bd852cc6404db2fc0f4f88ff85d81752",
+    "semantic_hash": "bd852cc6404db2fc0f4f88ff85d81752"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/ProductImage.php": {
+    "mtime": 1779579137.8482516,
+    "ast_hash": "363156a47ecb0a24b0dc2b41a3886178",
+    "semantic_hash": "363156a47ecb0a24b0dc2b41a3886178"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/ProductVariant.php": {
+    "mtime": 1780183038.2909398,
+    "ast_hash": "52208e03ef0c07bacf196dd75610e667",
+    "semantic_hash": "52208e03ef0c07bacf196dd75610e667"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/StockMovement.php": {
+    "mtime": 1779610596.0783784,
+    "ast_hash": "37d131bb854aa1bf097ff72133c54051",
+    "semantic_hash": "37d131bb854aa1bf097ff72133c54051"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/User.php": {
+    "mtime": 1781134388.5872238,
+    "ast_hash": "d4535242f52b9477883097b7d4a593ea",
+    "semantic_hash": "d4535242f52b9477883097b7d4a593ea"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/UserProfile.php": {
+    "mtime": 1779577355.278794,
+    "ast_hash": "2fe86b46e017c545f407db688f30884e",
+    "semantic_hash": "2fe86b46e017c545f407db688f30884e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Models/Warehouse.php": {
+    "mtime": 1779610580.3778517,
+    "ast_hash": "03c109e5ee0abee4698df65d949680a3",
+    "semantic_hash": "03c109e5ee0abee4698df65d949680a3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/DTOs/DashboardStatsDTO.php": {
+    "mtime": 1779620509.9378238,
+    "ast_hash": "bb4a83dfc8c2fbf0ce2be925df55c097",
+    "semantic_hash": "bb4a83dfc8c2fbf0ce2be925df55c097"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/DTOs/DateRangeDTO.php": {
+    "mtime": 1779620507.569839,
+    "ast_hash": "80626d244c38bddbd64728a63f904f2b",
+    "semantic_hash": "80626d244c38bddbd64728a63f904f2b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/AggregateDailyStatsUseCase.php": {
+    "mtime": 1779620932.3225076,
+    "ast_hash": "313c86ff679195ae798b7d46ebf1678e",
+    "semantic_hash": "313c86ff679195ae798b7d46ebf1678e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/GetDashboardStatsUseCase.php": {
+    "mtime": 1779620785.4260952,
+    "ast_hash": "e2f1d43b6e77ba9526719dc44bbfe229",
+    "semantic_hash": "e2f1d43b6e77ba9526719dc44bbfe229"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/GetOrderStatusBreakdownUseCase.php": {
+    "mtime": 1779620544.4066126,
+    "ast_hash": "9a17f1f19356425ad018c0da8167b648",
+    "semantic_hash": "9a17f1f19356425ad018c0da8167b648"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/GetRevenueReportUseCase.php": {
+    "mtime": 1779620525.653255,
+    "ast_hash": "51ce8590111e7a3cf68c6a274652a22a",
+    "semantic_hash": "51ce8590111e7a3cf68c6a274652a22a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/GetTopCustomersUseCase.php": {
+    "mtime": 1779620537.592293,
+    "ast_hash": "130a26eabdf84a2b43c66425c57d1cd7",
+    "semantic_hash": "130a26eabdf84a2b43c66425c57d1cd7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Application/UseCases/GetTopProductsUseCase.php": {
+    "mtime": 1779620533.9957633,
+    "ast_hash": "1fd3b11114c49cfa06e45c45dad2968b",
+    "semantic_hash": "1fd3b11114c49cfa06e45c45dad2968b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Presentation/API/Controllers/AnalyticsController.php": {
+    "mtime": 1779620589.044037,
+    "ast_hash": "69fe6d0f3993b7f855a91f33e3c4def5",
+    "semantic_hash": "69fe6d0f3993b7f855a91f33e3c4def5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Analytics/Presentation/API/Controllers/AppConfigController.php": {
+    "mtime": 1779620592.6470041,
+    "ast_hash": "759d55d882b88aa770c01bf7a66e7911",
+    "semantic_hash": "759d55d882b88aa770c01bf7a66e7911"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Application/DTOs/ApplyCouponDTO.php": {
+    "mtime": 1779618712.2569964,
+    "ast_hash": "8af4a05f56c5748265c293a02fa1f891",
+    "semantic_hash": "8af4a05f56c5748265c293a02fa1f891"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Application/UseCases/CalculateOrderDiscountUseCase.php": {
+    "mtime": 1779618726.5051167,
+    "ast_hash": "59a50c968c7a4007631c4c796c684132",
+    "semantic_hash": "59a50c968c7a4007631c4c796c684132"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Application/UseCases/GetActiveCampaignsUseCase.php": {
+    "mtime": 1779618714.8401449,
+    "ast_hash": "19131e099f637bcd10e81af03f991319",
+    "semantic_hash": "19131e099f637bcd10e81af03f991319"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Application/UseCases/ValidateCouponUseCase.php": {
+    "mtime": 1779618723.0455253,
+    "ast_hash": "030d9d066381e11eb119072be5ba0179",
+    "semantic_hash": "030d9d066381e11eb119072be5ba0179"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/Contracts/CampaignRepositoryInterface.php": {
+    "mtime": 1779618674.9497042,
+    "ast_hash": "3cdbafec40edf90fc57e41571b040006",
+    "semantic_hash": "3cdbafec40edf90fc57e41571b040006"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/Contracts/CouponRepositoryInterface.php": {
+    "mtime": 1779618675.3530025,
+    "ast_hash": "57efaddf1090138b7fb1d163c85cffe7",
+    "semantic_hash": "57efaddf1090138b7fb1d163c85cffe7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/Exceptions/CouponMinPurchaseException.php": {
+    "mtime": 1779618666.7859232,
+    "ast_hash": "fd961ec575282863828f5f241761adf0",
+    "semantic_hash": "fd961ec575282863828f5f241761adf0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/Exceptions/CouponUsageLimitException.php": {
+    "mtime": 1779618665.2424326,
+    "ast_hash": "e3a98f874ae7a0bb2c77f2508c246a22",
+    "semantic_hash": "e3a98f874ae7a0bb2c77f2508c246a22"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/Exceptions/InvalidCouponException.php": {
+    "mtime": 1779618664.0527701,
+    "ast_hash": "6351670ae13f862ca3f9854312fc0770",
+    "semantic_hash": "6351670ae13f862ca3f9854312fc0770"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/ValueObjects/CampaignType.php": {
+    "mtime": 1779618659.1529217,
+    "ast_hash": "737d464b3de67721470e9532fd953116",
+    "semantic_hash": "737d464b3de67721470e9532fd953116"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Domain/ValueObjects/CouponType.php": {
+    "mtime": 1779618660.4979148,
+    "ast_hash": "2d568297a36219d76c0453681087859a",
+    "semantic_hash": "2d568297a36219d76c0453681087859a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Infrastructure/Repositories/EloquentCampaignRepository.php": {
+    "mtime": 1779618731.3494833,
+    "ast_hash": "5f7870f379261cdd143220cd12c2db66",
+    "semantic_hash": "5f7870f379261cdd143220cd12c2db66"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Infrastructure/Repositories/EloquentCouponRepository.php": {
+    "mtime": 1779618733.9629102,
+    "ast_hash": "930d8576bb7a93a36e18cb3f5429cf59",
+    "semantic_hash": "930d8576bb7a93a36e18cb3f5429cf59"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Presentation/API/Controllers/CampaignController.php": {
+    "mtime": 1779618795.3881316,
+    "ast_hash": "cc34dc9016ed30321760c47ec372b534",
+    "semantic_hash": "cc34dc9016ed30321760c47ec372b534"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Presentation/API/Controllers/CouponController.php": {
+    "mtime": 1779618808.554705,
+    "ast_hash": "1df3dc35ac4a02688c599579f494932b",
+    "semantic_hash": "1df3dc35ac4a02688c599579f494932b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Presentation/API/Requests/ApplyCouponRequest.php": {
+    "mtime": 1779618792.50555,
+    "ast_hash": "74bf4f5ff3b993c7554201d900e902b7",
+    "semantic_hash": "74bf4f5ff3b993c7554201d900e902b7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Presentation/API/Resources/CampaignResource.php": {
+    "mtime": 1779618785.7215276,
+    "ast_hash": "da8b4b223bc05fae46122560d4925e77",
+    "semantic_hash": "da8b4b223bc05fae46122560d4925e77"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Campaign/Presentation/API/Resources/CouponResource.php": {
+    "mtime": 1779618788.5813477,
+    "ast_hash": "c20d1c54bb8169a8c2bf869907065541",
+    "semantic_hash": "c20d1c54bb8169a8c2bf869907065541"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/DTOs/StockOperationDTO.php": {
+    "mtime": 1779610660.3853366,
+    "ast_hash": "69d81f3c14c2c88b0b12b21ee5d8c48a",
+    "semantic_hash": "69d81f3c14c2c88b0b12b21ee5d8c48a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/DTOs/TransferStockDTO.php": {
+    "mtime": 1779610663.9386044,
+    "ast_hash": "7fca8532b1d76628d36a67d149f2058c",
+    "semantic_hash": "7fca8532b1d76628d36a67d149f2058c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/AdjustStockUseCase.php": {
+    "mtime": 1779610688.0600188,
+    "ast_hash": "06b65e115f819359ea26b577a9dc20c9",
+    "semantic_hash": "06b65e115f819359ea26b577a9dc20c9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/CheckLowStockUseCase.php": {
+    "mtime": 1779610710.9755335,
+    "ast_hash": "ad68dfd9e367aa61e9ede7562d8ebfb2",
+    "semantic_hash": "ad68dfd9e367aa61e9ede7562d8ebfb2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/DispatchStockUseCase.php": {
+    "mtime": 1779610680.5118608,
+    "ast_hash": "b9af110baa40320e295cc85931ea2972",
+    "semantic_hash": "b9af110baa40320e295cc85931ea2972"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/ReceiveStockUseCase.php": {
+    "mtime": 1779610671.810209,
+    "ast_hash": "40ce360e22c70950ce62d347b748d70b",
+    "semantic_hash": "40ce360e22c70950ce62d347b748d70b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/ReserveStockUseCase.php": {
+    "mtime": 1779610704.270788,
+    "ast_hash": "b0a62cfaa8aa14de7edb5fffc79d2731",
+    "semantic_hash": "b0a62cfaa8aa14de7edb5fffc79d2731"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Application/UseCases/TransferStockUseCase.php": {
+    "mtime": 1779610696.5442164,
+    "ast_hash": "db475c3aa556c2d5fd07b4c307c28d27",
+    "semantic_hash": "db475c3aa556c2d5fd07b4c307c28d27"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Domain/Contracts/InventoryRepositoryInterface.php": {
+    "mtime": 1779610620.7289906,
+    "ast_hash": "bb264a64be3784a87fcd70ec8fa910d9",
+    "semantic_hash": "bb264a64be3784a87fcd70ec8fa910d9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Domain/Contracts/StockMovementRepositoryInterface.php": {
+    "mtime": 1779610624.384435,
+    "ast_hash": "a5e96de04add2b21df7de98bbd05397b",
+    "semantic_hash": "a5e96de04add2b21df7de98bbd05397b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Domain/Contracts/WarehouseRepositoryInterface.php": {
+    "mtime": 1779610628.1324394,
+    "ast_hash": "66821e50d2d72abceaa13fd60990b453",
+    "semantic_hash": "66821e50d2d72abceaa13fd60990b453"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Domain/Exceptions/InsufficientStockException.php": {
+    "mtime": 1779610632.644337,
+    "ast_hash": "47011fad13583842f0cd8c7b08629ab3",
+    "semantic_hash": "47011fad13583842f0cd8c7b08629ab3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Domain/ValueObjects/MovementType.php": {
+    "mtime": 1779610601.851912,
+    "ast_hash": "a9908a759aac22b0a4d505f178a6ca83",
+    "semantic_hash": "a9908a759aac22b0a4d505f178a6ca83"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Infrastructure/Repositories/EloquentInventoryRepository.php": {
+    "mtime": 1779610649.2743452,
+    "ast_hash": "3df5989827244c8a3966eb0a46039ff9",
+    "semantic_hash": "3df5989827244c8a3966eb0a46039ff9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Infrastructure/Repositories/EloquentStockMovementRepository.php": {
+    "mtime": 1779610655.8503678,
+    "ast_hash": "8c41ad6319abf7a90f2b563f9defae97",
+    "semantic_hash": "8c41ad6319abf7a90f2b563f9defae97"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Infrastructure/Repositories/EloquentWarehouseRepository.php": {
+    "mtime": 1779610638.1715093,
+    "ast_hash": "d2c26c0b2eabb4b086fafec82c148e1c",
+    "semantic_hash": "d2c26c0b2eabb4b086fafec82c148e1c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Controllers/InventoryController.php": {
+    "mtime": 1779611023.876326,
+    "ast_hash": "c1b8e474833d48e3722cb743c113ea43",
+    "semantic_hash": "c1b8e474833d48e3722cb743c113ea43"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Requests/AdjustStockRequest.php": {
+    "mtime": 1779610757.1914291,
+    "ast_hash": "8e9addfe2f9d7cb6c085565be716dcb4",
+    "semantic_hash": "8e9addfe2f9d7cb6c085565be716dcb4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Requests/StockOperationRequest.php": {
+    "mtime": 1779610747.0605588,
+    "ast_hash": "fef153463d81ebb750308d8216a3462e",
+    "semantic_hash": "fef153463d81ebb750308d8216a3462e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Requests/TransferStockRequest.php": {
+    "mtime": 1779610752.054382,
+    "ast_hash": "90c22a46cff849880df075140c86c821",
+    "semantic_hash": "90c22a46cff849880df075140c86c821"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Resources/InventoryResource.php": {
+    "mtime": 1779610725.5393474,
+    "ast_hash": "45d26ff0c8ca5cefa23b0635955a0bba",
+    "semantic_hash": "45d26ff0c8ca5cefa23b0635955a0bba"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Resources/StockMovementResource.php": {
+    "mtime": 1779610732.3397367,
+    "ast_hash": "fca541f33698f44a3f59eecfd21147c9",
+    "semantic_hash": "fca541f33698f44a3f59eecfd21147c9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Inventory/Presentation/API/Resources/WarehouseResource.php": {
+    "mtime": 1779610719.345465,
+    "ast_hash": "f3fa9271d561df9d1c462ff492defd70",
+    "semantic_hash": "f3fa9271d561df9d1c462ff492defd70"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Application/DTOs/SendNotificationDTO.php": {
+    "mtime": 1779619922.705515,
+    "ast_hash": "acf41b226ebb27d51c69fb196849e842",
+    "semantic_hash": "acf41b226ebb27d51c69fb196849e842"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Application/UseCases/GetUserNotificationsUseCase.php": {
+    "mtime": 1779619930.131076,
+    "ast_hash": "0c481a0f1147b517b28ef682e7537855",
+    "semantic_hash": "0c481a0f1147b517b28ef682e7537855"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Application/UseCases/MarkNotificationsReadUseCase.php": {
+    "mtime": 1779619932.8740854,
+    "ast_hash": "0d4687054bfa4e74dc5c9f20bb93f579",
+    "semantic_hash": "0d4687054bfa4e74dc5c9f20bb93f579"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Application/UseCases/RegisterDeviceTokenUseCase.php": {
+    "mtime": 1779619934.5106714,
+    "ast_hash": "9c261bec72366e7215ef86b2e5177220",
+    "semantic_hash": "9c261bec72366e7215ef86b2e5177220"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Application/UseCases/SendNotificationUseCase.php": {
+    "mtime": 1779619926.0778732,
+    "ast_hash": "b154f880afb5842027b2c4a9d72e0de3",
+    "semantic_hash": "b154f880afb5842027b2c4a9d72e0de3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Contracts/FcmTokenRepositoryInterface.php": {
+    "mtime": 1779619896.3848436,
+    "ast_hash": "c1ac6a0ca2716b053aea1c1e928cf173",
+    "semantic_hash": "c1ac6a0ca2716b053aea1c1e928cf173"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Contracts/NotificationRepositoryInterface.php": {
+    "mtime": 1779619888.7278845,
+    "ast_hash": "1577fbbf53b44656e259e41acb7158e4",
+    "semantic_hash": "1577fbbf53b44656e259e41acb7158e4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Contracts/PushSenderInterface.php": {
+    "mtime": 1779619898.3026683,
+    "ast_hash": "ca4635b1535b74989cc286ee41e9a327",
+    "semantic_hash": "ca4635b1535b74989cc286ee41e9a327"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Events/OrderCancelledEvent.php": {
+    "mtime": 1779619905.5147421,
+    "ast_hash": "648c73fa97055b56981f90265e183c12",
+    "semantic_hash": "648c73fa97055b56981f90265e183c12"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Events/OrderPlacedEvent.php": {
+    "mtime": 1779619903.1002138,
+    "ast_hash": "57b25f8b6c467d8499bf765947908da9",
+    "semantic_hash": "57b25f8b6c467d8499bf765947908da9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/Events/OrderStatusUpdatedEvent.php": {
+    "mtime": 1779619904.5472903,
+    "ast_hash": "00109d85b7d64bee2eedd3cfb4292bef",
+    "semantic_hash": "00109d85b7d64bee2eedd3cfb4292bef"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Domain/ValueObjects/NotificationType.php": {
+    "mtime": 1779619885.4255505,
+    "ast_hash": "e231ce927d4c8908058f914e1aa8dd8a",
+    "semantic_hash": "e231ce927d4c8908058f914e1aa8dd8a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Jobs/SendPushNotificationJob.php": {
+    "mtime": 1779665112.200104,
+    "ast_hash": "65e2370e8618e61bed752221e52a1e06",
+    "semantic_hash": "65e2370e8618e61bed752221e52a1e06"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Listeners/AdminOrderNotificationListener.php": {
+    "mtime": 1780957477.0577168,
+    "ast_hash": "771b775701ffc5429b82d27a49a8cdb9",
+    "semantic_hash": "771b775701ffc5429b82d27a49a8cdb9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Listeners/OrderNotificationListener.php": {
+    "mtime": 1780908354.9031377,
+    "ast_hash": "ba6235bfcb7796374f24fbaebc66e9d7",
+    "semantic_hash": "ba6235bfcb7796374f24fbaebc66e9d7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Repositories/EloquentFcmTokenRepository.php": {
+    "mtime": 1779619944.4875588,
+    "ast_hash": "6fdf1f4019b16a41df2df39ff3d91620",
+    "semantic_hash": "6fdf1f4019b16a41df2df39ff3d91620"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Repositories/EloquentNotificationRepository.php": {
+    "mtime": 1779619941.6461093,
+    "ast_hash": "f2b79ec0fae00220e09351b5f4b23591",
+    "semantic_hash": "f2b79ec0fae00220e09351b5f4b23591"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Services/FcmPushSender.php": {
+    "mtime": 1780908324.0921278,
+    "ast_hash": "ae99be74b7a8a1251e8e052c06de8735",
+    "semantic_hash": "ae99be74b7a8a1251e8e052c06de8735"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Infrastructure/Services/NullPushSender.php": {
+    "mtime": 1779619949.5068944,
+    "ast_hash": "c53e718afc74dd52611c432dfd04bebb",
+    "semantic_hash": "c53e718afc74dd52611c432dfd04bebb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Presentation/API/Controllers/DeviceController.php": {
+    "mtime": 1779620059.1499238,
+    "ast_hash": "f1bec227da70028bf9b5718b05895b6f",
+    "semantic_hash": "f1bec227da70028bf9b5718b05895b6f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Presentation/API/Controllers/NotificationController.php": {
+    "mtime": 1780098992.9729106,
+    "ast_hash": "33ba265f9b604428dbab6ea3be0bb64f",
+    "semantic_hash": "33ba265f9b604428dbab6ea3be0bb64f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Presentation/API/Requests/RegisterDeviceRequest.php": {
+    "mtime": 1779620044.4635167,
+    "ast_hash": "7b9e1526e3dc349b8895dbbcfd95942e",
+    "semantic_hash": "7b9e1526e3dc349b8895dbbcfd95942e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Notification/Presentation/API/Resources/NotificationResource.php": {
+    "mtime": 1779620042.769327,
+    "ast_hash": "39a24ff9fbc3d4288667a859cc64b296",
+    "semantic_hash": "39a24ff9fbc3d4288667a859cc64b296"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/DTOs/AddCartItemDTO.php": {
+    "mtime": 1779615687.658682,
+    "ast_hash": "3d2177e729bdfe6c30b7a121cac7d366",
+    "semantic_hash": "3d2177e729bdfe6c30b7a121cac7d366"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/DTOs/CreateOrderDTO.php": {
+    "mtime": 1780521976.1276808,
+    "ast_hash": "6674d4cb1c506c0195fcfc268faf473d",
+    "semantic_hash": "6674d4cb1c506c0195fcfc268faf473d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/AddToCartUseCase.php": {
+    "mtime": 1779615719.6163864,
+    "ast_hash": "aa3707d8a834267e1d1f58ece8b9264d",
+    "semantic_hash": "aa3707d8a834267e1d1f58ece8b9264d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/CancelOrderUseCase.php": {
+    "mtime": 1780957469.1711786,
+    "ast_hash": "18f194f3650e4d88e866acde701159d0",
+    "semantic_hash": "18f194f3650e4d88e866acde701159d0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/CreateFieldAgentOrderUseCase.php": {
+    "mtime": 1780098765.8034809,
+    "ast_hash": "539af4991318a03cc841c8a183e17271",
+    "semantic_hash": "539af4991318a03cc841c8a183e17271"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/CreateOrderUseCase.php": {
+    "mtime": 1780527370.941328,
+    "ast_hash": "5ab0255ee0236554b5c24a2b9ac9a649",
+    "semantic_hash": "5ab0255ee0236554b5c24a2b9ac9a649"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/GetOrCreateCartUseCase.php": {
+    "mtime": 1779615715.328021,
+    "ast_hash": "89316f0855bfbb463c167aeb213485d6",
+    "semantic_hash": "89316f0855bfbb463c167aeb213485d6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/RemoveFromCartUseCase.php": {
+    "mtime": 1779615731.7994676,
+    "ast_hash": "90f63db9223ad6b231bc996a7f768e71",
+    "semantic_hash": "90f63db9223ad6b231bc996a7f768e71"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/UpdateCartItemUseCase.php": {
+    "mtime": 1779615724.0165489,
+    "ast_hash": "fe96f0b2283a3dcb03b9dcb57c354e15",
+    "semantic_hash": "fe96f0b2283a3dcb03b9dcb57c354e15"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Application/UseCases/UpdateOrderStatusUseCase.php": {
+    "mtime": 1780661924.5464277,
+    "ast_hash": "5b983d413b7909d510d5b73ab630bbea",
+    "semantic_hash": "5b983d413b7909d510d5b73ab630bbea"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/Contracts/CartRepositoryInterface.php": {
+    "mtime": 1779615677.9193048,
+    "ast_hash": "3e71a92a740ddab666493a03f81c90ca",
+    "semantic_hash": "3e71a92a740ddab666493a03f81c90ca"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/Contracts/OrderRepositoryInterface.php": {
+    "mtime": 1779615684.1312332,
+    "ast_hash": "8c039d8967f92788797ea354c428824f",
+    "semantic_hash": "8c039d8967f92788797ea354c428824f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/Exceptions/EmptyCartException.php": {
+    "mtime": 1779615671.9916441,
+    "ast_hash": "4c0f0b0c55c769bac79e7b1ec3df10dc",
+    "semantic_hash": "4c0f0b0c55c769bac79e7b1ec3df10dc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/Exceptions/InvalidOrderTransitionException.php": {
+    "mtime": 1779615663.7026343,
+    "ast_hash": "1a5f479aaba3b88e556dd25320a05422",
+    "semantic_hash": "1a5f479aaba3b88e556dd25320a05422"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/ValueObjects/OrderStatus.php": {
+    "mtime": 1780662947.4152837,
+    "ast_hash": "2e65f3fe3c87a4c4786c14b73917f1ee",
+    "semantic_hash": "2e65f3fe3c87a4c4786c14b73917f1ee"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Domain/ValueObjects/PaymentStatus.php": {
+    "mtime": 1779615659.755424,
+    "ast_hash": "5d5bed098494136a402ba3de464bb87c",
+    "semantic_hash": "5d5bed098494136a402ba3de464bb87c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Infrastructure/External/IyzicoPaymentService.php": {
+    "mtime": 1779663853.5069764,
+    "ast_hash": "f0812215fecd7222d9470f7593e3bc16",
+    "semantic_hash": "f0812215fecd7222d9470f7593e3bc16"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Infrastructure/Repositories/EloquentCartRepository.php": {
+    "mtime": 1779615702.7890828,
+    "ast_hash": "719d4fd9fbb91e163864c244b4a6a63a",
+    "semantic_hash": "719d4fd9fbb91e163864c244b4a6a63a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Infrastructure/Repositories/EloquentOrderRepository.php": {
+    "mtime": 1779628500.3637173,
+    "ast_hash": "01f04b3b31841f3f5773af8fa7616e76",
+    "semantic_hash": "01f04b3b31841f3f5773af8fa7616e76"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Controllers/CartController.php": {
+    "mtime": 1779616758.2432256,
+    "ast_hash": "20959ebc32a5aa8b7e238581d670bc43",
+    "semantic_hash": "20959ebc32a5aa8b7e238581d670bc43"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Controllers/DeliveryController.php": {
+    "mtime": 1779665958.7863505,
+    "ast_hash": "e2d934c618337e33c11ef582e5a682b7",
+    "semantic_hash": "e2d934c618337e33c11ef582e5a682b7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Controllers/FieldAgentController.php": {
+    "mtime": 1780172631.8225913,
+    "ast_hash": "720bab89a460aba8166cec8cad23fc50",
+    "semantic_hash": "720bab89a460aba8166cec8cad23fc50"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Controllers/OrderController.php": {
+    "mtime": 1780529101.370478,
+    "ast_hash": "19896b90248f27f488f3026aa2ab2b0c",
+    "semantic_hash": "19896b90248f27f488f3026aa2ab2b0c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Controllers/PaymentController.php": {
+    "mtime": 1779665855.0422442,
+    "ast_hash": "c27260053a134f3ddc1ad0e1729dd86a",
+    "semantic_hash": "c27260053a134f3ddc1ad0e1729dd86a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Requests/AddCartItemRequest.php": {
+    "mtime": 1779615779.836071,
+    "ast_hash": "f6ad3106a797bb54fddc99d3c0316a56",
+    "semantic_hash": "f6ad3106a797bb54fddc99d3c0316a56"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Requests/CreateOrderRequest.php": {
+    "mtime": 1780521982.431398,
+    "ast_hash": "5e5420e24c17b43fb0928c446defc365",
+    "semantic_hash": "5e5420e24c17b43fb0928c446defc365"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Requests/UpdateCartItemRequest.php": {
+    "mtime": 1779615787.6589105,
+    "ast_hash": "d1bbfa6f1c70de6bd94e47f72f904794",
+    "semantic_hash": "d1bbfa6f1c70de6bd94e47f72f904794"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Requests/UpdateOrderStatusRequest.php": {
+    "mtime": 1779615796.5882785,
+    "ast_hash": "db4a894e1f1fe00c994cfd05ba5dc7cf",
+    "semantic_hash": "db4a894e1f1fe00c994cfd05ba5dc7cf"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Resources/CartItemResource.php": {
+    "mtime": 1780519445.5833485,
+    "ast_hash": "c41831066d95ae022e1a92405722ebf7",
+    "semantic_hash": "c41831066d95ae022e1a92405722ebf7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Resources/CartResource.php": {
+    "mtime": 1779615808.439533,
+    "ast_hash": "882dc8f2f4a97d33340fcf45060380b4",
+    "semantic_hash": "882dc8f2f4a97d33340fcf45060380b4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Resources/OrderItemResource.php": {
+    "mtime": 1779615815.5238748,
+    "ast_hash": "d9ca528846e1a402c9a18c3e9fddfd85",
+    "semantic_hash": "d9ca528846e1a402c9a18c3e9fddfd85"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Order/Presentation/API/Resources/OrderResource.php": {
+    "mtime": 1780529106.324365,
+    "ast_hash": "939eeec999b0f282da95678055efc958",
+    "semantic_hash": "939eeec999b0f282da95678055efc958"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/DTOs/CreateBrandDTO.php": {
+    "mtime": 1779579223.9271865,
+    "ast_hash": "780a732bef82b97bf52776fec561c04c",
+    "semantic_hash": "780a732bef82b97bf52776fec561c04c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/DTOs/CreateCategoryDTO.php": {
+    "mtime": 1779579227.5782976,
+    "ast_hash": "6741134595a9cb9030c7744320d8793c",
+    "semantic_hash": "6741134595a9cb9030c7744320d8793c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/DTOs/CreateProductDTO.php": {
+    "mtime": 1779579219.5061905,
+    "ast_hash": "aaeed514572e2a94c15a3f0c6dd657f7",
+    "semantic_hash": "aaeed514572e2a94c15a3f0c6dd657f7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/UseCases/CreateProductUseCase.php": {
+    "mtime": 1780182349.9707346,
+    "ast_hash": "23987a3d85f1785bd487a7baae052c1b",
+    "semantic_hash": "23987a3d85f1785bd487a7baae052c1b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/UseCases/UpdateProductUseCase.php": {
+    "mtime": 1779579247.992865,
+    "ast_hash": "71873c1a7751af4fc80cc258b41d819c",
+    "semantic_hash": "71873c1a7751af4fc80cc258b41d819c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Application/UseCases/UploadProductImageUseCase.php": {
+    "mtime": 1779579255.3021243,
+    "ast_hash": "25cfdee286696108192a0af188c24fcd",
+    "semantic_hash": "25cfdee286696108192a0af188c24fcd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Domain/Contracts/BrandRepositoryInterface.php": {
+    "mtime": 1779579167.4078202,
+    "ast_hash": "244bd87ed1e45a4f0f5a6ec45ae394dd",
+    "semantic_hash": "244bd87ed1e45a4f0f5a6ec45ae394dd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Domain/Contracts/CategoryRepositoryInterface.php": {
+    "mtime": 1779579171.620143,
+    "ast_hash": "a1bbd09e7b318f79feda8a3b91436fc5",
+    "semantic_hash": "a1bbd09e7b318f79feda8a3b91436fc5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Domain/Contracts/ProductRepositoryInterface.php": {
+    "mtime": 1779579177.262924,
+    "ast_hash": "3b71589585ef702444f8d9da9b177cd3",
+    "semantic_hash": "3b71589585ef702444f8d9da9b177cd3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Domain/ValueObjects/ProductUnit.php": {
+    "mtime": 1779579182.877609,
+    "ast_hash": "64e81d5e4d15701d215a8579cc60e547",
+    "semantic_hash": "64e81d5e4d15701d215a8579cc60e547"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Infrastructure/Repositories/EloquentBrandRepository.php": {
+    "mtime": 1779579197.6210225,
+    "ast_hash": "b674e2169b0602a1ac8c9e55aea6db78",
+    "semantic_hash": "b674e2169b0602a1ac8c9e55aea6db78"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Infrastructure/Repositories/EloquentCategoryRepository.php": {
+    "mtime": 1779579203.507673,
+    "ast_hash": "e0a142022e94aa65f82373008a299e80",
+    "semantic_hash": "e0a142022e94aa65f82373008a299e80"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Infrastructure/Repositories/EloquentProductRepository.php": {
+    "mtime": 1780529952.2792282,
+    "ast_hash": "ea8d83a194a29bd448c29db5c7148db3",
+    "semantic_hash": "ea8d83a194a29bd448c29db5c7148db3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Controllers/BrandController.php": {
+    "mtime": 1779579342.820065,
+    "ast_hash": "62c60acfe0bd9dbf13277bde32b7965c",
+    "semantic_hash": "62c60acfe0bd9dbf13277bde32b7965c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Controllers/CategoryController.php": {
+    "mtime": 1780174807.0270667,
+    "ast_hash": "90e257003cdfe94ea12e194179252a43",
+    "semantic_hash": "90e257003cdfe94ea12e194179252a43"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Controllers/ProductController.php": {
+    "mtime": 1780608217.70945,
+    "ast_hash": "31db53a20017c7bfed677cda0d67576a",
+    "semantic_hash": "31db53a20017c7bfed677cda0d67576a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Controllers/ProductImageController.php": {
+    "mtime": 1779665923.2990274,
+    "ast_hash": "ad473304b6e78fc5c971ef0fde7e5b75",
+    "semantic_hash": "ad473304b6e78fc5c971ef0fde7e5b75"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Requests/StoreProductRequest.php": {
+    "mtime": 1779579286.5215225,
+    "ast_hash": "40c2cbdc38fafb10e53fb094b12ea670",
+    "semantic_hash": "40c2cbdc38fafb10e53fb094b12ea670"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Requests/UpdateProductRequest.php": {
+    "mtime": 1779579319.7396193,
+    "ast_hash": "756d6415a2ee6426c94c330f68492237",
+    "semantic_hash": "756d6415a2ee6426c94c330f68492237"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Resources/BrandResource.php": {
+    "mtime": 1779579263.5638595,
+    "ast_hash": "2923cb13eec19a7671b309a698b1cf84",
+    "semantic_hash": "2923cb13eec19a7671b309a698b1cf84"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Resources/CategoryResource.php": {
+    "mtime": 1780179358.1952984,
+    "ast_hash": "e89a6069b82f4f4b29e0dc120e7961bb",
+    "semantic_hash": "e89a6069b82f4f4b29e0dc120e7961bb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/Product/Presentation/API/Resources/ProductResource.php": {
+    "mtime": 1780181191.722932,
+    "ast_hash": "8cd84bfbc2dbc81987928e2b5a234fc1",
+    "semantic_hash": "8cd84bfbc2dbc81987928e2b5a234fc1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/DTOs/CreateAddressDTO.php": {
+    "mtime": 1779578305.093804,
+    "ast_hash": "a320438fc09dfd6e6a8c1fd81ba8dd73",
+    "semantic_hash": "a320438fc09dfd6e6a8c1fd81ba8dd73"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/DTOs/DeviceRegisterDTO.php": {
+    "mtime": 1781134474.0849595,
+    "ast_hash": "35b409d36368a391ea6b3f571326e45d",
+    "semantic_hash": "35b409d36368a391ea6b3f571326e45d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/DTOs/TotpLoginDTO.php": {
+    "mtime": 1781134474.276313,
+    "ast_hash": "50c2aef2f4906ca492df0cc7b24bb4bf",
+    "semantic_hash": "50c2aef2f4906ca492df0cc7b24bb4bf"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/DTOs/UpdateProfileDTO.php": {
+    "mtime": 1779578302.0158603,
+    "ast_hash": "1592c87d018cb8771509753034b1b686",
+    "semantic_hash": "1592c87d018cb8771509753034b1b686"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/UseCases/DeviceRegisterUseCase.php": {
+    "mtime": 1781134483.099033,
+    "ast_hash": "1bdc2ad279aacf1897057478efeddcb3",
+    "semantic_hash": "1bdc2ad279aacf1897057478efeddcb3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/UseCases/ManageAddressUseCase.php": {
+    "mtime": 1779578347.5533705,
+    "ast_hash": "53c7c62a956bc4eaabf1958758225661",
+    "semantic_hash": "53c7c62a956bc4eaabf1958758225661"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/UseCases/TotpLoginUseCase.php": {
+    "mtime": 1781134486.4787314,
+    "ast_hash": "afe63c924af59791727e69ca73646ed4",
+    "semantic_hash": "afe63c924af59791727e69ca73646ed4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/UseCases/UpdateProfileUseCase.php": {
+    "mtime": 1779578324.5499394,
+    "ast_hash": "3f6c38937ddf6619b4a9a9569f4bbb29",
+    "semantic_hash": "3f6c38937ddf6619b4a9a9569f4bbb29"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Application/UseCases/UploadAvatarUseCase.php": {
+    "mtime": 1779578340.598609,
+    "ast_hash": "46cb395227b4dc08923abf23e1c12c2a",
+    "semantic_hash": "46cb395227b4dc08923abf23e1c12c2a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Domain/Contracts/TotpServiceInterface.php": {
+    "mtime": 1781134432.2621312,
+    "ast_hash": "0a76bfc117f66c769da1b7286bf553ce",
+    "semantic_hash": "0a76bfc117f66c769da1b7286bf553ce"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Domain/Contracts/UserRepositoryInterface.php": {
+    "mtime": 1779578269.9801807,
+    "ast_hash": "5ab00e651f02e992634caf6100d8445d",
+    "semantic_hash": "5ab00e651f02e992634caf6100d8445d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Domain/Exceptions/InvalidTotpException.php": {
+    "mtime": 1781134475.4099817,
+    "ast_hash": "1bb4f27039fb034050d13823ef7491b6",
+    "semantic_hash": "1bb4f27039fb034050d13823ef7491b6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Domain/ValueObjects/UserRole.php": {
+    "mtime": 1779578280.9736333,
+    "ast_hash": "636041896f06fc1e7a65be43636f92b5",
+    "semantic_hash": "636041896f06fc1e7a65be43636f92b5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Infrastructure/External/Google2FaTotpService.php": {
+    "mtime": 1781134434.3033464,
+    "ast_hash": "2f015b9c430e45027d56b3708b828d6e",
+    "semantic_hash": "2f015b9c430e45027d56b3708b828d6e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Infrastructure/Repositories/EloquentUserRepository.php": {
+    "mtime": 1779578293.1713183,
+    "ast_hash": "bdf6b016e88d9ac260d4cf421758b59a",
+    "semantic_hash": "bdf6b016e88d9ac260d4cf421758b59a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Controllers/AddressController.php": {
+    "mtime": 1779578410.591399,
+    "ast_hash": "1ae331f245f7319d76dcf15f3a4fa970",
+    "semantic_hash": "1ae331f245f7319d76dcf15f3a4fa970"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Controllers/AdminUserController.php": {
+    "mtime": 1780576932.6566784,
+    "ast_hash": "9f48105363f94494540abbf071eb51d2",
+    "semantic_hash": "9f48105363f94494540abbf071eb51d2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Controllers/AuthController.php": {
+    "mtime": 1781134517.2378123,
+    "ast_hash": "0774444f308b64dbc387bf9d9b242f4a",
+    "semantic_hash": "0774444f308b64dbc387bf9d9b242f4a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Controllers/FieldAgentCustomerController.php": {
+    "mtime": 1780098802.560435,
+    "ast_hash": "5cc7f6d14a72a728e1393fe899a0766b",
+    "semantic_hash": "5cc7f6d14a72a728e1393fe899a0766b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Controllers/ProfileController.php": {
+    "mtime": 1779578397.913277,
+    "ast_hash": "f8d6c5de0501f07ccfb6f953bb11da57",
+    "semantic_hash": "f8d6c5de0501f07ccfb6f953bb11da57"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Requests/DeviceRegisterRequest.php": {
+    "mtime": 1781134503.1773393,
+    "ast_hash": "34c3b99fafc075ebcf376a932a4c1515",
+    "semantic_hash": "34c3b99fafc075ebcf376a932a4c1515"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Requests/StoreAddressRequest.php": {
+    "mtime": 1779578379.5652637,
+    "ast_hash": "957ac34a5f0498f3be9a90f4c51f02bc",
+    "semantic_hash": "957ac34a5f0498f3be9a90f4c51f02bc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Requests/TotpLoginRequest.php": {
+    "mtime": 1781134504.6348252,
+    "ast_hash": "a410ecc35c1956f4f7168a287fce3043",
+    "semantic_hash": "a410ecc35c1956f4f7168a287fce3043"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Requests/UpdateProfileRequest.php": {
+    "mtime": 1779578375.4718678,
+    "ast_hash": "618284259b6de3cac4f797d4349e4cdb",
+    "semantic_hash": "618284259b6de3cac4f797d4349e4cdb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Resources/AddressResource.php": {
+    "mtime": 1779578360.4562469,
+    "ast_hash": "1fb22e0247397c6b5be6a3a7c80b15c2",
+    "semantic_hash": "1fb22e0247397c6b5be6a3a7c80b15c2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Modules/User/Presentation/API/Resources/UserResource.php": {
+    "mtime": 1780564999.5978532,
+    "ast_hash": "690b50fe57a9ce2c6579d1f70f3ded8e",
+    "semantic_hash": "690b50fe57a9ce2c6579d1f70f3ded8e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/AppServiceProvider.php": {
+    "mtime": 1780179630.1222718,
+    "ast_hash": "67ee654e6d9bd2d08b9ff769f3b26496",
+    "semantic_hash": "67ee654e6d9bd2d08b9ff769f3b26496"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/CampaignModuleServiceProvider.php": {
+    "mtime": 1779618812.8187983,
+    "ast_hash": "79c6e7d73774430a5e5a67ab8aab9698",
+    "semantic_hash": "79c6e7d73774430a5e5a67ab8aab9698"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/Filament/AdminPanelProvider.php": {
+    "mtime": 1779741672.1032162,
+    "ast_hash": "d34200a5df5fca21407cc67665e677b8",
+    "semantic_hash": "d34200a5df5fca21407cc67665e677b8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/HorizonServiceProvider.php": {
+    "mtime": 1779696723.1167264,
+    "ast_hash": "a93e56971e67cfbb60cdb9f2f1678002",
+    "semantic_hash": "a93e56971e67cfbb60cdb9f2f1678002"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/InventoryModuleServiceProvider.php": {
+    "mtime": 1779611030.6689727,
+    "ast_hash": "311fcc4f4c1b835c0a72cdcfc1dfbc6e",
+    "semantic_hash": "311fcc4f4c1b835c0a72cdcfc1dfbc6e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/NotificationModuleServiceProvider.php": {
+    "mtime": 1780872260.7900584,
+    "ast_hash": "af33f443624807152fca63a94ac9f5e8",
+    "semantic_hash": "af33f443624807152fca63a94ac9f5e8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/OrderModuleServiceProvider.php": {
+    "mtime": 1779615858.732357,
+    "ast_hash": "3654602c4bb068ccfabc502ca41fb975",
+    "semantic_hash": "3654602c4bb068ccfabc502ca41fb975"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/ProductModuleServiceProvider.php": {
+    "mtime": 1779579353.183863,
+    "ast_hash": "92efcfbd6d9a56e0b6c3a6b993b390bc",
+    "semantic_hash": "92efcfbd6d9a56e0b6c3a6b993b390bc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/app/Providers/UserModuleServiceProvider.php": {
+    "mtime": 1781134454.7260745,
+    "ast_hash": "cae2af16c838b84a75e16aae50eedaf5",
+    "semantic_hash": "cae2af16c838b84a75e16aae50eedaf5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/artisan": {
+    "mtime": 1778783513.0,
+    "ast_hash": "e66bb13691f6184c762c196427d8e685",
+    "semantic_hash": "e66bb13691f6184c762c196427d8e685"
+  },
+  "/Users/semihduman/Herd/nisa-backend/bootstrap/app.php": {
+    "mtime": 1780643812.6759546,
+    "ast_hash": "f4468d05714c86d4963c7f1271342c41",
+    "semantic_hash": "f4468d05714c86d4963c7f1271342c41"
+  },
+  "/Users/semihduman/Herd/nisa-backend/bootstrap/cache/packages.php": {
+    "mtime": 1781134410.5802047,
+    "ast_hash": "ec4607e8d26d9f44a5fb260da554d734",
+    "semantic_hash": "ec4607e8d26d9f44a5fb260da554d734"
+  },
+  "/Users/semihduman/Herd/nisa-backend/bootstrap/cache/services.php": {
+    "mtime": 1781134410.506477,
+    "ast_hash": "292418993b284fb1bb9cad9503603bc8",
+    "semantic_hash": "292418993b284fb1bb9cad9503603bc8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/bootstrap/providers.php": {
+    "mtime": 1779696611.3109794,
+    "ast_hash": "f00430d869730f2f3235906f842c1a43",
+    "semantic_hash": "f00430d869730f2f3235906f842c1a43"
+  },
+  "/Users/semihduman/Herd/nisa-backend/composer.json": {
+    "mtime": 1781134414.0659983,
+    "ast_hash": "f40f7af2490dab7aedf755812b973092",
+    "semantic_hash": "f40f7af2490dab7aedf755812b973092"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/app.php": {
+    "mtime": 1780527417.1871655,
+    "ast_hash": "69206ab3b4a53bd0fef1fc2622ec6aa5",
+    "semantic_hash": "69206ab3b4a53bd0fef1fc2622ec6aa5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/auth.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "26354511ab860b301f2a3554bc388b91",
+    "semantic_hash": "26354511ab860b301f2a3554bc388b91"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/cache.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "399c7a3b4bca7e3cb9b622828682ab56",
+    "semantic_hash": "399c7a3b4bca7e3cb9b622828682ab56"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/cors.php": {
+    "mtime": 1779665830.265096,
+    "ast_hash": "93e760fd21bfcd07edfc0806426f08ed",
+    "semantic_hash": "93e760fd21bfcd07edfc0806426f08ed"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/database.php": {
+    "mtime": 1780172368.6330123,
+    "ast_hash": "695925da6878000436d479ccdfd7da8f",
+    "semantic_hash": "695925da6878000436d479ccdfd7da8f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/excel.php": {
+    "mtime": 1779663558.420848,
+    "ast_hash": "b996811af05b9fa535de29873ae711e5",
+    "semantic_hash": "b996811af05b9fa535de29873ae711e5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/filesystems.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "bde1aa1027f0448f17348dbd93f3d7ea",
+    "semantic_hash": "bde1aa1027f0448f17348dbd93f3d7ea"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/firebase.php": {
+    "mtime": 1779578261.8501267,
+    "ast_hash": "ae138a31b3aaea84564f6850ebc71679",
+    "semantic_hash": "ae138a31b3aaea84564f6850ebc71679"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/horizon.php": {
+    "mtime": 1779741634.4433863,
+    "ast_hash": "2f1c13f139a39224253da544eba18024",
+    "semantic_hash": "2f1c13f139a39224253da544eba18024"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/logging.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "d8255a5c07d3da72c7c9363f0c44bddd",
+    "semantic_hash": "d8255a5c07d3da72c7c9363f0c44bddd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/mail.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "18601a927b48d38337ba2077426a7d60",
+    "semantic_hash": "18601a927b48d38337ba2077426a7d60"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/permission.php": {
+    "mtime": 1779576386.989573,
+    "ast_hash": "4e1b4f3cf77c21e8b979bc511af1d4b8",
+    "semantic_hash": "4e1b4f3cf77c21e8b979bc511af1d4b8"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/queue.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "f98ce92e7bf51db1fabaf8a30e12fc5a",
+    "semantic_hash": "f98ce92e7bf51db1fabaf8a30e12fc5a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/sanctum.php": {
+    "mtime": 1779576357.699337,
+    "ast_hash": "e3887ebee464a1b2c014cb16696a2b50",
+    "semantic_hash": "e3887ebee464a1b2c014cb16696a2b50"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/scout.php": {
+    "mtime": 1779579096.2644331,
+    "ast_hash": "2a30909d825ea7e3d701ca378729d918",
+    "semantic_hash": "2a30909d825ea7e3d701ca378729d918"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/scramble.php": {
+    "mtime": 1779663709.7022235,
+    "ast_hash": "70e06b815cc0b95109e05040145b95e3",
+    "semantic_hash": "70e06b815cc0b95109e05040145b95e3"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/services.php": {
+    "mtime": 1780660985.179846,
+    "ast_hash": "c07aed5c576a7cd97fcd73f4d83edbcd",
+    "semantic_hash": "c07aed5c576a7cd97fcd73f4d83edbcd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/config/session.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "5ea7169252ec3cc7fad471f5cd0d7678",
+    "semantic_hash": "5ea7169252ec3cc7fad471f5cd0d7678"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/BrandFactory.php": {
+    "mtime": 1779579576.56146,
+    "ast_hash": "09b3c56f930a7bd3ac3e2ed20141fd82",
+    "semantic_hash": "09b3c56f930a7bd3ac3e2ed20141fd82"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/CampaignFactory.php": {
+    "mtime": 1779619003.2184782,
+    "ast_hash": "6b969db411c2aee600476991e2e6fedd",
+    "semantic_hash": "6b969db411c2aee600476991e2e6fedd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/CartFactory.php": {
+    "mtime": 1779615960.3529608,
+    "ast_hash": "d28c703664470b8b4540ca064bc6508c",
+    "semantic_hash": "d28c703664470b8b4540ca064bc6508c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/CartItemFactory.php": {
+    "mtime": 1779615964.4011106,
+    "ast_hash": "ac89da7e0040f26c9f527f494059cd2e",
+    "semantic_hash": "ac89da7e0040f26c9f527f494059cd2e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/CategoryFactory.php": {
+    "mtime": 1779579738.0117767,
+    "ast_hash": "87caf5062a0a159a7facc3ce7bc41792",
+    "semantic_hash": "87caf5062a0a159a7facc3ce7bc41792"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/CouponFactory.php": {
+    "mtime": 1779619010.036672,
+    "ast_hash": "5e65f17a09f8c3ef3a9a8a50f12b31c1",
+    "semantic_hash": "5e65f17a09f8c3ef3a9a8a50f12b31c1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/FcmTokenFactory.php": {
+    "mtime": 1779620122.3650088,
+    "ast_hash": "312ac92f712eaea8cd7eb68e901fe97d",
+    "semantic_hash": "312ac92f712eaea8cd7eb68e901fe97d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/InventoryFactory.php": {
+    "mtime": 1779612684.703585,
+    "ast_hash": "4860de5f3e0ad288859bfaa85e911350",
+    "semantic_hash": "4860de5f3e0ad288859bfaa85e911350"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/NotificationFactory.php": {
+    "mtime": 1779620120.2633996,
+    "ast_hash": "c9a043b79cf1f188a255d031fcc64bff",
+    "semantic_hash": "c9a043b79cf1f188a255d031fcc64bff"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/OrderFactory.php": {
+    "mtime": 1779615972.4683797,
+    "ast_hash": "d2ae533c1ac2cc689356581a0bcae83f",
+    "semantic_hash": "d2ae533c1ac2cc689356581a0bcae83f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/OrderItemFactory.php": {
+    "mtime": 1779615978.6706226,
+    "ast_hash": "56b78bbd15697d6fc84cda97c7c9bd6b",
+    "semantic_hash": "56b78bbd15697d6fc84cda97c7c9bd6b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/ProductFactory.php": {
+    "mtime": 1779579591.270719,
+    "ast_hash": "455c2025a691da31648f3963883a0656",
+    "semantic_hash": "455c2025a691da31648f3963883a0656"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/StockMovementFactory.php": {
+    "mtime": 1779612691.3409288,
+    "ast_hash": "81569542ed22ae7bbab0ef5e6005c89b",
+    "semantic_hash": "81569542ed22ae7bbab0ef5e6005c89b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/UserFactory.php": {
+    "mtime": 1779578662.7523334,
+    "ast_hash": "c5dee17cc75e84b5fad4fb6858279adb",
+    "semantic_hash": "c5dee17cc75e84b5fad4fb6858279adb"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/factories/WarehouseFactory.php": {
+    "mtime": 1779612678.0209885,
+    "ast_hash": "c202ac10b6ef0c1be87ad6411dac9e3c",
+    "semantic_hash": "c202ac10b6ef0c1be87ad6411dac9e3c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000001_create_users_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "43f0f861e8a3a9b26ed9fdfc15c5d74e",
+    "semantic_hash": "43f0f861e8a3a9b26ed9fdfc15c5d74e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000002_create_user_profiles_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "3223db8c8c785fc4fd95edfacc1a0962",
+    "semantic_hash": "3223db8c8c785fc4fd95edfacc1a0962"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000003_create_addresses_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "5769372dec18b91fbd6356d179af9217",
+    "semantic_hash": "5769372dec18b91fbd6356d179af9217"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000010_create_brands_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "eb48823423bdd598a0bc21a993a4ab5d",
+    "semantic_hash": "eb48823423bdd598a0bc21a993a4ab5d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000011_create_categories_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "59054637ce835f573192750aae08b1dc",
+    "semantic_hash": "59054637ce835f573192750aae08b1dc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000012_create_products_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "281f2c69f9e777ef3a996b90d805907f",
+    "semantic_hash": "281f2c69f9e777ef3a996b90d805907f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000013_create_product_images_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "26a55b5d80cb3be6de94308cfdad2b10",
+    "semantic_hash": "26a55b5d80cb3be6de94308cfdad2b10"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000014_create_product_category_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "7925d86e202e7ab70dcb6f8e01a1e614",
+    "semantic_hash": "7925d86e202e7ab70dcb6f8e01a1e614"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000015_create_product_variants_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "d5a0944f17866903e1fc42947f239f55",
+    "semantic_hash": "d5a0944f17866903e1fc42947f239f55"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000020_create_warehouses_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "53828ad6f550b525c9cbaa6a9e958438",
+    "semantic_hash": "53828ad6f550b525c9cbaa6a9e958438"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000021_create_inventory_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "6c5d640bc1eb5843f3765fef994a74cd",
+    "semantic_hash": "6c5d640bc1eb5843f3765fef994a74cd"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000022_create_stock_movements_table.php": {
+    "mtime": 1779576711.9613464,
+    "ast_hash": "25a7fb7a400a31c7e934baaf79c26b5f",
+    "semantic_hash": "25a7fb7a400a31c7e934baaf79c26b5f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000025_create_carts_table.php": {
+    "mtime": 1779615580.683923,
+    "ast_hash": "83f2936860eee3805e95006cf9b79518",
+    "semantic_hash": "83f2936860eee3805e95006cf9b79518"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000026_create_cart_items_table.php": {
+    "mtime": 1779615595.427445,
+    "ast_hash": "d9be1a9d01cda633051d6185199cde10",
+    "semantic_hash": "d9be1a9d01cda633051d6185199cde10"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000030_create_orders_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "cae5d10f15db34bb8beaccf612cfc645",
+    "semantic_hash": "cae5d10f15db34bb8beaccf612cfc645"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000031_create_order_items_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "8f718371942bae2b86c1dcf144651f1a",
+    "semantic_hash": "8f718371942bae2b86c1dcf144651f1a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000032_create_order_status_history_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "1f556c9f884dd6edd4a22a0bc3930524",
+    "semantic_hash": "1f556c9f884dd6edd4a22a0bc3930524"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000040_create_campaigns_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "509ce80fa733551c7c5c865e1125adb9",
+    "semantic_hash": "509ce80fa733551c7c5c865e1125adb9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000041_create_campaign_products_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "ccb6167de5330b8fd04f67a89ba1dab2",
+    "semantic_hash": "ccb6167de5330b8fd04f67a89ba1dab2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000042_create_coupons_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "cf24fdf90a3e068c0d30a1a334b5084b",
+    "semantic_hash": "cf24fdf90a3e068c0d30a1a334b5084b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000043_create_coupon_usage_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "e2d671dc3d791af33660b8b2360e9a64",
+    "semantic_hash": "e2d671dc3d791af33660b8b2360e9a64"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000044_add_coupon_id_to_orders_table.php": {
+    "mtime": 1779618695.0408368,
+    "ast_hash": "1251cedf615400c6ad3a1e96deb9cb7b",
+    "semantic_hash": "1251cedf615400c6ad3a1e96deb9cb7b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000050_create_notifications_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "007361c4f40a921745a56511c0ed5f0a",
+    "semantic_hash": "007361c4f40a921745a56511c0ed5f0a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000060_create_app_configs_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "7426eb8ea90ba16db833e93523aa8a24",
+    "semantic_hash": "7426eb8ea90ba16db833e93523aa8a24"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000070_create_daily_stats_table.php": {
+    "mtime": 1779574017.0,
+    "ast_hash": "2f4ffb8501b3c462a1f225e5a8571fd0",
+    "semantic_hash": "2f4ffb8501b3c462a1f225e5a8571fd0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2024_01_01_000080_add_performance_indexes.php": {
+    "mtime": 1779628515.8188815,
+    "ast_hash": "d19107141c92d447908751b494d480e9",
+    "semantic_hash": "d19107141c92d447908751b494d480e9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_23_224627_create_permission_tables.php": {
+    "mtime": 1779576386.9899104,
+    "ast_hash": "d0ce4624021f5b3121a91c406a5f79f2",
+    "semantic_hash": "d0ce4624021f5b3121a91c406a5f79f2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_23_224628_create_activity_log_table.php": {
+    "mtime": 1779576387.0735493,
+    "ast_hash": "970d1ddcfbfd98a0d4d2b9a20077554d",
+    "semantic_hash": "970d1ddcfbfd98a0d4d2b9a20077554d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_23_225604_create_cache_table.php": {
+    "mtime": 1779576982.5337944,
+    "ast_hash": "9b7d520b0b4e9763814559d6519a22cf",
+    "semantic_hash": "9b7d520b0b4e9763814559d6519a22cf"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_23_225604_create_jobs_table.php": {
+    "mtime": 1779577015.8737626,
+    "ast_hash": "1f8e8167acd0ab68d49d13f36bbaa716",
+    "semantic_hash": "1f8e8167acd0ab68d49d13f36bbaa716"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_24_233739_add_payment_reference_to_orders_table.php": {
+    "mtime": 1779665871.96013,
+    "ast_hash": "0b7a11c2b3b1b34f5336a9b3e5c04367",
+    "semantic_hash": "0b7a11c2b3b1b34f5336a9b3e5c04367"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_24_234025_alter_notifications_data_column_to_jsonb.php": {
+    "mtime": 1779666322.3073227,
+    "ast_hash": "a81f30f22f8839d71d3f6779a9d1209b",
+    "semantic_hash": "a81f30f22f8839d71d3f6779a9d1209b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_25_000001_rename_notifications_and_create_laravel_notifications.php": {
+    "mtime": 1779665364.5931342,
+    "ast_hash": "8a1af264b2129d8f53dbaa312c38246b",
+    "semantic_hash": "8a1af264b2129d8f53dbaa312c38246b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_30_000001_add_source_and_assigned_agent_to_orders.php": {
+    "mtime": 1780098730.7792819,
+    "ast_hash": "cc0140fcbd52825e40af34b69ed9c198",
+    "semantic_hash": "cc0140fcbd52825e40af34b69ed9c198"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_30_000002_create_order_notes_table.php": {
+    "mtime": 1780098735.2651243,
+    "ast_hash": "ff78fae2eb6bdde5805411900b5df9a6",
+    "semantic_hash": "ff78fae2eb6bdde5805411900b5df9a6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_31_000001_add_sale_price_to_products_and_enhance_variants.php": {
+    "mtime": 1780179295.9927387,
+    "ast_hash": "3343a2bfa256ad5f2d7603ad56146381",
+    "semantic_hash": "3343a2bfa256ad5f2d7603ad56146381"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_31_000002_drop_extra_product_price_columns.php": {
+    "mtime": 1780181153.7860615,
+    "ast_hash": "975487d4656a4c5619374282f2cce7f5",
+    "semantic_hash": "975487d4656a4c5619374282f2cce7f5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_05_31_000003_add_sort_order_to_products.php": {
+    "mtime": 1780183540.350335,
+    "ast_hash": "68c373fb64671cb517182a2cabc0b9cc",
+    "semantic_hash": "68c373fb64671cb517182a2cabc0b9cc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/migrations/2026_06_04_124124_add_last_login_at_to_users_table.php": {
+    "mtime": 1780576898.6168253,
+    "ast_hash": "5e7806bf34a5b3f0fa72fdf5b0af0c0d",
+    "semantic_hash": "5e7806bf34a5b3f0fa72fdf5b0af0c0d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/AdminUserSeeder.php": {
+    "mtime": 1780643825.3084004,
+    "ast_hash": "63ea2755dd54eb1e0ce3a14537e8ddd5",
+    "semantic_hash": "63ea2755dd54eb1e0ce3a14537e8ddd5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/DatabaseSeeder.php": {
+    "mtime": 1779787124.0319316,
+    "ast_hash": "fca061a87491746efe9b99fc836f3a57",
+    "semantic_hash": "fca061a87491746efe9b99fc836f3a57"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/FuskaCategorySeeder.php": {
+    "mtime": 1779742931.3202553,
+    "ast_hash": "3cd48c7b6b5d1c86dcf7adfd5774988e",
+    "semantic_hash": "3cd48c7b6b5d1c86dcf7adfd5774988e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/FuskaProductSeeder.php": {
+    "mtime": 1779742983.753747,
+    "ast_hash": "350c3a59847a937551d7b1174e72e4be",
+    "semantic_hash": "350c3a59847a937551d7b1174e72e4be"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/PriceStockSeeder.php": {
+    "mtime": 1780179748.1912284,
+    "ast_hash": "e0d1023676162fb2b9efe73fefe51627",
+    "semantic_hash": "e0d1023676162fb2b9efe73fefe51627"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/ProductVariantSeeder.php": {
+    "mtime": 1780183337.6446474,
+    "ast_hash": "1d7407d316bf70bd0869baf88169630d",
+    "semantic_hash": "1d7407d316bf70bd0869baf88169630d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/RolePermissionSeeder.php": {
+    "mtime": 1779578420.4680905,
+    "ast_hash": "e285f382e20baeb2c650250b5862dc3e",
+    "semantic_hash": "e285f382e20baeb2c650250b5862dc3e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/VanguardBrandSeeder.php": {
+    "mtime": 1779750243.9433136,
+    "ast_hash": "52c3c3bdb30914a3ddec3b3d963cdd89",
+    "semantic_hash": "52c3c3bdb30914a3ddec3b3d963cdd89"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/VanguardCategorySeeder.php": {
+    "mtime": 1779750255.7589378,
+    "ast_hash": "0d6a3ee32c780de55b249a88879d4c1d",
+    "semantic_hash": "0d6a3ee32c780de55b249a88879d4c1d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/database/seeders/VanguardProductSeeder.php": {
+    "mtime": 1779800516.229887,
+    "ast_hash": "03e0fa40d10d1154bfc62fc5a4ec7a01",
+    "semantic_hash": "03e0fa40d10d1154bfc62fc5a4ec7a01"
+  },
+  "/Users/semihduman/Herd/nisa-backend/docker/entrypoint.sh": {
+    "mtime": 1780787864.5739052,
+    "ast_hash": "bbfa8322ef66099d26acf1b35c299947",
+    "semantic_hash": "bbfa8322ef66099d26acf1b35c299947"
+  },
+  "/Users/semihduman/Herd/nisa-backend/fcm_oauth_test.php": {
+    "mtime": 1780957939.7034645,
+    "ast_hash": "605a76a898b2a542fee52ea596aed823",
+    "semantic_hash": "605a76a898b2a542fee52ea596aed823"
+  },
+  "/Users/semihduman/Herd/nisa-backend/fcm_test.php": {
+    "mtime": 1780958961.2596405,
+    "ast_hash": "6e858f2a6d99070cf86674f4267b0c92",
+    "semantic_hash": "6e858f2a6d99070cf86674f4267b0c92"
+  },
+  "/Users/semihduman/Herd/nisa-backend/package.json": {
+    "mtime": 1778783513.0,
+    "ast_hash": "0cdafb1ed5ed16e0ad8d871d33e3eafc",
+    "semantic_hash": "0cdafb1ed5ed16e0ad8d871d33e3eafc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/index.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "d8eda274115af5fd2aaa8230af329ef7",
+    "semantic_hash": "d8eda274115af5fd2aaa8230af329ef7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/actions/actions.js": {
+    "mtime": 1781134410.7368853,
+    "ast_hash": "e28d99c1eb6d74cc5ce81843d20dcc53",
+    "semantic_hash": "e28d99c1eb6d74cc5ce81843d20dcc53"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/filament/app.js": {
+    "mtime": 1781134410.7372208,
+    "ast_hash": "96d953a29554401db68303925a1bff4b",
+    "semantic_hash": "96d953a29554401db68303925a1bff4b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/filament/echo.js": {
+    "mtime": 1781134410.7378895,
+    "ast_hash": "9a7993fa9a704f0e97d5c701b08e6bce",
+    "semantic_hash": "9a7993fa9a704f0e97d5c701b08e6bce"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/checkbox-list.js": {
+    "mtime": 1781134410.7205613,
+    "ast_hash": "8d1d0a0523c0a624b935ca3639cab39c",
+    "semantic_hash": "8d1d0a0523c0a624b935ca3639cab39c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/code-editor.js": {
+    "mtime": 1781134410.722427,
+    "ast_hash": "46b069117284d8331fc941a03699fb00",
+    "semantic_hash": "46b069117284d8331fc941a03699fb00"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/color-picker.js": {
+    "mtime": 1781134410.722934,
+    "ast_hash": "f63e65e7ceb794b202b4ea00aaf39855",
+    "semantic_hash": "f63e65e7ceb794b202b4ea00aaf39855"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/date-time-picker.js": {
+    "mtime": 1781134410.723837,
+    "ast_hash": "389dc0a834058f9e781c54c52c8194ed",
+    "semantic_hash": "389dc0a834058f9e781c54c52c8194ed"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/file-upload.js": {
+    "mtime": 1781134410.7247102,
+    "ast_hash": "3f68daeb9f15d2f198ff31e89774192b",
+    "semantic_hash": "3f68daeb9f15d2f198ff31e89774192b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/key-value.js": {
+    "mtime": 1781134410.724934,
+    "ast_hash": "4c46438af5b0f9bd0ad274e8b7ae4ba4",
+    "semantic_hash": "4c46438af5b0f9bd0ad274e8b7ae4ba4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/markdown-editor.js": {
+    "mtime": 1781134410.7267516,
+    "ast_hash": "b6cc5d48265901fc6951beb4f57504f6",
+    "semantic_hash": "b6cc5d48265901fc6951beb4f57504f6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/rich-editor.js": {
+    "mtime": 1781134410.727578,
+    "ast_hash": "2732b7a685294b58e1f86b3395b4bb90",
+    "semantic_hash": "2732b7a685294b58e1f86b3395b4bb90"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/select.js": {
+    "mtime": 1781134410.728738,
+    "ast_hash": "d31e955cb0da6a7d135ab6643737393f",
+    "semantic_hash": "d31e955cb0da6a7d135ab6643737393f"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/slider.js": {
+    "mtime": 1781134410.7294629,
+    "ast_hash": "9d79750b5f9aebab6e64d513925052e2",
+    "semantic_hash": "9d79750b5f9aebab6e64d513925052e2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/tags-input.js": {
+    "mtime": 1781134410.729879,
+    "ast_hash": "81729462d1a9a05dcfd53c361a61ae24",
+    "semantic_hash": "81729462d1a9a05dcfd53c361a61ae24"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/forms/components/textarea.js": {
+    "mtime": 1781134410.730085,
+    "ast_hash": "7b506b839b943886c5cd43704e73da5d",
+    "semantic_hash": "7b506b839b943886c5cd43704e73da5d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/notifications/notifications.js": {
+    "mtime": 1781134410.7383628,
+    "ast_hash": "20d1a62ae657c6d2860037f6b35a3b25",
+    "semantic_hash": "20d1a62ae657c6d2860037f6b35a3b25"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/schemas/components/actions.js": {
+    "mtime": 1781134410.7304034,
+    "ast_hash": "d4b816b5cada12ef09ac610fb83af139",
+    "semantic_hash": "d4b816b5cada12ef09ac610fb83af139"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/schemas/components/tabs.js": {
+    "mtime": 1781134410.7306066,
+    "ast_hash": "c828948c2870142561a93ccbecc281ca",
+    "semantic_hash": "c828948c2870142561a93ccbecc281ca"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/schemas/components/wizard.js": {
+    "mtime": 1781134410.730808,
+    "ast_hash": "59b1e2398d02edf5b34beea2041bb880",
+    "semantic_hash": "59b1e2398d02edf5b34beea2041bb880"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/schemas/schemas.js": {
+    "mtime": 1781134410.7386467,
+    "ast_hash": "2905c69a613844521c59675c8d8a1595",
+    "semantic_hash": "2905c69a613844521c59675c8d8a1595"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/support/support.js": {
+    "mtime": 1781134410.739408,
+    "ast_hash": "b9b0d45dd1e249982e732f42c15d79f5",
+    "semantic_hash": "b9b0d45dd1e249982e732f42c15d79f5"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/tables/components/columns/checkbox.js": {
+    "mtime": 1781134410.7310257,
+    "ast_hash": "e753c0faaf93c780494b6e5da833e6d1",
+    "semantic_hash": "e753c0faaf93c780494b6e5da833e6d1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/tables/components/columns/select.js": {
+    "mtime": 1781134410.7317374,
+    "ast_hash": "60cecfed737f6df49dc93f545b8e0270",
+    "semantic_hash": "60cecfed737f6df49dc93f545b8e0270"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/tables/components/columns/text-input.js": {
+    "mtime": 1781134410.7319357,
+    "ast_hash": "0c4b7b80ada36ca9da26d27ab1316c98",
+    "semantic_hash": "0c4b7b80ada36ca9da26d27ab1316c98"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/tables/components/columns/toggle.js": {
+    "mtime": 1781134410.732073,
+    "ast_hash": "e753c0faaf93c780494b6e5da833e6d1",
+    "semantic_hash": "e753c0faaf93c780494b6e5da833e6d1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/tables/tables.js": {
+    "mtime": 1781134410.739682,
+    "ast_hash": "1fc718df55818056eff351bb5c6128b0",
+    "semantic_hash": "1fc718df55818056eff351bb5c6128b0"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/widgets/components/chart.js": {
+    "mtime": 1781134410.733021,
+    "ast_hash": "b9dfbe5c0996d880d971327af19b93ad",
+    "semantic_hash": "b9dfbe5c0996d880d971327af19b93ad"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/js/filament/widgets/components/stats-overview/stat/chart.js": {
+    "mtime": 1781134410.7335124,
+    "ast_hash": "75a4c95e96d85c06965a7fa3a8a3d951",
+    "semantic_hash": "75a4c95e96d85c06965a7fa3a8a3d951"
+  },
+  "/Users/semihduman/Herd/nisa-backend/resources/js/app.js": {
+    "mtime": 1778783513.0,
+    "ast_hash": "b519d08ef66fd54910edbedba6181ec2",
+    "semantic_hash": "b519d08ef66fd54910edbedba6181ec2"
+  },
+  "/Users/semihduman/Herd/nisa-backend/resources/views/welcome.blade.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "1a03818ea91deb4f3989c6c994e5867c",
+    "semantic_hash": "1a03818ea91deb4f3989c6c994e5867c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/routes/api.php": {
+    "mtime": 1781134522.6328409,
+    "ast_hash": "26da7320d75150e76ac580a13a0dc477",
+    "semantic_hash": "26da7320d75150e76ac580a13a0dc477"
+  },
+  "/Users/semihduman/Herd/nisa-backend/routes/console.php": {
+    "mtime": 1781294648.1194098,
+    "ast_hash": "dd8a61f80890ab0ada46ee296f4b38ac",
+    "semantic_hash": "dd8a61f80890ab0ada46ee296f4b38ac"
+  },
+  "/Users/semihduman/Herd/nisa-backend/routes/web.php": {
+    "mtime": 1779741654.441931,
+    "ast_hash": "9ef7b42f06576e318c0f4e47e7159b43",
+    "semantic_hash": "9ef7b42f06576e318c0f4e47e7159b43"
+  },
+  "/Users/semihduman/Herd/nisa-backend/storage/framework/testing/_pest.php": {
+    "mtime": 1779925780.4401586,
+    "ast_hash": "8a075dbd829d9c777d3922c24c00876b",
+    "semantic_hash": "8a075dbd829d9c777d3922c24c00876b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/AddressApiTest.php": {
+    "mtime": 1779578649.2528176,
+    "ast_hash": "7230f36497234f5059450bc811e86eb9",
+    "semantic_hash": "7230f36497234f5059450bc811e86eb9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/AnalyticsApiTest.php": {
+    "mtime": 1779620886.7357,
+    "ast_hash": "261a133a051af31cd9e967ef13b9ae81",
+    "semantic_hash": "261a133a051af31cd9e967ef13b9ae81"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/AuthApiTest.php": {
+    "mtime": 1781136550.9110289,
+    "ast_hash": "4e82a563d5285a40c8fd03d7daec9495",
+    "semantic_hash": "4e82a563d5285a40c8fd03d7daec9495"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/BrandCategoryApiTest.php": {
+    "mtime": 1779579703.489976,
+    "ast_hash": "bd1886ad697fe79fc71e0a8aee9aff1c",
+    "semantic_hash": "bd1886ad697fe79fc71e0a8aee9aff1c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/CampaignApiTest.php": {
+    "mtime": 1779619145.6495461,
+    "ast_hash": "6fb39c6c44d3a500a271c0aff493e152",
+    "semantic_hash": "6fb39c6c44d3a500a271c0aff493e152"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/CartApiTest.php": {
+    "mtime": 1779616777.9538672,
+    "ast_hash": "4950e1325a8b1528a4e711da6bebc2e9",
+    "semantic_hash": "4950e1325a8b1528a4e711da6bebc2e9"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/ExampleTest.php": {
+    "mtime": 1779742456.4688406,
+    "ast_hash": "979516d9fb118c5d0494495b389537d7",
+    "semantic_hash": "979516d9fb118c5d0494495b389537d7"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/InventoryApiTest.php": {
+    "mtime": 1779612915.273241,
+    "ast_hash": "2f3dd26bbc72c508d55d8e920c262dbe",
+    "semantic_hash": "2f3dd26bbc72c508d55d8e920c262dbe"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/NotificationApiTest.php": {
+    "mtime": 1779665425.1978095,
+    "ast_hash": "67cdd520c4a198647c6a1dc4523cb63b",
+    "semantic_hash": "67cdd520c4a198647c6a1dc4523cb63b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/OrderApiTest.php": {
+    "mtime": 1780663032.946841,
+    "ast_hash": "5e3614127af08abb63e4d6572ce783d6",
+    "semantic_hash": "5e3614127af08abb63e4d6572ce783d6"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/OrderLifecycleTest.php": {
+    "mtime": 1780663038.3560715,
+    "ast_hash": "104bcd9c5f371f78e9d72e51252a8693",
+    "semantic_hash": "104bcd9c5f371f78e9d72e51252a8693"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/PaymentApiTest.php": {
+    "mtime": 1779925779.193622,
+    "ast_hash": "67dd22d425e7b58453de73d913e21274",
+    "semantic_hash": "67dd22d425e7b58453de73d913e21274"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/ProductApiTest.php": {
+    "mtime": 1779609047.5754807,
+    "ast_hash": "24a7da846022e039ebc4e8f53ccf94b4",
+    "semantic_hash": "24a7da846022e039ebc4e8f53ccf94b4"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/ProfileApiTest.php": {
+    "mtime": 1779578632.129093,
+    "ast_hash": "1097811b8d6cbda0c9b0e2bf2464b3cc",
+    "semantic_hash": "1097811b8d6cbda0c9b0e2bf2464b3cc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Feature/SecurityTest.php": {
+    "mtime": 1781136577.1780121,
+    "ast_hash": "66e96a7818f4f552bf0f9540a3d0e539",
+    "semantic_hash": "66e96a7818f4f552bf0f9540a3d0e539"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Pest.php": {
+    "mtime": 1779578695.757392,
+    "ast_hash": "1c3e60d430ad9c9f936d2a34f3f89c6c",
+    "semantic_hash": "1c3e60d430ad9c9f936d2a34f3f89c6c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/TestCase.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "7e567dc27e68d5b57bae16af07f68907",
+    "semantic_hash": "7e567dc27e68d5b57bae16af07f68907"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/AnalyticsModuleTest.php": {
+    "mtime": 1779620975.901225,
+    "ast_hash": "39ea55105d3e8b865666ed8a8123fbae",
+    "semantic_hash": "39ea55105d3e8b865666ed8a8123fbae"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/CampaignModuleTest.php": {
+    "mtime": 1779619040.406918,
+    "ast_hash": "0ab0f7495572c717ae48e152bd82e1ed",
+    "semantic_hash": "0ab0f7495572c717ae48e152bd82e1ed"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/ExampleTest.php": {
+    "mtime": 1778783513.0,
+    "ast_hash": "3f679e9508c834f0ad95943455fcd836",
+    "semantic_hash": "3f679e9508c834f0ad95943455fcd836"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/InventoryModuleTest.php": {
+    "mtime": 1779614241.9730458,
+    "ast_hash": "4bbc669eeca2f28864168ed0b9c8dfa1",
+    "semantic_hash": "4bbc669eeca2f28864168ed0b9c8dfa1"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/NotificationModuleTest.php": {
+    "mtime": 1779665410.969802,
+    "ast_hash": "a07493484adeefb14145464c56bcc419",
+    "semantic_hash": "a07493484adeefb14145464c56bcc419"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/OrderModuleTest.php": {
+    "mtime": 1780663021.8243997,
+    "ast_hash": "320b13a167030a8e6acedfe5a118f21d",
+    "semantic_hash": "320b13a167030a8e6acedfe5a118f21d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/ProductModuleTest.php": {
+    "mtime": 1779609036.1399436,
+    "ast_hash": "759444a29ce17e088676956c2371176d",
+    "semantic_hash": "759444a29ce17e088676956c2371176d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/tests/Unit/UserModuleTest.php": {
+    "mtime": 1779578604.0371459,
+    "ast_hash": "162ebf9f041190339af6f4cc0973989d",
+    "semantic_hash": "162ebf9f041190339af6f4cc0973989d"
+  },
+  "/Users/semihduman/Herd/nisa-backend/vite.config.js": {
+    "mtime": 1778783513.0,
+    "ast_hash": "8ef22d264079dab94f6d36526b0cb1bc",
+    "semantic_hash": "8ef22d264079dab94f6d36526b0cb1bc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/.agents/rules/antigravity-rtk-rules.md": {
+    "mtime": 1780487245.0508344,
+    "ast_hash": "da893019dc3aba4f346b601f8bb84c38",
+    "semantic_hash": "da893019dc3aba4f346b601f8bb84c38"
+  },
+  "/Users/semihduman/Herd/nisa-backend/.github/workflows/ci.yml": {
+    "mtime": 1780011139.0024433,
+    "ast_hash": "709827444beabc3cb38e73c10a39b97a",
+    "semantic_hash": "709827444beabc3cb38e73c10a39b97a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/.github/workflows/hf-deploy.yml": {
+    "mtime": 1781136763.86074,
+    "ast_hash": "0bb92d55a173d99c074e62877156c754",
+    "semantic_hash": "0bb92d55a173d99c074e62877156c754"
+  },
+  "/Users/semihduman/Herd/nisa-backend/AGENTS.md": {
+    "mtime": 1779573917.0,
+    "ast_hash": "f59551d37b6aa09c480c786602e31c3c",
+    "semantic_hash": "f59551d37b6aa09c480c786602e31c3c"
+  },
+  "/Users/semihduman/Herd/nisa-backend/ARCHITECTURE.md": {
+    "mtime": 1779573758.0,
+    "ast_hash": "4458a5c1e49386b969be59be3105192b",
+    "semantic_hash": "4458a5c1e49386b969be59be3105192b"
+  },
+  "/Users/semihduman/Herd/nisa-backend/CLAUDE_PROJECT.md": {
+    "mtime": 1779575037.071679,
+    "ast_hash": "1e9da0ea72470dd0e02641194a48da68",
+    "semantic_hash": "1e9da0ea72470dd0e02641194a48da68"
+  },
+  "/Users/semihduman/Herd/nisa-backend/PHASES.md": {
+    "mtime": 1779575096.623545,
+    "ast_hash": "abec0be553eaa9afee50c260c60ec14a",
+    "semantic_hash": "abec0be553eaa9afee50c260c60ec14a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/QUICK_START.md": {
+    "mtime": 1779575006.635716,
+    "ast_hash": "de36ced56bd7662e5263adaacdc6d3fc",
+    "semantic_hash": "de36ced56bd7662e5263adaacdc6d3fc"
+  },
+  "/Users/semihduman/Herd/nisa-backend/README.md": {
+    "mtime": 1779855481.2435274,
+    "ast_hash": "0b96db11adb53d776b8a55f11cd4115e",
+    "semantic_hash": "0b96db11adb53d776b8a55f11cd4115e"
+  },
+  "/Users/semihduman/Herd/nisa-backend/docker-compose.yml": {
+    "mtime": 1779573931.0,
+    "ast_hash": "7d2a16811f01ec60630477b3f612045a",
+    "semantic_hash": "7d2a16811f01ec60630477b3f612045a"
+  },
+  "/Users/semihduman/Herd/nisa-backend/public/robots.txt": {
+    "mtime": 1778783513.0,
+    "ast_hash": "b6216d61c03e6ce0c9aea6ca7808f7ca",
+    "semantic_hash": "b6216d61c03e6ce0c9aea6ca7808f7ca"
+  }
+}

@@ -7,6 +7,7 @@ use App\Modules\Notification\Infrastructure\Jobs\SendPushNotificationJob;
 use App\Modules\Order\Domain\ValueObjects\OrderStatus;
 use App\Modules\Subscription\Domain\Contracts\SubscriptionRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProcessDueSubscriptionsUseCase
@@ -22,88 +23,91 @@ class ProcessDueSubscriptionsUseCase
         $skippedCount    = 0;
 
         foreach ($subscriptions as $subscription) {
-            try {
-                $variant = $subscription->variant;
+            $variant = $subscription->variant;
 
-                // ── Stock check ───────────────────────────────────────────────
-                if ($variant->stock < $subscription->quantity) {
-                    Log::warning("Subscription #{$subscription->id} skipped: insufficient stock.", [
-                        'subscription_id' => $subscription->id,
-                        'user_id'         => $subscription->user_id,
-                        'stock'           => $variant->stock,
-                        'required'        => $subscription->quantity,
-                    ]);
-
-                    dispatch(new SendPushNotificationJob(
-                        userId: $subscription->user_id,
-                        title:  'Stok yetersiz',
-                        body:   'Stok yetersiz — abonelik siparişi oluşturulamadı',
-                        data:   ['subscription_id' => (string) $subscription->id],
-                    ));
-
-                    $skippedCount++;
-                    continue;
-                }
-
-                // ── Price calculation ─────────────────────────────────────────
-                $unitPrice      = $variant->effectivePrice();
-                $discountedUnit = $unitPrice * (1 - $subscription->discount_rate / 100);
-                $discountedTotal = round($discountedUnit * $subscription->quantity, 2);
-
-                // ── Create order ──────────────────────────────────────────────
-                $order = Order::create([
-                    'order_number'   => 'TEMP',
-                    'customer_id'    => $subscription->user_id,
-                    'address_id'     => $subscription->address_id,
-                    'status'         => OrderStatus::PENDING->value,
-                    'subtotal'       => $discountedTotal,
-                    'discount_amount' => 0,
-                    'tax_amount'     => 0,
-                    'shipping_amount' => 0,
-                    'total'          => $discountedTotal,
-                    'payment_method' => 'subscription',
-                    'payment_status' => 'pending',
-                    'notes'          => "Abonelik #{$subscription->id} — otomatik sipariş",
+            // ── Stock check ───────────────────────────────────────────────
+            if ($variant->stock < $subscription->quantity) {
+                Log::warning("Subscription #{$subscription->id} skipped: insufficient stock.", [
+                    'subscription_id' => $subscription->id,
+                    'user_id'         => $subscription->user_id,
+                    'stock'           => $variant->stock,
+                    'required'        => $subscription->quantity,
                 ]);
 
-                $order->update([
-                    'order_number' => 'SUB-' . now()->format('Ymd') . '-' . str_pad($order->id, 5, '0', STR_PAD_LEFT),
-                ]);
-
-                $order->items()->create([
-                    'product_id'   => $subscription->product_id,
-                    'variant_id'   => $subscription->variant_id,
-                    'product_name' => $subscription->product->name,
-                    'quantity'     => $subscription->quantity,
-                    'unit_price'   => (float) $discountedUnit,
-                    'tax_rate'     => 0,
-                    'total'        => $discountedTotal,
-                ]);
-
-                // ── Advance subscription date ─────────────────────────────────
-                $subscription->update([
-                    'last_order_id'   => $order->id,
-                    'next_order_date' => $this->advanceDate($subscription->plan, $subscription->next_order_date),
-                ]);
-
-                // ── FCM notification ──────────────────────────────────────────
                 dispatch(new SendPushNotificationJob(
                     userId: $subscription->user_id,
-                    title:  'Abonelik siparişi oluşturuldu',
-                    body:   'Abonelik siparişiniz oluşturuldu',
-                    data:   [
-                        'order_id'        => (string) $order->id,
-                        'subscription_id' => (string) $subscription->id,
-                    ],
+                    title:  'Stok yetersiz',
+                    body:   'Stok yetersiz — abonelik siparişi oluşturulamadı',
+                    data:   ['subscription_id' => (string) $subscription->id],
                 ));
 
-                $processedCount++;
+                $skippedCount++;
+                continue;
+            }
+
+            // ── Price calculation ─────────────────────────────────────────
+            $unitPrice      = $variant->effectivePrice();
+            $discountedUnit = $unitPrice * (1 - $subscription->discount_rate / 100);
+            $discountedTotal = round($discountedUnit * $subscription->quantity, 2);
+
+            try {
+                // ── Create order ──────────────────────────────────────────────
+                DB::transaction(function () use ($subscription, $discountedUnit, $discountedTotal, &$processedCount) {
+                    $order = Order::create([
+                        'order_number'   => 'TEMP',
+                        'customer_id'    => $subscription->user_id,
+                        'address_id'     => $subscription->address_id,
+                        'status'         => OrderStatus::PENDING->value,
+                        'subtotal'       => $discountedTotal,
+                        'discount_amount' => 0,
+                        'tax_amount'     => 0,
+                        'shipping_amount' => 0,
+                        'total'          => $discountedTotal,
+                        'payment_method' => 'subscription',
+                        'payment_status' => 'pending',
+                        'notes'          => "Abonelik #{$subscription->id} — otomatik sipariş",
+                    ]);
+
+                    $order->update([
+                        'order_number' => 'SUB-' . now()->format('Ymd') . '-' . str_pad($order->id, 5, '0', STR_PAD_LEFT),
+                    ]);
+
+                    $order->items()->create([
+                        'product_id'   => $subscription->product_id,
+                        'variant_id'   => $subscription->variant_id,
+                        'product_name' => $subscription->product->name,
+                        'quantity'     => $subscription->quantity,
+                        'unit_price'   => (float) $discountedUnit,
+                        'tax_rate'     => 0,
+                        'total'        => $discountedTotal,
+                    ]);
+
+                    // ── Advance subscription date ─────────────────────────────────
+                    $subscription->update([
+                        'last_order_id'   => $order->id,
+                        'next_order_date' => $this->advanceDate($subscription->plan, $subscription->next_order_date),
+                    ]);
+
+                    // ── FCM notification ──────────────────────────────────────────
+                    dispatch(new SendPushNotificationJob(
+                        userId: $subscription->user_id,
+                        title:  'Abonelik siparişi oluşturuldu',
+                        body:   'Abonelik siparişiniz oluşturuldu',
+                        data:   [
+                            'order_id'        => (string) $order->id,
+                            'subscription_id' => (string) $subscription->id,
+                        ],
+                    ));
+
+                    $processedCount++;
+                });
 
             } catch (\Throwable $e) {
-                Log::error("Subscription #{$subscription->id} processing failed: {$e->getMessage()}", [
+                Log::error("Subscription #{$subscription->id} processing failed: " . $e->getMessage(), [
                     'subscription_id' => $subscription->id,
                     'exception'       => $e,
                 ]);
+                $skippedCount++;
             }
         }
 

@@ -103,3 +103,16 @@ php artisan test
 - `findDueToday()` ready for Task 5 cron job
 - No admin subscription endpoint added (as instructed)
 - Factories are reusable across future tests
+
+## Fix Report
+
+**Commit:** ea84fa7daf149250cd0379f3b0fdc2ce848e2b5d
+
+**Issue:** `ProductVariant::effectivePrice()` accesses `$this->product->price`, causing one extra DB query per subscription when `SubscriptionResource` calls `discounted_price`. 
+
+**Fix:** Updated `EloquentSubscriptionRepository` to eager-load `variant.product` in all three `with()` calls:
+- `findByIdAndUser()` — changed `['product', 'variant', 'address']` to `['product', 'variant.product', 'address']`
+- `listForUser()` — changed `['product', 'variant', 'address']` to `['product', 'variant.product', 'address']`
+- `findDueToday()` — changed `['user', 'product', 'variant', 'address']` to `['user', 'product', 'variant.product', 'address']`
+
+**Test Results:** All 354 tests passed (856 assertions); SubscriptionApiTest passed (4/4 tests, 9 assertions)

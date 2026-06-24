@@ -44,6 +44,41 @@ php artisan test
 
 Baseline was 333 tests. New total is 343 (+10 — includes Task 1 coupon tests + 7 new Favorite tests).
 
+## Fix Report
+
+### What Was Changed
+
+**Problem:** `is_favorited` in `ProductResource` always returned `false` because neither `index()` nor `show()` in `ProductController` injected the per-user favorited status.
+
+**Root cause:** Both methods use `Cache::remember()` which stores anonymous user data. The cached array had no per-user context, and `ProductResource::additional` was never populated.
+
+**Fix strategy:** Keep the cache as-is (shared anonymous data), then post-process the cached data *after* the cache read for authenticated users only. This avoids cache invalidation complexity and adds zero overhead for unauthenticated requests.
+
+**Files modified:**
+
+| File | Change |
+|------|--------|
+| `app/Modules/Product/Presentation/API/Controllers/ProductController.php` | Added `FavoriteRepositoryInterface` import; refactored `index()` to overlay `is_favorited` per-item after cache read for authenticated users; changed `show()` to accept `Request` as first parameter and overlay `is_favorited` on `$data['product']` for authenticated users |
+| `tests/Feature/FavoriteApiTest.php` | Added two new tests verifying `is_favorited = true` for favorited products in both list and detail endpoints |
+
+**Key implementation detail for `index()`:**
+After `Cache::remember()` returns the array, `getFavoritedProductIds($userId, $productIds)` is called in a single query and `array_flip()` is used for O(1) lookups when mapping over `$data['data']`.
+
+**Key implementation detail for `show()`:**
+After `Cache::remember()` returns the array, `isProductFavoritedByUser($productId, $userId)` is called and the result is written to `$data['product']['is_favorited']`. The response shape wraps the product under the `product` key, so the test uses `assertJsonPath('product.is_favorited', true)`.
+
+### Test Results
+
+```
+php artisan test --filter FavoriteApiTest
+→ 9 tests, 9 passed (22 assertions) in 307ms
+
+php artisan test
+→ 345 tests, 345 passed (829 assertions) in 7201ms
+```
+
+Commit: `abeb760`
+
 ## Self-Review Findings
 
 - Route ordering is correct: `by-product/{productId}` registered before `{id}`
