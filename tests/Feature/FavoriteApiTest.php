@@ -88,3 +88,25 @@ test('product list includes is_favorited field', function () {
         ->assertOk()
         ->assertJsonStructure(['data' => [['is_favorited']]]);
 });
+
+test('product list shows is_favorited true for favorited product', function () {
+    $user    = favoriteUser();
+    $product = Product::factory()->create(['is_active' => true]);
+    Favorite::create(['user_id' => $user->id, 'product_id' => $product->id]);
+
+    $this->actingAs($user, 'sanctum')
+        ->getJson('/api/v1/products')
+        ->assertOk()
+        ->assertJsonFragment(['is_favorited' => true]);
+});
+
+test('product detail shows is_favorited true for favorited product', function () {
+    $user    = favoriteUser();
+    $product = Product::factory()->create(['is_active' => true]);
+    Favorite::create(['user_id' => $user->id, 'product_id' => $product->id]);
+
+    $this->actingAs($user, 'sanctum')
+        ->getJson("/api/v1/products/{$product->id}")
+        ->assertOk()
+        ->assertJsonPath('product.is_favorited', true);
+});

@@ -4,6 +4,7 @@ namespace App\Modules\Product\Presentation\API\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Modules\Favorite\Domain\Contracts\FavoriteRepositoryInterface;
 use App\Modules\Product\Application\DTOs\CreateProductDTO;
 use App\Modules\Product\Application\UseCases\CreateProductUseCase;
 use App\Modules\Product\Application\UseCases\UpdateProductUseCase;
@@ -26,6 +27,7 @@ class ProductController extends Controller
     public function index(Request $request): JsonResponse
     {
         $filters  = $request->only(['category_id', 'brand_id', 'min_price', 'max_price', 'is_featured']);
+        $userId   = $request->user()?->id;
         $cacheKey = 'products:page:' . md5(json_encode($request->query()));
 
         $data = Cache::remember($cacheKey, 21600, function () use ($request, $filters) {
@@ -38,6 +40,19 @@ class ProductController extends Controller
             return ProductResource::collection($paginated)->response()->getData(true);
         });
 
+        // For authenticated users, overlay the real per-user is_favorited values
+        if ($userId && isset($data['data']) && is_array($data['data'])) {
+            $productIds   = array_column($data['data'], 'id');
+            $favoritedIds = app(FavoriteRepositoryInterface::class)
+                ->getFavoritedProductIds($userId, $productIds);
+            $favoritedSet = array_flip($favoritedIds);
+
+            $data['data'] = array_map(function (array $item) use ($favoritedSet): array {
+                $item['is_favorited'] = isset($favoritedSet[$item['id']]);
+                return $item;
+            }, $data['data']);
+        }
+
         return response()->json($data);
     }
 
@@ -45,7 +60,7 @@ class ProductController extends Controller
      * GET /api/v1/products/{product}
      * Public.
      */
-    public function show(int $product): JsonResponse
+    public function show(Request $request, int $product): JsonResponse
     {
         $data = Cache::remember("product:{$product}", 21600, function () use ($product) {
             $model = Product::query()
@@ -64,6 +79,13 @@ class ProductController extends Controller
 
             return ['product' => (new ProductResource($model))->resolve()];
         });
+
+        // For authenticated users, overlay the real per-user is_favorited value
+        $userId = $request->user()?->id;
+        if ($userId && isset($data['product'])) {
+            $data['product']['is_favorited'] = app(FavoriteRepositoryInterface::class)
+                ->isProductFavoritedByUser($data['product']['id'], $userId);
+        }
 
         return response()->json($data);
     }
