@@ -8,6 +8,7 @@ use App\Modules\Analytics\Application\UseCases\GetDashboardStatsUseCase;
 use App\Modules\Analytics\Application\UseCases\GetOrderStatusBreakdownUseCase;
 use App\Modules\Analytics\Application\UseCases\GetRevenueReportUseCase;
 use App\Modules\Analytics\Application\UseCases\GetTopCustomersUseCase;
+use App\Modules\Analytics\Application\UseCases\GetCustomerGrowthUseCase;
 use App\Modules\Analytics\Application\UseCases\GetTopProductsUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -88,6 +89,16 @@ class AnalyticsController extends Controller
         $limit = min((int) ($request->query('limit', 10)), 50);
 
         return response()->json(['data' => $useCase->execute($range, $limit)]);
+    }
+
+    /**
+     * GET /api/v1/admin/analytics/customer-growth?months=6
+     */
+    public function customerGrowth(Request $request, GetCustomerGrowthUseCase $useCase): JsonResponse
+    {
+        $months = min(max((int) $request->query('months', 6), 1), 24);
+
+        return response()->json(['data' => $useCase->execute($months)]);
     }
 
     /**

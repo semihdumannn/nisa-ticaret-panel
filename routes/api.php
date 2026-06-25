@@ -215,7 +215,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/revenue',        [AnalyticsController::class, 'revenue'])->name('revenue');
             Route::get('/top-products',   [AnalyticsController::class, 'topProducts'])->name('top-products');
             Route::get('/top-customers',  [AnalyticsController::class, 'topCustomers'])->name('top-customers');
-            Route::get('/order-statuses', [AnalyticsController::class, 'orderStatuses'])->name('order-statuses');
+            Route::get('/order-statuses',   [AnalyticsController::class, 'orderStatuses'])->name('order-statuses');
+            Route::get('/customer-growth',  [AnalyticsController::class, 'customerGrowth'])->name('customer-growth');
         });
 
         // Orders — admin management
