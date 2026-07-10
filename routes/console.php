@@ -22,8 +22,11 @@ Schedule::command('model:prune')->weeklyOn(0, '03:00');
 // Delete app notifications older than 3 days, daily at 03:30
 Schedule::command('notifications:prune')->dailyAt('03:30');
 
-// Horizon metrics snapshot every 5 minutes (powers the dashboard graphs)
-Schedule::command('horizon:snapshot')->everyFiveMinutes()->runInBackground();
+// Horizon metrics snapshot every 5 minutes (powers the dashboard graphs).
+// Horizon only runs on the redis queue; skip when the queue fell back to database.
+if (config('queue.default') === 'redis') {
+    Schedule::command('horizon:snapshot')->everyFiveMinutes()->runInBackground();
+}
 
 // Process due subscription orders every day at 08:00
 Schedule::command('subscriptions:process-orders')->dailyAt('08:00');

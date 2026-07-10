@@ -45,10 +45,52 @@ if [ -n "${REDIS_URL}" ]; then
     _REDIS_URL="$(strip "${REDIS_URL}")"
 elif [ "${_REDIS_HOST_CLEAN}" != "127.0.0.1" ] && [ -n "${REDIS_PASSWORD}" ]; then
     _REDIS_USER="${REDIS_USERNAME:-default}"
-    _REDIS_URL="rediss://${_REDIS_USER}:$(strip "${REDIS_PASSWORD}")@${_REDIS_HOST_CLEAN}:${REDIS_PORT:-6380}"
+    # Upstash serves TLS on 6379 (6380 is Azure's TLS port and just times out).
+    _REDIS_URL="rediss://${_REDIS_USER}:$(strip "${REDIS_PASSWORD}")@${_REDIS_HOST_CLEAN}:${REDIS_PORT:-6379}"
 else
     _REDIS_URL=""
 fi
+
+# ── QUEUE / HORIZON ────────────────────────────────────────────────────────────
+# Horizon needs a reachable Redis. Probe it with a short timeout; if it fails,
+# fall back to the database queue and let supervisord run a plain queue:work
+# instead of Horizon (it checks the flag file below).
+_HORIZON_DISABLED_FLAG="/var/www/html/storage/horizon.disabled"
+rm -f "${_HORIZON_DISABLED_FLAG}"
+
+redis_reachable() {
+    [ -n "${_REDIS_URL}" ] || return 1
+    PROBE_REDIS_URL="${_REDIS_URL}" php -r '
+        $p = parse_url(getenv("PROBE_REDIS_URL"));
+        if (!$p || empty($p["host"])) exit(1);
+        $host = (($p["scheme"] ?? "") === "rediss" ? "tls://" : "") . $p["host"];
+        try {
+            $r = new Redis();
+            $r->connect($host, $p["port"] ?? 6379, 3.0);
+            if (!empty($p["pass"])) {
+                $user = isset($p["user"]) ? rawurldecode($p["user"]) : "";
+                $pass = rawurldecode($p["pass"]);
+                $r->auth($user !== "" && $user !== "default" ? [$user, $pass] : $pass);
+            }
+            $r->ping();
+        } catch (Throwable $e) {
+            fwrite(STDERR, "[entrypoint] Redis probe failed: {$e->getMessage()}\n");
+            exit(1);
+        }
+    '
+}
+
+if [ -n "${QUEUE_CONNECTION}" ]; then
+    _QUEUE_CONNECTION="${QUEUE_CONNECTION}"
+elif redis_reachable; then
+    _QUEUE_CONNECTION="redis"
+    echo "[entrypoint] Redis reachable — queue: redis (Horizon)"
+else
+    _QUEUE_CONNECTION="database"
+    echo "[entrypoint] WARN: Redis unreachable — queue: database, Horizon disabled (queue:work fallback)"
+fi
+
+[ "${_QUEUE_CONNECTION}" = "redis" ] || touch "${_HORIZON_DISABLED_FLAG}"
 
 # ── Write .env ─────────────────────────────────────────────────────────────────
 cat > /var/www/html/.env << ENVEOF
@@ -72,7 +114,7 @@ DB_SSLMODE=require
 CACHE_STORE=${CACHE_STORE:-file}
 FILESYSTEM_DISK=${FILESYSTEM_DISK:-local}
 FILAMENT_FILESYSTEM_DISK=${FILAMENT_FILESYSTEM_DISK:-local}
-QUEUE_CONNECTION=${QUEUE_CONNECTION:-redis}
+QUEUE_CONNECTION=${_QUEUE_CONNECTION}
 SESSION_DRIVER=${SESSION_DRIVER:-file}
 SESSION_LIFETIME=120
 SESSION_SECURE_COOKIE=true
@@ -82,7 +124,7 @@ REDIS_URL=${_REDIS_URL}
 REDIS_HOST=${_REDIS_HOST_CLEAN}
 REDIS_USERNAME=${REDIS_USERNAME:-default}
 REDIS_PASSWORD=$(strip "${REDIS_PASSWORD}")
-REDIS_PORT=${REDIS_PORT:-6380}
+REDIS_PORT=${REDIS_PORT:-6379}
 REDIS_SCHEME=tls
 
 MAIL_MAILER=log
